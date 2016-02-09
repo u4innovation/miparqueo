@@ -1,6 +1,10 @@
 # Stamplay Ionic Starter
 
-<img style="width:200xp" src="https://camo.githubusercontent.com/90a2be18a3bcac579ee081744abab68dd0652f15/68747470733a2f2f692e696d67736166652e6f72672f643738646137342e706e67" />
+<img style="width:200px !important" src="https://camo.githubusercontent.com/57b8db003e874395844d8ff15e06f4d135060c89/68747470733a2f2f692e696d67736166652e6f72672f643862393933372e706e67" />
+
+<img style="width:200px !important" src="https://camo.githubusercontent.com/4d1bb4177ebbcb7214a4a7af92b0d5d2e7515354/68747470733a2f2f692e696d67736166652e6f72672f643961393161312e706e67" />
+
+<img style="width:200px !important" src="https://camo.githubusercontent.com/90a2be18a3bcac579ee081744abab68dd0652f15/68747470733a2f2f692e696d67736166652e6f72672f643738646137342e706e67" />
 
 The Stamplay Ionic Starter kit is a simple way to get a Stamplay Ionic project up off the ground.
 
