@@ -4,7 +4,7 @@
   <tbody>
     <tr>
     <th>
-    <img src="https://camo.githubusercontent.com/57b8db003e874395844d8ff15e06f4d135060c89/68747470733a2f2f692e696d67736166652e6f72672f643862393933372e706e67" width="150" />
+    <img width="150" src="https://camo.githubusercontent.com/57b8db003e874395844d8ff15e06f4d135060c89/68747470733a2f2f692e696d67736166652e6f72672f643862393933372e706e67" />
     </td>
     <th>
     <img width="150" src="https://camo.githubusercontent.com/4d1bb4177ebbcb7214a4a7af92b0d5d2e7515354/68747470733a2f2f692e696d67736166652e6f72672f643961393161312e706e67" />
