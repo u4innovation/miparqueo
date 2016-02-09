@@ -1,5 +1,7 @@
 # Stamplay Ionic Starter
 
+<img style="width:200xp" src="https://camo.githubusercontent.com/90a2be18a3bcac579ee081744abab68dd0652f15/68747470733a2f2f692e696d67736166652e6f72672f643738646137342e706e67" />
+
 The Stamplay Ionic Starter kit is a simple way to get a Stamplay Ionic project up off the ground.
 
 The starter kit comes with a fully featured task list, based on user accounts. If a user does not wish to create an account, they may use the shared guest Task list to manage their tasks by adding, updating, deleting and marking them complete or incomplete.
