@@ -34,7 +34,7 @@ Setup Instructions
   - **title** - *string*
   - **body** - *string*
   - **complete** - *boolean*
-9. Run `ionic serve --lab`
+9. Run `ionic serve --lab -p 8080`
 10. If you are new to Stamplay, or Ionic, we recommend following our tutorial of this starter kit [here](https://blog.stamplay.com/building-mobile-applications-are-a-pain).
 
 #### Enjoy!
