@@ -9,11 +9,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform, $rootScope, AccountService) {
 
-  AccountService.currentUser()
-    .then(function(user) {
-      $rootScope.user = user;
-    })
-
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -28,7 +23,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   });
 
-
+  AccountService.currentUser()
+    .then(function(user) {
+      $rootScope.user = user;
+    })
 })
 
 .constant('$ionicLoadingConfig', {
@@ -48,18 +46,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     .state('home', {
       url: '/',
       templateUrl: 'templates/home.html'
-    })
-    .state('login', {
-      url: '/login',
-      templateUrl: 'templates/login.html',
-      controller: "AccountController",
-      controllerAs : "account"
-    })
-    .state('signup', {
-      url: '/signup',
-      templateUrl: 'templates/signup.html',
-      controller: "AccountController",
-      controllerAs : "account"
     })
     .state('tasks', {
       cache : false,

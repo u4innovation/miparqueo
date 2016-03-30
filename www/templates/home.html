@@ -7,15 +7,16 @@
     <div class="card">
       <div class="item item-body center-align">
         <p class="home-desc">
-          This is a starter kit for <a href="https://stamplay.com" target="_blank">Stamplay</a> using the Ionic framework. It features simple to-do like capabilities, with user accounts.
+          This is a starter kit for <a href="https://stamplay.com" target="_blank">Stamplay</a> using the Ionic framework. It features simple to-do like capabilities, with social login/signup with Facebook.
         </p>
       </div>
     </div>
-    <div ng-hide="user === undefined">
+    <div ng-hide="user === undefined" ng-controller="AccountController as account">
       <div ng-hide="user">
         <div>
-          <button ui-sref="login" class="button button-full button-balanced bold">Login</button>
-          <button ui-sref="signup" class="button button-full button-positive bold">Signup</button>
+          <button ng-click="account.login()" class="button button-full button-balanced bold">
+            Login
+          </button>
         </div>
         <div class="center-align">
           <b class="or">or</b>
@@ -24,7 +25,7 @@
           <button ui-sref="tasks" class="button button-full button-dark bold">Continue as Guest</button>
         </div>
       </div>
-      <div ng-show="user" ng-controller="AccountController as account">
+      <div ng-show="user" >
         <button ui-sref="tasks" class="button button-full button-dark bold">My Tasks</button>
         <button ng-click="account.logout()" class="button button-full button-stable bold">Logout</button>
       </div>

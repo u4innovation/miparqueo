@@ -13,31 +13,7 @@ angular.module('starter.controllers', [])
   var vm = this;
 
   vm.login = function() {
-    $ionicLoading.show();
-    Stamplay.User.login(vm.user)
-    .then(function(user) {
-      $rootScope.user = user;
-      $state.go("tasks");
-    }, function(error) {
-      $ionicLoading.hide();
-      errorHandler({
-        title : "<h4 class='center-align'>Incorrect Username or Password</h4>"
-      })
-    })
-  }
-
-  vm.signup = function() {
-    $ionicLoading.show();
-    Stamplay.User.signup(vm.user)
-    .then(function(user) {
-      $rootScope.user = user;
-      $state.go("tasks");
-    }, function(error) {
-      errorHandler({
-        title : "<h4 class='center-align'>A Valid Email and Password is Required</h4>"
-      })
-      $ionicLoading.hide();
-    })
+    Stamplay.User.socialLogin('facebook')
   }
 
   vm.logout = function() {
