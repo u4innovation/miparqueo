@@ -29,6 +29,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     })
 })
 
+.constant("socialProvider", "facebook")
+
 .constant('$ionicLoadingConfig', {
   template: "<ion-spinner></ion-spinner>",
   hideOnStateChange : false

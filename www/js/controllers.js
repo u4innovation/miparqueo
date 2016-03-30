@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AccountController', ["AccountService", "$state", "$rootScope", "$ionicLoading", "$ionicPopup", function(AccountService, $state, $rootScope, $ionicLoading, $ionicPopup) {
+.controller('AccountController', ["AccountService", "$state", "$rootScope", "$ionicLoading", "$ionicPopup", "socialProvider", function(AccountService, $state, $rootScope, $ionicLoading, $ionicPopup, socialProvider) {
 
   var errorHandler = function(options) {
     var errorAlert = $ionicPopup.alert({
@@ -13,7 +13,7 @@ angular.module('starter.controllers', [])
   var vm = this;
 
   vm.login = function() {
-    Stamplay.User.socialLogin('facebook')
+    Stamplay.User.socialLogin(socialProvider)
   }
 
   vm.logout = function() {
