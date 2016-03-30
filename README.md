@@ -29,12 +29,13 @@ Setup Instructions
 4. Run `ionic platform add ios android`
 5. Run `npm install && gulp install`
 6. Run `stamplay init`, add Stamplay app credentials
-7. In the `www/index.html`, update the `Stamplay.init("YOUR APP ID")` to include your `APP ID`
-8. Inside the Stamplay Editor, add a `task` object schema with:
+7. Run `ionic lib update`
+8. In the `www/index.html`, update the `Stamplay.init("YOUR APP ID")` to include your `APP ID`
+9. Inside the Stamplay Editor, add a `task` object schema with:
   - **title** - *string*
   - **body** - *string*
   - **complete** - *boolean*
-9. Run `ionic serve --lab -p 8080`
-10. If you are new to Stamplay, or Ionic, we recommend following our [tutorial of this starter kit here](https://blog.stamplay.com/mobile-development-with-ionic-stamplay/).
+10. Run `ionic serve --lab -p 8080`
+11. If you are new to Stamplay, or Ionic, we recommend following our [tutorial of this starter kit here](https://blog.stamplay.com/mobile-development-with-ionic-stamplay/).
 
 #### Enjoy!
