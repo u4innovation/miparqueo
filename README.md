@@ -35,7 +35,7 @@ Social Account Providers:
 
 Setup Instructions
 
-1. Clone and cd into repo: `git clone https://github.com/Stamplay/stamplay-ionic-starter.git`
+1. Clone and cd into repo: `git clone https://github.com/Stamplay/stamplay-ionic-starter-social.git`
 2. Run `npm install -g ionic`
 4. Run `ionic state restore`
 5. Run `npm install && gulp install`
