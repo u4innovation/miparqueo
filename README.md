@@ -3,13 +3,16 @@
 <table>
   <tbody>
     <tr>
-    <th>
+    <td>
+    <img width="150" src="http://s30.postimg.org/3t2sk19pd/Simulator_Screen_Shot_Apr_1_2016_10_07_24_AM.png" />
+    </td>
+    <td>
     <img width="150" src="http://s9.postimg.org/wcndop0vz/Simulator_Screen_Shot_Apr_1_2016_10_06_35_AM.png" />
     </td>
-    <th>
+    <td>
     <img width="150" src="http://s18.postimg.org/xi5ifii55/Simulator_Screen_Shot_Mar_30_2016_3_30_02_PM.png" />
     </td>
-    <th>
+    <td>
     <img width="150" src="http://s18.postimg.org/9buv4dw0p/Simulator_Screen_Shot_Mar_30_2016_3_30_18_PM.png" />
     </td>
     </tr>
