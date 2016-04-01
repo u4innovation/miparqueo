@@ -1,34 +1,41 @@
 <ion-view>
-  <ion-content class="home">
+<ion-content class="home">
+<div>
+  <p class="home-title center-align">Create better apps faster</p>
+  <p class="home-subtitle center-align"> Build complete, secure and scalable backends in your browser piecing together APIs and features as building blocks.</p>
+</div>
+<div class="card" ng-hide="user">
+  <div class="item item-body center-align">
+    <p class="home-desc">
+      This is a starter kit for <a href="https://stamplay.com" target="_blank">Stamplay</a> using the Ionic framework. It features simple to-do like capabilities, with social login/signup with Facebook.
+    </p>
+  </div>
+</div>
+<div ng-hide="user === undefined" ng-controller="AccountController as account">
+  <div class="list card" ng-show="user">
+    <div class="item item-avatar profile">
+      <img ng-src="{{ user.profileImg }}">
+      <h2 class="profile-user">Welcome, {{ user.displayName }}.</h2>
+    </div>
+  </div>
+
+  <div ng-hide="user">
     <div>
-      <p class="home-title center-align">Create better apps faster</p>
-      <p class="home-subtitle center-align"> Build complete, secure and scalable backends in your browser piecing together APIs and features as building blocks.</p>
+      <button ng-click="account.login()" class="button button-full bold fb-button">
+        <i class="ion-social-facebook fb-icon"></i> Log in with Facebook
+      </button>
     </div>
-    <div class="card">
-      <div class="item item-body center-align">
-        <p class="home-desc">
-          This is a starter kit for <a href="https://stamplay.com" target="_blank">Stamplay</a> using the Ionic framework. It features simple to-do like capabilities, with social login/signup with Facebook.
-        </p>
-      </div>
+    <div class="center-align">
+      <b class="or">or</b>
     </div>
-    <div ng-hide="user === undefined" ng-controller="AccountController as account">
-      <div ng-hide="user">
-        <div>
-          <button ng-click="account.login()" class="button button-full button-balanced bold">
-            Login
-          </button>
-        </div>
-        <div class="center-align">
-          <b class="or">or</b>
-        </div>
-        <div>
-          <button ui-sref="tasks" class="button button-full button-dark bold">Continue as Guest</button>
-        </div>
-      </div>
-      <div ng-show="user" >
-        <button ui-sref="tasks" class="button button-full button-dark bold">My Tasks</button>
-        <button ng-click="account.logout()" class="button button-full button-stable bold">Logout</button>
-      </div>
+    <div>
+      <button ui-sref="tasks" class="button button-full button-dark bold">Continue as Guest</button>
     </div>
-  </ion-content>
+  </div>
+  <div ng-show="user" >
+    <button ui-sref="tasks" class="button button-full button-dark bold">My Tasks</button>
+    <button ng-click="account.logout()" class="button button-full button-stable bold">Logout</button>
+  </div>
+</div>
+</ion-content>
 </ion-view>
