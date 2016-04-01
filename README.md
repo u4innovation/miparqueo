@@ -50,7 +50,8 @@ Setup Instructions
   - **title** - *string*
   - **body** - *string*
   - **complete** - *boolean*
-11. Run `ionic serve --lab -p 8080`
+11. Ensure any development domains is enabled on the CORS section of your Stamplay App Dashboard.
+12. Run `ionic serve --lab -p 8080`
 
 
 #### Enjoy!
