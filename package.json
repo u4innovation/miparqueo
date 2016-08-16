@@ -1,7 +1,7 @@
 {
-  "name": "stamplay-ionic-starter",
+  "name": "MiParqueo",
   "version": "1.1.1",
-  "description": "A starter kit for ionic + stamplay apps",
+  "description": "Una manera fácil y rápida de reservar tu estacionamiento",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^2.0.4",
