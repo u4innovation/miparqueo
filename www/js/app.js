@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform, $rootScope, AccountService, $ionicPopup) {
 
@@ -63,7 +63,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   // setup an abstract state for the tabs directive
     .state('home', {
       url: '/',
-      templateUrl: 'templates/home.html'
+      templateUrl: 'templates/home.html',
+      controller: "MapCtrl"
     })
     .state('tasks', {
       cache : false,

@@ -31,6 +31,24 @@ angular.module('starter.controllers', [])
   }
 }])
 
+.controller('MapCtrl', function($scope, $state, $cordovaGeolocation) {
+  var options = {timeout: 30000, enableHighAccuracy: true};
+  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    var element = document.getElementById("map");
+    $scope.map = null;
+    console.log("Posicion: "+ latLng);
+    var mapOptions = {
+      center: latLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    $scope.map = new google.maps.Map(element, mapOptions);
+  }, function(error){
+    console.log("Could not get location " + error);
+  })
+})
+
 .controller('HomeController', ["TaskService", "$ionicLoading", "$rootScope", "$state", function(TaskService,  $ionicLoading, $rootScope, $state) {
   var vm = this;
 

@@ -1,39 +1,17 @@
 <ion-view>
 <ion-content class="home">
-<div>
-  <p class="home-title center-align">Busca, Reserva y Estaciona</p>
-  <p class="home-subtitle center-align"> La manera más fácil y rápida de reservar tu lugar para estacionar</p>
-</div>
-<div class="card" ng-hide="user">
-  <div class="item item-body center-align">
-    <p class="home-desc">
-      Ingresa a nuestras redes sociales <a href="http://www.u4innovation.com" target="_blank">u4innovation</a> y obtén grandes descuentos diarios, además puedes compartir tus comentarios para nuestra comunidad que cada día va creciendo más.
-    </p>
-  </div>
-</div>
 <div ng-hide="user === undefined" ng-controller="AccountController as account">
-  <div class="list card" ng-show="user">
-    <div class="item item-avatar profile">
-      <img ng-src="{{ user.profileImg }}">
-      <h2 class="profile-user">Bienvenido!!!, {{ user.displayName }}.</h2>
-    </div>
-  </div>
-
+  
   <div ng-hide="user">
     <div>
       <button ng-click="account.login()" class="button button-full bold fb-button">
         <i class="ion-social-facebook fb-icon"></i> Entrar con Facebook
       </button>
     </div>
-    <div class="center-align">
-      <b class="or">O</b>
-    </div>
-    <div>
-      <button ui-sref="tasks" class="button button-full button-dark bold">Continuar como invitado</button>
-    </div>
   </div>
+  
+  <div id="map" style="height: 520px; border:5px solid gray; background-color:black" ng-show="user"></div>
   <div ng-show="user" >
-    <button ui-sref="tasks" class="button button-full button-dark bold">Mis Tareas</button>
     <button ng-click="account.logout()" class="button button-full button-stable bold">Salir</button>
   </div>
 </div>

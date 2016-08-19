@@ -3360,7 +3360,10 @@ body.grade-c {
   padding-top: 1px;
   margin-bottom: -1px;
   width: auto;
-  height: auto; }
+  height: auto;
+  background-image: url("../img/Login_fondo.png");
+  background-size: cover;
+}
 
 .menu .scroll-content.scroll-content-false {
   z-index: 11; }
