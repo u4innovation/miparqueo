@@ -7,4 +7,17 @@ Setup Instructions
 6. Run `ionic serve --lab -p 8080`
 
 
+cordova plugin add cordova-plugin-geolocation
+cordova plugin rm PLUGIN_DESINSTALAR
+cordova plugin list
+
+
+ionic prepare ios
+ionic emulate ios -cls
+ionic platform restore
+
+
+http://www.joshmorony.com/integrating-google-maps-with-an-ionic-application/ -- instalacion de google maps
+
+
 #### Enjoy!
