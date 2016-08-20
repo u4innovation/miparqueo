@@ -1,18 +1,18 @@
 <ion-view>
 <ion-content class="home">
 <div ng-hide="user === undefined" ng-controller="AccountController as account">
-  
-  <div ng-hide="user">
+  <div ng-hide="user" >
     <div>
       <button ng-click="account.login()" class="button button-full bold fb-button">
         <i class="ion-social-facebook fb-icon"></i> Entrar con Facebook
       </button>
     </div>
   </div>
-  
-  <div id="map" style="height: 520px; border:5px solid gray; background-color:black" ng-show="user"></div>
   <div ng-show="user" >
-    <button ng-click="account.logout()" class="button button-full button-stable bold">Salir</button>
+    <label class="item item-input">
+        <input type="text" placeholder="Dirección">
+      </label>
+    <div id="map" style="height: 520px; border:5px solid gray; background-color:black"></div>
   </div>
 </div>
 </ion-content>

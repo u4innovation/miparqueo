@@ -44,9 +44,32 @@ angular.module('starter.controllers', [])
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     $scope.map = new google.maps.Map(element, mapOptions);
+    //Wait until the map is loaded
+    google.maps.event.addListenerOnce($scope.map, 'idle', function(){
+        var marker = new google.maps.Marker({
+                                         map: $scope.map,
+                                         animation: google.maps.Animation.DROP,
+                                         position: latLng,
+                                         icon: '../img/favicon.png'
+                                         });      
+     
+        var infoWindow = new google.maps.InfoWindow({
+                                                 content: "¡Aquí estoy!"
+                                                 });
+     
+        google.maps.event.addListener(marker, 'click', function () {
+                                   infoWindow.open($scope.map, marker);
+                                   });
+     
+    });
+                                                       
+                                                       
+                                                       
   }, function(error){
     console.log("Could not get location " + error);
   })
+            
+    
 })
 
 .controller('HomeController', ["TaskService", "$ionicLoading", "$rootScope", "$state", function(TaskService,  $ionicLoading, $rootScope, $state) {
