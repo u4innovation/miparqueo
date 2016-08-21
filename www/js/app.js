@@ -80,4 +80,19 @@ angular.module('starter', ['ionic','ngCordova', 'starter.controllers', 'starter.
       }
     }
   }
+}).directive('onEnter', function() {
+    return {
+        restrict: "A",
+        scope: {
+            action: "&onEnter"
+        },
+        link: function(scope, element, attrs) {
+            element.on("keydown keypress", function(event) {
+                if(event.which === 13) {
+                    scope.$apply(scope.action);
+                    event.preventDefault();
+                }
+            });
+        }
+    };
 });
