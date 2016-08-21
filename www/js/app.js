@@ -3,42 +3,23 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ionic.native', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform, $rootScope, AccountService, $ionicPopup) {
-
+.run(function($ionicPlatform, $rootScope, AccountService) {
   $ionicPlatform.ready(function() {
-                       
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+    if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
+
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-    //Revisar la conexion a internet
-    if(window.Connection) {
-        if(navigator.connection.type == Connection.NONE) {
-        $ionicPopup.confirm({
-                           title: "Internet Disconnected",
-                           content: "The internet is disconnected on your device."
-                           })
-        .then(function(result) {
-             if(!result) {
-             ionic.Platform.exitApp();
-             }
-             });
-        }
-    }
-
-                       
-});
-
+  });
   AccountService.currentUser()
     .then(function(user) {
       $rootScope.user = user;
@@ -53,42 +34,63 @@ angular.module('starter', ['ionic', 'ionic.native', 'starter.controllers', 'star
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
-
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
   $stateProvider
-
-  // setup an abstract state for the tabs directive
-    .state('home', {
-      url: '/',
-      templateUrl: 'templates/home.html',
-      controller: "MapCtrl"
+    .state('app', {
+    url: '/app',
+    abstract: true,
+    templateUrl: 'templates/menu.html',
+    controller: 'AppCtrl'
+  })
+  .state('app.home', {
+      url: '/home',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/home.html',
+          controller: 'HomeCtrl'
+        }
+      }
     })
-    .state('tasks', {
-      cache : false,
-      url: '/tasks',
-      templateUrl: 'templates/tasks.html',
-      controller: "HomeController",
-      controllerAs : "task"
-    })
-    .state('new', {
-      url: '/new',
-      templateUrl: 'templates/new.html',
-      controller: "TaskController",
-      controllerAs : "new"
-    })
-    .state('edit', {
-      url: '/task/:id',
-      templateUrl: 'templates/edit.html',
-      controller: "TaskController",
-      controllerAs : "edit"
-    })
-
-
-
+    .state('app.mapa', {
+      url: '/mapa',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/mapa.html',
+          controller: 'MapaCtrl'
+        }
+      }
+    });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/app/home');
+})
+.directive('map', function() {
+  return {
+    restrict: 'E',
+    scope: {
+      onCreate: '&'
+    },
+    link: function ($scope, $element, $attr) {
+      function initialize() {
+        var mapOptions = {
+          center: new google.maps.LatLng(43.07493, -89.381388),
+          zoom: 16,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map($element[0], mapOptions);
+  
+        $scope.onCreate({map: map});
 
+        // Stop the side bar from dragging when mousedown/tapdown on the map
+        google.maps.event.addDomListener($element[0], 'mousedown', function (e) {
+          e.preventDefault();
+          return false;
+        });
+      }
+
+      if (document.readyState === "complete") {
+        initialize();
+      } else {
+        google.maps.event.addDomListener(window, 'load', initialize);
+      }
+    }
+  }
 });

@@ -1,5 +1,46 @@
 angular.module('starter.controllers', [])
 
+.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+
+  // With the new view caching in Ionic, Controllers are only called
+  // when they are recreated or on app start, instead of every page change.
+  // To listen for when this page is active (for example, to refresh data),
+  // listen for the $ionicView.enter event:
+  //$scope.$on('$ionicView.enter', function(e) {
+  //});
+
+  // Form data for the login modal
+  $scope.loginData = {};
+
+  // Create the login modal that we will use later
+  $ionicModal.fromTemplateUrl('templates/login.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  // Triggered in the login modal to close it
+  $scope.closeLogin = function() {
+    $scope.modal.hide();
+  };
+
+  // Open the login modal
+  $scope.login = function() {
+    $scope.modal.show();
+  };
+
+  // Perform the login action when the user submits the login form
+  $scope.doLogin = function() {
+    console.log('Doing login', $scope.loginData);
+
+    // Simulate a login delay. Remove this and replace with your login
+    // code if using a login system
+    $timeout(function() {
+      $scope.closeLogin();
+    }, 1000);
+  };
+})
+
 .controller('AccountController', ["AccountService", "$state", "$rootScope", "$ionicLoading", "$ionicPopup", "socialProvider", function(AccountService, $state, $rootScope, $ionicLoading, $ionicPopup, socialProvider) {
 
   var errorHandler = function(options) {
@@ -30,9 +71,17 @@ angular.module('starter.controllers', [])
     })
   }
 }])
+.controller('HomeCtrl', function($scope, $rootScope, $timeout) {
+    $timeout(function() {
+      if(!$rootScope.user){
+        $scope.login();
+      }
+    }, 1000);
+})
+.controller('MapaCtrl', function($scope) {
 
-.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $cordovaGoogleMap) {
-  $scope.mapCreated = function(map) {
+  
+    $scope.mapCreated = function(map) {
     $scope.map = map;
   };
 
@@ -55,164 +104,4 @@ angular.module('starter.controllers', [])
       alert('Unable to get location: ' + error.message);
     });
   };
-  var options = {timeout: 30000, enableHighAccuracy: true};   
-  
-  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-  var mapOptions = 
-        {
-          'backgroundColor': 'white',
-          'controls': {
-            'compass': true,
-            'myLocationButton': true,
-            'indoorPicker': true,
-            'zoom': true
-          },
-          'gestures': {
-            'scroll': true,
-            'tilt': true,
-            'rotate': true,
-            'zoom': true
-          },
-          'camera': {
-            'latLng': {lat: position.coords.latitude, lng: position.coords.longitude},
-            'tilt': 30,
-            'zoom': 15,
-            'bearing': 50
-          }
-        };
-  var map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: position.coords.latitude, lng: position.coords.longitude},
-          zoom: 8
-        });
-  //$scope.map = new $cordovaGoogleMap('map',mapOptions);     
-  
-  }, function(error){
-    console.log(error.message);
-  })
-            
-    
 })
-
-.controller('HomeController', ["TaskService", "$ionicLoading", "$rootScope", "$state", function(TaskService,  $ionicLoading, $rootScope, $state) {
-  var vm = this;
-
-  var findIndex = function(id) {
-    return vm.tasks.map(function(task) {
-      return task._id;
-    }).indexOf(id);
-  }
-
-  // Display loading indicator
-  $ionicLoading.show();
-
-  vm.setActive = function(id) {
-    vm.active = id;
-  }
-
-  function removeActive() {
-
-  }
-
-  // Fetch Tasks
-  vm.fetch = function() {
-    if(!$rootScope.user) {
-      // Get all tasks for guests.
-      TaskService.getGuestTasks()
-      .then(
-        function(response) {
-          var tasks = response.data;
-          vm.tasks = [];
-          tasks.forEach(function(item, idx, array) {
-            item.dt_create = new Date(item.dt_create).getTime();
-            vm.tasks.push(array[idx]);
-          });
-          $ionicLoading.hide();
-        }, function(error) {
-          $ionicLoading.hide();
-        })
-      } else {
-        // Get only the user signed in tasks.
-        TaskService.getUsersTasks()
-        .then(
-          function(response) {
-            var tasks = response.data;
-            vm.tasks = [];
-            tasks.forEach(function(item, idx, array) {
-              item.dt_create = new Date(item.dt_create).getTime();
-              vm.tasks.push(array[idx]);
-            });
-            $ionicLoading.hide();
-          }, function(error) {
-            $ionicLoading.hide();
-          })
-        }
-      }
-
-
-
-      // Mark Complete a task.
-      vm.deleteTask = function(id) {
-        $ionicLoading.show();
-        vm.tasks.splice(findIndex(id), 1);
-        TaskService.deleteTask(id)
-        .then(function() {
-          $ionicLoading.hide();
-        }, function(error) {
-          $ionicLoading.hide();
-        })
-      }
-
-      vm.setStatus = function(task) {
-        task.complete = task.complete ? !task.complete : true;
-        TaskService.patchTask(task)
-        .then(function(task) {
-        }, function(error) {
-        })
-      }
-
-
-    }])
-
-.controller('TaskController', ["TaskService", "$ionicLoading", "$rootScope", "$state", "$stateParams", function(TaskService,  $ionicLoading, $rootScope, $state, $stateParams) {
-  var vm = this;
-
-  if($stateParams.id) {
-    $ionicLoading.show();
-    TaskService.getTask($stateParams.id)
-      .then(function(task) {
-        $ionicLoading.hide();
-        vm.task = task.data[0];
-      }, function(err) {
-        $ionicLoading.hide();
-        console.error(err);
-      })
-  }
-
-  // Add a task.
-  vm.add = function() {
-    $ionicLoading.show();
-    TaskService.addNew(vm.task)
-    .then(function(task) {
-      $ionicLoading.hide();
-      $state.go("tasks", {}, { reload: true });
-    }, function(error) {
-      $ionicLoading.hide();
-    })
-  }
-
-  vm.save = function() {
-    $ionicLoading.show();
-    TaskService.updateTask(vm.task)
-    .then(function(task) {
-      $ionicLoading.hide();
-      $state.go("tasks", {}, { reload: true });
-    }, function(error) {
-      $ionicLoading.hide();
-    })
-  }
-
-
-
-
-
-}])
