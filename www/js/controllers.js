@@ -75,6 +75,7 @@ angular.module('starter.controllers', [])
   }).then(function(modal) {
     $scope.modalAddr = modal;
   });
+  $scope.markerBusqueda;
   $scope.location = $cordovaGeolocation;  
   $scope.mapCreated = function(map) {
     $scope.map = map;
@@ -86,10 +87,10 @@ angular.module('starter.controllers', [])
         template: 'Loading...'
       });
       $http.get('https://maps.googleapis.com/maps/api/geocode/json?address='+q.replace(/ /g, '+')+'&key=AIzaSyC1YLbGt2lAvgW_2NTZ1YT0PJ5TJDcGWyU').then(function(resp){
-      $scope.address = resp.data.results;
-      $ionicLoading.hide();
-      $scope.modalAddr.show();
-    });
+        $scope.address = resp.data.results;
+        $ionicLoading.hide();
+        $scope.modalAddr.show();
+      });
     }
   }
   $scope.selectAddr = function(item){
@@ -97,10 +98,60 @@ angular.module('starter.controllers', [])
     $scope.map.setCenter(latLong,15);
     $scope.modalAddr.hide();
     $scope.direccion = '';
-    var marker = new google.maps.Marker({
-            position: latLong,
-            map: $scope.map,
-            icon: 'img/UbicacionUsuarioOpcion2_.png'
-          });
+    if($scope.markerBusqueda){
+      $scope.markerBusqueda.setMap(null);
+    }
+    $scope.markerBusqueda = new google.maps.Marker({
+      position: latLong,
+      map: $scope.map,
+      icon: 'img/UbicacionUsuarioOpcion2_.png'
+    });
+  }
+  $scope.cancelarBusqueda = function(){
+    $scope.modalAddr.hide();
+  }
+  $scope.iniciarMapa = function($element){
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+    var options = {timeout: 30000, enableHighAccuracy: true};
+    $scope.location.getCurrentPosition(options).then(function(position){
+      var latLong = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      var mapOptions = {
+        center: latLong,
+        zoom: 16,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        disableDefaultUI: true
+      };
+      $scope.map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
+      $scope.markerLocation = new google.maps.Marker({
+        position: latLong,
+        map: $scope.map,
+        icon: 'img/UbicacionUsuario_.png'
+      });
+      $ionicLoading.hide();
+         
+}, function(error){
+  console.log(error.message);
+})
+  }
+  $scope.centrarMapa = function(){
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+        var options = {timeout: 30000, enableHighAccuracy: true};
+    $scope.location.getCurrentPosition(options).then(function(position){
+      var latLong = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      $scope.map.setCenter(latLong,15);
+      $scope.markerLocation.setMap(null);
+      $scope.markerLocation = new google.maps.Marker({
+        position: latLong,
+        map: $scope.map,
+        icon: 'img/UbicacionUsuario_.png'
+      });
+      $ionicLoading.hide(); 
+}, function(error){
+  console.log(error.message);
+})
   }
 })

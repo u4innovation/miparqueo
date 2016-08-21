@@ -67,40 +67,12 @@ angular.module('starter', ['ionic','ngCordova', 'starter.controllers', 'starter.
     restrict: 'E',
     scope: {
       onCreate: '&',
-      location: '<'
+      initFunct: '&'
     },
     link: function ($scope, $element, $attr) {
       function initialize() {
-        var options = {timeout: 30000, enableHighAccuracy: true};
-        $scope.location.getCurrentPosition(options).then(function(position){
-          var latLong = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-          var mapOptions = {
-            center: latLong,
-            zoom: 16,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            disableDefaultUI: true
-          };
-          var map = new google.maps.Map($element[0], mapOptions);
-          var marker = new google.maps.Marker({
-            position: latLong,
-            map: map,
-            icon: 'img/UbicacionUsuario_.png'
-          });
-          $scope.onCreate({map: map});
-
-        // Stop the side bar from dragging when mousedown/tapdown on the map
-        google.maps.event.addDomListener($element[0], 'mousedown', function (e) {
-          e.preventDefault();
-          return false;
-        });
-  //$scope.map = new $cordovaGoogleMap('map',mapOptions);     
-  
-}, function(error){
-  console.log(error.message);
-})
-
+        $scope.initFunct();
       }
-
       if (document.readyState === "complete") {
         initialize();
       } else {
