@@ -59,16 +59,41 @@ angular.module('starter.controllers', [])
     })
   }
 })
-
-.controller('HomeCtrl', function($scope, $rootScope, $timeout) {
-  $timeout(function() {
-    if(!$rootScope.user){
-      //$scope.modal.show();
-    }
-  }, 1000);
+.controller('CargaCtrl', function($scope, $rootScope, $timeout, $ionicLoading, $cordovaGeolocation) {
+  
+  $scope.getLocation = function(){
+    var options = {timeout: 30000, enableHighAccuracy: true};
+    $ionicLoading.show({
+        template: 'Loading...'
+      });
+    $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+      $scope.lat = position.coords.latitude;
+      $scope.lng = position.coords.longitude;
+      $ionicLoading.hide(); 
+    }, function(error){
+      console.log(error.message);
+    });
+  }
+  $scope.guardar = function(){
+    $ionicLoading.show({
+        template: 'Loading...'
+      });
+    var stamplay = {
+      "Direccion": this.Direccion,
+      "Horario": this.Horario,
+      "Nombre": this.Nombre,
+      "ValorXHora": this.Precio,
+      "_geolocation" : {
+        "type": "Point",
+        "coordinates": [$scope.lat, $scope.lng]
+      }
+    };
+    this.Direccion = this.Horario = this.Nombre = this.Precio = $scope.lat = $scope.lng = '';
+    Stamplay.Object('parqueos').save(stamplay).then(function(){
+      $ionicLoading.hide(); 
+    });
+  }
 })
-
-
 .controller('MapaCtrl', function($ionicLoading, $ionicPopup, $ionicModal, $scope,$rootScope,$cordovaGeolocation,$http) {
   $scope.markerBusqueda;
   $scope.location = $cordovaGeolocation;  
@@ -182,7 +207,11 @@ angular.module('starter.controllers', [])
 });
 /* insert en stamplay
 {
-  "Nombre": "Estacionamiento",
+  "owner": "",
+  "Direccion": "Hello World!",
+  "Horario": "Hello World!",
+  "Nombre": "Hello World!",
+  "ValorXHora": 42.23,
   "_geolocation" : {
     "type": "Point",
     "coordinates": [-34.603436, -58.377700]

@@ -41,12 +41,12 @@ angular.module('starter', ['ionic','ngCordova', 'starter.controllers', 'starter.
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
-  .state('app.home', {
-    url: '/home',
+  .state('app.carga', {
+    url: '/cargaparqueo',
     views: {
       'menuContent': {
-        templateUrl: 'templates/home.html',
-        controller: 'HomeCtrl'
+        templateUrl: 'templates/cargaparqueo.html',
+        controller: 'CargaCtrl'
       }
     }
   })
