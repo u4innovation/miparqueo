@@ -24,6 +24,11 @@ angular.module('starter.controllers', [])
     $scope.modal.hide();
   };
 
+  // Triggered in the login modal to open it
+  $scope.showLogin = function() {
+    $scope.modal.show();
+  };
+
   // Open the login modal
   $scope.login = function() {
     Stamplay.User.socialLogin(socialProvider)
@@ -46,6 +51,7 @@ angular.module('starter.controllers', [])
     AccountService.currentUser()
     .then(function(user) {
       $rootScope.user = user;
+      $scope.showLogin();
       $ionicLoading.hide();
     }, function(error) {
       console.error(error);
@@ -61,6 +67,8 @@ angular.module('starter.controllers', [])
       }
     }, 1000);
 })
+
+
 .controller('MapaCtrl', function($scope) {
 
   

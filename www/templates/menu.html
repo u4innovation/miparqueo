@@ -14,15 +14,30 @@
 
   <ion-side-menu side="left">
     <ion-header-bar class="bar-stable">
-      <h1 class="title">Left</h1>
+      <h1 class="title"> {{ user.displayName }}</h1>
     </ion-header-bar>
     <ion-content>
       <ion-list>
-      <ion-item menu-close href="#/app/home">
-          Home
-        </ion-item>
         <ion-item menu-close href="#/app/mapa">
           Mapa
+        </ion-item>
+        <ion-item menu-close href="#/app/home">
+          Historial de Reservas
+        </ion-item>
+        <ion-item menu-close href="#/app/home">
+          Datos Pago
+        </ion-item>
+        <ion-item menu-close href="#/app/home">
+          Promociones y Eventos
+        </ion-item>
+        <ion-item menu-close href="#/app/home">
+          Valoración y Comentarios
+        </ion-item>
+        <ion-item menu-close href="#/app/home">
+          Comparte con tus amigos
+        </ion-item>
+        <ion-item menu-close href="#/app/home">
+          Perfil
         </ion-item>
       </ion-list>
       <button ng-click="logout()" class="button button-full button-stable bold">Logout</button>
