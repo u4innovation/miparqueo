@@ -8,3 +8,6 @@ map {
 .scroll {
   height: 100%;
 }
+#login .scroll-content {
+	background-image: url("../img/Login_fondo.png");
+}
