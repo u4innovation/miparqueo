@@ -5,7 +5,10 @@
 </ion-header-bar>
 <ion-content class="padding">
 <div class="list">
-  <label>{{ parqueoSeleccionado.Nombre }}</label>
+  <label class="item">{{ parqueoSeleccionado.Nombre }}</label>
+  <label class="item">{{ parqueoSeleccionado.Direccion }}</label>
+  <label class="item">Horario: {{ parqueoSeleccionado.Horario }}</label>
+  <label class="item">Precio Por Hora: {{ parqueoSeleccionado.ValorXHora }}</label>
   <button class="button button-full button-positive" ng-click="reservar()">Reservar</button>
 </div>
 </ion-content>
