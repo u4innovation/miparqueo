@@ -153,7 +153,7 @@ angular.module('starter.controllers', [])
   $scope.parqueosCercanosMarker = [];
   $scope.consultarParqueos = function(lat,lng){
     Stamplay.Query('object','parqueos')
-          .near('Point', [lat,lng], 1500)
+          .near('Point', [lat,lng], 3000)
           .exec().then(function(res){
             $scope.parqueosCercanos = res.data;
             $scope.removeParqueosMarkers();
