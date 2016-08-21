@@ -84,7 +84,7 @@ angular.module('starter', ['ionic','ngCordova', 'starter.controllers', 'starter.
           var marker = new google.maps.Marker({
             position: latLong,
             map: map,
-            icon: '../img/UbicacionUsuario_.png'
+            icon: 'img/UbicacionUsuario_.png'
           });
           $scope.onCreate({map: map});
 

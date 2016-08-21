@@ -81,7 +81,7 @@ angular.module('starter.controllers', [])
   };
   $scope.buscarDireccion = function(direccion){
     var q = direccion
-    if(q !== ''){
+    if(q && q !== ''){
       $ionicLoading.show({
         template: 'Loading...'
       });
@@ -100,7 +100,7 @@ angular.module('starter.controllers', [])
     var marker = new google.maps.Marker({
             position: latLong,
             map: $scope.map,
-            icon: '../img/UbicacionUsuarioOpcion2_.png'
+            icon: 'img/UbicacionUsuarioOpcion2_.png'
           });
   }
 })
