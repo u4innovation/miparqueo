@@ -61,18 +61,18 @@ angular.module('starter.controllers', [])
 })
 
 .controller('HomeCtrl', function($scope, $rootScope, $timeout) {
-    $timeout(function() {
-      if(!$rootScope.user){
-        $scope.modal.show();
-      }
-    }, 1000);
+  $timeout(function() {
+    if(!$rootScope.user){
+      //$scope.modal.show();
+    }
+  }, 1000);
 })
 
 
-.controller('MapaCtrl', function($scope) {
+.controller('MapaCtrl', function($scope,$cordovaGeolocation) {
 
-  
-    $scope.mapCreated = function(map) {
+  $scope.location = $cordovaGeolocation;  
+  $scope.mapCreated = function(map) {
     $scope.map = map;
   };
 
