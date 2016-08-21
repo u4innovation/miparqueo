@@ -1,5 +1,9 @@
 <ion-view view-title="Mapa">
-<ion-content scroll="false">
-      <map location="location" on-create="mapCreated(map)"></map>
-    </ion-content>
+	<ion-content scroll="false">
+		<label class="item item-input">
+			<i class="icon ion-search placeholder-icon"></i>
+			<input type="text" placeholder="Direccion" ng-model="direccion" ng-blur="buscarDireccion(direccion)">
+		</label>
+		<map location="location" on-create="mapCreated(map)"></map>
+	</ion-content>
 </ion-view>

@@ -77,9 +77,9 @@ angular.module('starter', ['ionic','ngCordova', 'starter.controllers', 'starter.
           var mapOptions = {
             center: latLong,
             zoom: 16,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDefaultUI: true
           };
-          
           var map = new google.maps.Map($element[0], mapOptions);
           var marker = new google.maps.Marker({
             position: latLong,

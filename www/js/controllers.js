@@ -69,30 +69,38 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('MapaCtrl', function($scope,$cordovaGeolocation) {
-
+.controller('MapaCtrl', function($ionicLoading, $ionicModal, $scope,$rootScope,$cordovaGeolocation,$http) {
+  $ionicModal.fromTemplateUrl('templates/direcciones-modal.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalAddr = modal;
+  });
   $scope.location = $cordovaGeolocation;  
   $scope.mapCreated = function(map) {
     $scope.map = map;
   };
-
-  $scope.centerOnMe = function () {
-    console.log("Centering");
-    if (!$scope.map) {
-      return;
+  $scope.buscarDireccion = function(direccion){
+    var q = direccion
+    if(q !== ''){
+      $ionicLoading.show({
+        template: 'Loading...'
+      });
+      $http.get('https://maps.googleapis.com/maps/api/geocode/json?address='+q.replace(/ /g, '+')+'&key=AIzaSyC1YLbGt2lAvgW_2NTZ1YT0PJ5TJDcGWyU').then(function(resp){
+      $scope.address = resp.data.results;
+      $ionicLoading.hide();
+      $scope.modalAddr.show();
+    });
     }
-
-    $scope.loading = $ionicLoading.show({
-      content: 'Getting current location...',
-      showBackdrop: false
-    });
-
-    navigator.geolocation.getCurrentPosition(function (pos) {
-      console.log('Got pos', pos);
-      $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-      $scope.loading.hide();
-    }, function (error) {
-      alert('Unable to get location: ' + error.message);
-    });
-  };
+  }
+  $scope.selectAddr = function(item){
+    var latLong = new google.maps.LatLng(item.geometry.location.lat, item.geometry.location.lng);
+    $scope.map.setCenter(latLong,15);
+    $scope.modalAddr.hide();
+    $scope.direccion = '';
+    var marker = new google.maps.Marker({
+            position: latLong,
+            map: $scope.map,
+            icon: '../img/UbicacionUsuarioOpcion2_.png'
+          });
+  }
 })

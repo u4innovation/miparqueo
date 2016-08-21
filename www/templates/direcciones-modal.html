@@ -1,0 +1,9 @@
+<ion-modal-view>
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="item in address" menu-close ng-click="selectAddr(item)">
+      {{item.formatted_address}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-modal-view>
