@@ -106,34 +106,19 @@ angular.module('starter.controllers', [])
       map: $scope.map,
       icon: 'img/UbicacionUsuarioOpcion2_.png'
     });
+    $scope.consultarParqueos(item.geometry.location.lat, item.geometry.location.lng)
   }
   $scope.cancelarBusqueda = function(){
     $scope.modalAddr.hide();
   }
   $scope.iniciarMapa = function($element){
-    $ionicLoading.show({
-      template: 'Loading...'
-    });
-    var options = {timeout: 30000, enableHighAccuracy: true};
-    $scope.location.getCurrentPosition(options).then(function(position){
-      var latLong = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       var mapOptions = {
-        center: latLong,
         zoom: 16,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         disableDefaultUI: true
       };
       $scope.map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
-      $scope.markerLocation = new google.maps.Marker({
-        position: latLong,
-        map: $scope.map,
-        icon: 'img/UbicacionUsuario_.png'
-      });
-      $ionicLoading.hide();
-         
-}, function(error){
-  console.log(error.message);
-})
+      $scope.centrarMapa();  
   }
   $scope.centrarMapa = function(){
     $ionicLoading.show({
@@ -143,15 +128,51 @@ angular.module('starter.controllers', [])
     $scope.location.getCurrentPosition(options).then(function(position){
       var latLong = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       $scope.map.setCenter(latLong,15);
-      $scope.markerLocation.setMap(null);
+      if($scope.markerLocation){
+      $scope.markerLocation.setMap(null);  
+      }
       $scope.markerLocation = new google.maps.Marker({
         position: latLong,
         map: $scope.map,
         icon: 'img/UbicacionUsuario_.png'
       });
+      $scope.consultarParqueos(position.coords.latitude, position.coords.longitude)
       $ionicLoading.hide(); 
 }, function(error){
   console.log(error.message);
 })
   }
-})
+  $scope.parqueosCercanosMarker = [];
+  $scope.consultarParqueos = function(lat,lng){
+    Stamplay.Query('object','parqueos')
+          .near('Point', [lat,lng], 500)
+          .exec().then(function(res){
+            $scope.parqueosCercanos = res.data;
+            $scope.removeParqueosMarkers();
+            for (var i = 0; i < res.data.length; i++) {
+              var coord = res.data[i]._geolocation.coordinates;
+              $scope.parqueosCercanosMarker.push(new google.maps.Marker({
+                position: new google.maps.LatLng(coord[0], coord[1]),
+                map: $scope.map,
+                icon: 'img/UbicacionUsuario_.png'
+              }));
+            }
+                console.log(res);
+          });
+  }
+  $scope.removeParqueosMarkers = function(){
+    for (var i = 0; i < $scope.parqueosCercanosMarker.length; i++) {
+      $scope.parqueosCercanosMarker[i].setMap(null)
+    }
+    $scope.parqueosCercanosMarker = [];
+  }
+});
+/* insert en stamplay
+{
+  "Nombre": "Estacionamiento",
+  "_geolocation" : {
+    "type": "Point",
+    "coordinates": [-34.603436, -58.377700]
+  }
+}
+*/
