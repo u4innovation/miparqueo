@@ -21,9 +21,9 @@ angular.module('starter', ['ionic','ngCordova', 'starter.controllers', 'starter.
     }
   });
   AccountService.currentUser()
-    .then(function(user) {
-      $rootScope.user = user;
-    })
+  .then(function(user) {
+    $rootScope.user = user;
+  })
 })
 
 .constant("socialProvider", "facebook")
@@ -35,30 +35,30 @@ angular.module('starter', ['ionic','ngCordova', 'starter.controllers', 'starter.
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
-    .state('app', {
+  .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
   .state('app.home', {
-      url: '/home',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/home.html',
-          controller: 'HomeCtrl'
-        }
+    url: '/home',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/home.html',
+        controller: 'HomeCtrl'
       }
-    })
-    .state('app.mapa', {
-      url: '/mapa',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/mapa.html',
-          controller: 'MapaCtrl'
-        }
+    }
+  })
+  .state('app.mapa', {
+    url: '/mapa',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/mapa.html',
+        controller: 'MapaCtrl'
       }
-    });
+    }
+  });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/home');
 })
@@ -71,15 +71,21 @@ angular.module('starter', ['ionic','ngCordova', 'starter.controllers', 'starter.
     },
     link: function ($scope, $element, $attr) {
       function initialize() {
-                var options = {timeout: 30000, enableHighAccuracy: true};
+        var options = {timeout: 30000, enableHighAccuracy: true};
         $scope.location.getCurrentPosition(options).then(function(position){
+          var latLong = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
           var mapOptions = {
-          center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-          zoom: 16,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
+            center: latLong,
+            zoom: 16,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
+          
           var map = new google.maps.Map($element[0], mapOptions);
-
+          var marker = new google.maps.Marker({
+            position: latLong,
+            map: map,
+            icon: '../img/UbicacionUsuario_.png'
+          });
           $scope.onCreate({map: map});
 
         // Stop the side bar from dragging when mousedown/tapdown on the map
