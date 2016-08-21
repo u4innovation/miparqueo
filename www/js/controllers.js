@@ -69,14 +69,21 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('MapaCtrl', function($ionicLoading, $ionicModal, $scope,$rootScope,$cordovaGeolocation,$http) {
-  $ionicModal.fromTemplateUrl('templates/direcciones-modal.html', {
+.controller('MapaCtrl', function($ionicLoading, $ionicPopup, $ionicModal, $scope,$rootScope,$cordovaGeolocation,$http) {
+  $scope.markerBusqueda;
+  $scope.location = $cordovaGeolocation;  
+  $scope.parqueoSeleccionado = {nombre: 'dasdas'};
+  $ionicModal.fromTemplateUrl('templates/modals/direcciones-modal.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modalAddr = modal;
   });
-  $scope.markerBusqueda;
-  $scope.location = $cordovaGeolocation;  
+  $ionicModal.fromTemplateUrl('templates/modals/detalle-parqueo.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modalDetalle = modal;
+  });
   $scope.mapCreated = function(map) {
     $scope.map = map;
   };
@@ -127,7 +134,8 @@ angular.module('starter.controllers', [])
         var options = {timeout: 30000, enableHighAccuracy: true};
     $scope.location.getCurrentPosition(options).then(function(position){
       var latLong = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      $scope.map.setCenter(latLong,15);
+      $scope.map.setCenter(latLong);
+      $scope.map.setZoom(15);
       if($scope.markerLocation){
       $scope.markerLocation.setMap(null);  
       }
@@ -145,7 +153,7 @@ angular.module('starter.controllers', [])
   $scope.parqueosCercanosMarker = [];
   $scope.consultarParqueos = function(lat,lng){
     Stamplay.Query('object','parqueos')
-          .near('Point', [lat,lng], 500)
+          .near('Point', [lat,lng], 1500)
           .exec().then(function(res){
             $scope.parqueosCercanos = res.data;
             $scope.removeParqueosMarkers();
@@ -154,11 +162,16 @@ angular.module('starter.controllers', [])
               $scope.parqueosCercanosMarker.push(new google.maps.Marker({
                 position: new google.maps.LatLng(coord[0], coord[1]),
                 map: $scope.map,
-                icon: 'img/EstacionamientosIcon_.png'
+                icon: 'img/EstacionamientosIcon_.png',
+                array_pos:i
               }));
+              $scope.parqueosCercanosMarker[i].addListener('click', $scope.verParqueo);
             }
-                console.log(res);
           });
+  }
+  $scope.verParqueo = function(){
+    $scope.parqueoSeleccionado = $scope.parqueosCercanos[this.array_pos];
+    $scope.modalDetalle.show();
   }
   $scope.removeParqueosMarkers = function(){
     for (var i = 0; i < $scope.parqueosCercanosMarker.length; i++) {
