@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($ionicModal, AccountService, $state, $scope, $rootScope, $ionicLoading, $ionicPopup, socialProvider, $timeout) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -26,7 +26,7 @@ angular.module('starter.controllers', [])
 
   // Open the login modal
   $scope.login = function() {
-    $scope.modal.show();
+    Stamplay.User.socialLogin(socialProvider)
   };
 
   // Perform the login action when the user submits the login form
@@ -38,26 +38,8 @@ angular.module('starter.controllers', [])
     $timeout(function() {
       $scope.closeLogin();
     }, 1000);
-  };
-})
-
-.controller('AccountController', ["AccountService", "$state", "$rootScope", "$ionicLoading", "$ionicPopup", "socialProvider", function(AccountService, $state, $rootScope, $ionicLoading, $ionicPopup, socialProvider) {
-
-  var errorHandler = function(options) {
-    var errorAlert = $ionicPopup.alert({
-      title: options.title,
-      okType : 'button-assertive',
-      okText : "Try Again"
-    });
   }
-
-  var vm = this;
-
-  vm.login = function() {
-    Stamplay.User.socialLogin(socialProvider)
-  }
-
-  vm.logout = function() {
+  $scope.logout = function() {
     $ionicLoading.show();
     var jwt = window.location.origin + "-jwt";
     window.localStorage.removeItem(jwt);
@@ -70,11 +52,12 @@ angular.module('starter.controllers', [])
       $ionicLoading.hide();
     })
   }
-}])
+})
+
 .controller('HomeCtrl', function($scope, $rootScope, $timeout) {
     $timeout(function() {
       if(!$rootScope.user){
-        $scope.login();
+        $scope.modal.show();
       }
     }, 1000);
 })
