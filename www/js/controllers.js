@@ -31,42 +31,63 @@ angular.module('starter.controllers', [])
   }
 }])
 
-.controller('MapCtrl', function($scope, $state, $cordovaGeolocation) {
-  var options = {timeout: 30000, enableHighAccuracy: true};
-  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    var element = document.getElementById("map");
-    $scope.map = null;
-    console.log("Posicion: "+ latLng);
-    var mapOptions = {
-      center: latLng,
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    $scope.map = new google.maps.Map(element, mapOptions);
-    //Wait until the map is loaded
-    google.maps.event.addListenerOnce($scope.map, 'idle', function(){
-        var marker = new google.maps.Marker({
-                                         map: $scope.map,
-                                         animation: google.maps.Animation.DROP,
-                                         position: latLng,
-                                         icon: '../img/favicon.png'
-                                         });      
-     
-        var infoWindow = new google.maps.InfoWindow({
-                                                 content: "¡Aquí estoy!"
-                                                 });
-     
-        google.maps.event.addListener(marker, 'click', function () {
-                                   infoWindow.open($scope.map, marker);
-                                   });
-     
+.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $cordovaGoogleMap) {
+  $scope.mapCreated = function(map) {
+    $scope.map = map;
+  };
+
+  $scope.centerOnMe = function () {
+    console.log("Centering");
+    if (!$scope.map) {
+      return;
+    }
+
+    $scope.loading = $ionicLoading.show({
+      content: 'Getting current location...',
+      showBackdrop: false
     });
-                                                       
-                                                       
-                                                       
+
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      console.log('Got pos', pos);
+      $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+      $scope.loading.hide();
+    }, function (error) {
+      alert('Unable to get location: ' + error.message);
+    });
+  };
+  var options = {timeout: 30000, enableHighAccuracy: true};   
+  
+  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+  var mapOptions = 
+        {
+          'backgroundColor': 'white',
+          'controls': {
+            'compass': true,
+            'myLocationButton': true,
+            'indoorPicker': true,
+            'zoom': true
+          },
+          'gestures': {
+            'scroll': true,
+            'tilt': true,
+            'rotate': true,
+            'zoom': true
+          },
+          'camera': {
+            'latLng': {lat: position.coords.latitude, lng: position.coords.longitude},
+            'tilt': 30,
+            'zoom': 15,
+            'bearing': 50
+          }
+        };
+  var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: position.coords.latitude, lng: position.coords.longitude},
+          zoom: 8
+        });
+  //$scope.map = new $cordovaGoogleMap('map',mapOptions);     
+  
   }, function(error){
-    console.log("Could not get location " + error);
+    console.log(error.message);
   })
             
     
