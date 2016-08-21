@@ -154,7 +154,7 @@ angular.module('starter.controllers', [])
               $scope.parqueosCercanosMarker.push(new google.maps.Marker({
                 position: new google.maps.LatLng(coord[0], coord[1]),
                 map: $scope.map,
-                icon: 'img/UbicacionUsuario_.png'
+                icon: 'img/EstacionamientosIcon_.png'
               }));
             }
                 console.log(res);
