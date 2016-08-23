@@ -1,0 +1,15 @@
+1.- Borrar cuadro de texto de direccion cuando se da clic en centrar ubicación
+2.- Poner un ícono en el cuadro de texto de dirección para borrar su contenido, puede ser una "X" en el lado derecho de la caja de texto
+3.- Dibujar un círculo alrededor de la ubicación o punto de dirección cuando son consultados que servirá para indicar al usuario cual es el perímetro de búsqueda de los parqueos.
+4.- Verificar si se puede agregar en el mapa las opciones de street view e imagen 3D sin que se agrege el logo de google.
+5.- En la pantalla de crear los parqueos agregar los siguientes campos que ya fueron creados en stamplay:
+
+Nombre:
+Dirección:
+Hora de Apertura y Hora de Cierre:  (la hora de cierre debe ser mayor igual que la hora de apertura, se pueden usar algún componente para mejorar el ingreso sin que sea un cuadro de texto)
+Días hábiles: es un arreglo de días, donde empieza en 0-Lunes, 1-Martes...6-Domingo, puede usarse casillas de verificación
+ValorxHora: usar teclado numérico
+email:
+Telefono de contacto: teclado numérico
+Moneda: por ahora siempre es dólar, despuès hacemos la relación con el país en el que se encuentra la ciudad y extraemos la moneda del país.
+Ciudad: debe cargar las ciudades del objeto país, para esto se debe tambien escoger el país y la provincia y mostrar las ciudades en base a esa selección.
