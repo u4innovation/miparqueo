@@ -156,7 +156,7 @@ angular.module('starter.controllers', [])
     $ionicLoading.show({
       template: 'Loading...'
     });
-        var options = {timeout: 30000, enableHighAccuracy: true};
+    var options = {timeout: 30000, enableHighAccuracy: true};
     $scope.location.getCurrentPosition(options).then(function(position){
       var latLong = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       $scope.map.setCenter(latLong);
@@ -171,9 +171,9 @@ angular.module('starter.controllers', [])
       });
       $scope.consultarParqueos(position.coords.latitude, position.coords.longitude)
       $ionicLoading.hide(); 
-}, function(error){
-  console.log(error.message);
-})
+    }, function(error){
+      console.log(error.message);
+    })
   }
   $scope.parqueosCercanosMarker = [];
   $scope.consultarParqueos = function(lat,lng){
