@@ -1,6 +1,6 @@
-1.- Borrar cuadro de texto de direccion cuando se da clic en centrar ubicación
-2.- Poner un ícono en el cuadro de texto de dirección para borrar su contenido, puede ser una "X" en el lado derecho de la caja de texto
-3.- Dibujar un círculo alrededor de la ubicación o punto de dirección cuando son consultados que servirá para indicar al usuario cual es el perímetro de búsqueda de los parqueos.
+-- 1.- Borrar cuadro de texto de direccion cuando se da clic en centrar ubicación
+-- 2.- Poner un ícono en el cuadro de texto de dirección para borrar su contenido, puede ser una "X" en el lado derecho de la caja de texto
+-- 3.- Dibujar un círculo alrededor de la ubicación o punto de dirección cuando son consultados que servirá para indicar al usuario cual es el perímetro de búsqueda de los parqueos.
 4.- Verificar si se puede agregar en el mapa las opciones de street view e imagen 3D sin que se agrege el logo de google.
 5.- En la pantalla de crear los parqueos agregar los siguientes campos que ya fueron creados en stamplay:
 

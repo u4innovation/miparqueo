@@ -113,6 +113,9 @@ angular.module('starter.controllers', [])
         }).then(function(modal) {
             $scope.modalDetalle = modal;
         });
+        $scope.limpiarInput = function(){
+            this.direccion = '';
+        };
         $scope.mapCreated = function(map) {
             $scope.map = map;
         };
@@ -143,6 +146,7 @@ angular.module('starter.controllers', [])
                 map: $scope.map,
                 icon: 'img/UbicacionUsuarioOpcion2_.png'
             });
+            $scope.cityCircle.bindTo('center', $scope.markerBusqueda, 'position');
             $scope.consultarParqueos(item.geometry.location.lat, item.geometry.location.lng)
         }
         $scope.cancelarBusqueda = function() {
@@ -155,8 +159,18 @@ angular.module('starter.controllers', [])
                 disableDefaultUI: true
             };
             $scope.map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
-            $scope.centrarMapa();
-        }
+            var sunCircle = {
+                strokeColor: "#62B2FC",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#62B2FC",
+                fillOpacity: 0.35,
+                map: $scope.map,
+                radius: 500 // in meters
+            };
+            $scope.cityCircle = new google.maps.Circle(sunCircle);
+                    $scope.centrarMapa();
+                }
         $scope.centrarMapa = function() {
             $ionicLoading.show({
                 template: 'Loading...'
@@ -177,6 +191,7 @@ angular.module('starter.controllers', [])
                     map: $scope.map,
                     icon: 'img/UbicacionUsuario_.png'
                 });
+                $scope.cityCircle.bindTo('center', $scope.markerLocation, 'position');
                 $scope.consultarParqueos(position.coords.latitude, position.coords.longitude)
                 $ionicLoading.hide();
             }, function(error) {
@@ -186,7 +201,7 @@ angular.module('starter.controllers', [])
         $scope.parqueosCercanosMarker = [];
         $scope.consultarParqueos = function(lat, lng) {
             Stamplay.Query('object', 'parqueos')
-                .near('Point', [lat, lng], 1500)
+                .near('Point', [lat, lng], 500)
                 .exec().then(function(res) {
                     $scope.parqueosCercanos = res.data;
                     $scope.removeParqueosMarkers();
