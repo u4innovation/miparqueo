@@ -44,12 +44,12 @@ map {
 }
 .btn-2.showOpciones {
 	right: 157px;
-	width: 100px;
+	width: 80px;
     border-radius: 30px;
 }
 .btn-2.showOpciones span{
 	display: block;
 }
 .btn-3.showOpciones {
-	right: 272px;
+	right: 252px;
 }
