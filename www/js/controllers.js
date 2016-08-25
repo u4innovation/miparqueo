@@ -97,8 +97,10 @@ angular.module('starter.controllers', [])
         }
     })
     .controller('MapaCtrl', function($ionicLoading, $ionicPopup, $ionicModal, $scope, $rootScope, $cordovaGeolocation, $http) {
+        $scope.radioBusqueda = 500;
         $scope.markerBusqueda;
         $scope.location = $cordovaGeolocation;
+        $scope.currPos = {lat:0,lng:0};
         $scope.parqueoSeleccionado = {
             nombre: 'dasdas'
         };
@@ -113,7 +115,7 @@ angular.module('starter.controllers', [])
         }).then(function(modal) {
             $scope.modalDetalle = modal;
         });
-        $scope.limpiarInput = function(){
+        $scope.limpiarInput = function() {
             this.direccion = '';
         };
         $scope.mapCreated = function(map) {
@@ -122,7 +124,7 @@ angular.module('starter.controllers', [])
         $scope.buscarDireccion = function() {
             if (this.direccion && this.direccion !== '') {
                 $ionicLoading.show({
-                    template: 'Loading...'
+                    template: 'Buscando...'
                 });
                 that = this;
                 $http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.direccion.replace(/ /g, '+') + '&key=AIzaSyC1YLbGt2lAvgW_2NTZ1YT0PJ5TJDcGWyU').then(function(resp) {
@@ -147,10 +149,39 @@ angular.module('starter.controllers', [])
                 icon: 'img/UbicacionUsuarioOpcion2_.png'
             });
             $scope.cityCircle.bindTo('center', $scope.markerBusqueda, 'position');
-            $scope.consultarParqueos(item.geometry.location.lat, item.geometry.location.lng)
+            $scope.currPos = {lat: item.geometry.location.lat, lng: item.geometry.location.lng};
+            $scope.consultarParqueos();
         }
         $scope.cancelarBusqueda = function() {
             $scope.modalAddr.hide();
+        }
+        $scope.toggleOpciones = function(){
+            $scope.viewOpciones = !$scope.viewOpciones;
+            if(!$scope.viewOpciones && $scope.radioChanged){
+                $scope.consultarParqueos();
+                $scope.radioChanged = false;
+            }
+        }
+        $scope.cambiarRadio = function(t) {
+            var r = $scope.radioBusqueda;
+            if (t == 0) {
+                $scope.radioBusqueda = r < 1500 ? r + 100 : 1500
+            } else {
+                $scope.radioBusqueda = r != 100 ? r - 100 : 100
+            }
+            $scope.radioChanged = true;
+            var sunCircle = {
+                strokeColor: "#62B2FC",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#62B2FC",
+                fillOpacity: 0.35,
+                map: $scope.map,
+                radius: $scope.radioBusqueda // in meters
+            };
+            $scope.cityCircle.setMap(null);
+            $scope.cityCircle = new google.maps.Circle(sunCircle);
+            $scope.cityCircle.bindTo('center', $scope.markerLocation, 'position');
         }
         $scope.iniciarMapa = function($element) {
             var mapOptions = {
@@ -166,11 +197,15 @@ angular.module('starter.controllers', [])
                 fillColor: "#62B2FC",
                 fillOpacity: 0.35,
                 map: $scope.map,
+<<<<<<< HEAD
                 radius: 1500 // in meters
+=======
+                radius: $scope.radioBusqueda // in meters
+>>>>>>> origin/miparqueo-sidemenu
             };
             $scope.cityCircle = new google.maps.Circle(sunCircle);
-                    $scope.centrarMapa();
-                }
+            $scope.centrarMapa();
+        }
         $scope.centrarMapa = function() {
             $ionicLoading.show({
                 template: 'Loading...'
@@ -192,16 +227,24 @@ angular.module('starter.controllers', [])
                     icon: 'img/UbicacionUsuario_.png'
                 });
                 $scope.cityCircle.bindTo('center', $scope.markerLocation, 'position');
-                $scope.consultarParqueos(position.coords.latitude, position.coords.longitude)
+                $scope.currPos = {lat: position.coords.latitude,lng: position.coords.longitude};
+                $scope.consultarParqueos();
                 $ionicLoading.hide();
             }, function(error) {
                 console.log(error.message);
             })
         }
         $scope.parqueosCercanosMarker = [];
-        $scope.consultarParqueos = function(lat, lng) {
+        $scope.consultarParqueos = function() {
+            $ionicLoading.show({
+                    template: 'Buscando...'
+                });
             Stamplay.Query('object', 'parqueos')
+<<<<<<< HEAD
                 .near('Point', [lat, lng], 1500)
+=======
+                .near('Point', [$scope.currPos.lat, $scope.currPos.lng], $scope.radioBusqueda)
+>>>>>>> origin/miparqueo-sidemenu
                 .exec().then(function(res) {
                     $scope.parqueosCercanos = res.data;
                     $scope.removeParqueosMarkers();
@@ -215,6 +258,7 @@ angular.module('starter.controllers', [])
                         }));
                         $scope.parqueosCercanosMarker[i].addListener('click', $scope.verParqueo);
                     }
+                    $ionicLoading.hide();
                 });
         }
         $scope.verParqueo = function() {

@@ -11,3 +11,45 @@ map {
 #login .scroll-content {
 	background-image: url("../img/Login_fondo.png");
 }
+.expand-btn {
+	position: absolute;
+	bottom: 15px;
+	right: 15px;
+	border-radius: 50%;
+	width: 56px;
+	height: 56px;
+	transition: 0.2s;
+}
+.btn-0{
+	z-index: 20;
+	box-shadow: 0px 3px 10px grey;
+}
+.btn-1{
+	z-index: 19;
+}
+.btn-2{
+	z-index: 18;	
+}
+.btn-2 span{
+	display: none;
+}
+.btn-3{
+	z-index: 17;
+}
+.showOpciones {
+	box-shadow: 0px 3px 10px grey;
+}
+.btn-1.showOpciones {
+	right: 86px;
+}
+.btn-2.showOpciones {
+	right: 157px;
+	width: 80px;
+    border-radius: 30px;
+}
+.btn-2.showOpciones span{
+	display: block;
+}
+.btn-3.showOpciones {
+	right: 252px;
+}
