@@ -13,3 +13,10 @@ email:
 Telefono de contacto: teclado numérico
 Moneda: por ahora siempre es dólar, despuès hacemos la relación con el país en el que se encuentra la ciudad y extraemos la moneda del país.
 Ciudad: debe cargar las ciudades del objeto país, para esto se debe tambien escoger el país y la provincia y mostrar las ciudades en base a esa selección.
+
+
+
+6.- Agregar un botón que permita setear la distancia en km de la búsqueda de parques:
+Valor mínimo: 0,5
+Valor máximo: 3
+Intervalo: 0,5
