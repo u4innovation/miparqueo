@@ -157,8 +157,9 @@ angular.module('starter.controllers', [])
         }
         $scope.toggleOpciones = function(){
             $scope.viewOpciones = !$scope.viewOpciones;
-            if(!$scope.viewOpciones){
+            if(!$scope.viewOpciones && $scope.radioChanged){
                 $scope.consultarParqueos();
+                $scope.radioChanged = false;
             }
         }
         $scope.cambiarRadio = function(t) {
@@ -168,6 +169,7 @@ angular.module('starter.controllers', [])
             } else {
                 $scope.radioBusqueda = r != 100 ? r - 100 : 100
             }
+            $scope.radioChanged = true;
             var sunCircle = {
                 strokeColor: "#62B2FC",
                 strokeOpacity: 0.8,
