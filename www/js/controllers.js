@@ -166,7 +166,7 @@ angular.module('starter.controllers', [])
                 fillColor: "#62B2FC",
                 fillOpacity: 0.35,
                 map: $scope.map,
-                radius: 500 // in meters
+                radius: 1500 // in meters
             };
             $scope.cityCircle = new google.maps.Circle(sunCircle);
                     $scope.centrarMapa();
@@ -201,7 +201,7 @@ angular.module('starter.controllers', [])
         $scope.parqueosCercanosMarker = [];
         $scope.consultarParqueos = function(lat, lng) {
             Stamplay.Query('object', 'parqueos')
-                .near('Point', [lat, lng], 500)
+                .near('Point', [lat, lng], 1500)
                 .exec().then(function(res) {
                     $scope.parqueosCercanos = res.data;
                     $scope.removeParqueosMarkers();
