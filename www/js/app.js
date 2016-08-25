@@ -26,7 +26,7 @@ angular.module('starter', ['ionic','ngCordova', 'starter.controllers', 'starter.
   })
 })
 
-.constant("socialProvider", "facebook")
+.constant("socialProvider", ["facebook","google"])
 
 .constant('$ionicLoadingConfig', {
   template: "<ion-spinner></ion-spinner>",

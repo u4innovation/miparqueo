@@ -29,8 +29,8 @@ angular.module('starter.controllers', [])
     };
 
     // Open the login modal
-    $scope.login = function() {
-        Stamplay.User.socialLogin(socialProvider)
+    $scope.login = function(i) {
+        Stamplay.User.socialLogin(socialProvider[i])
     };
 
     // Perform the login action when the user submits the login form
