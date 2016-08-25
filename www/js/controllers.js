@@ -148,7 +148,8 @@ angular.module('starter.controllers', [])
                 map: $scope.map,
                 icon: 'img/UbicacionUsuarioOpcion2_.png'
             });
-            $scope.cityCircle.bindTo('center', $scope.markerBusqueda, 'position');
+            $scope.circulo($scope.markerBusqueda);
+            $scope.busquedaRealizada = true;
             $scope.currPos = {lat: item.geometry.location.lat, lng: item.geometry.location.lng};
             $scope.consultarParqueos();
         }
@@ -162,6 +163,22 @@ angular.module('starter.controllers', [])
                 $scope.radioChanged = false;
             }
         }
+        $scope.circulo = function(marker){
+            var sunCircle = {
+                strokeColor: "#62B2FC",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#62B2FC",
+                fillOpacity: 0.35,
+                map: $scope.map,
+                radius: $scope.radioBusqueda // in meters
+            };
+            if ($scope.cityCircle) {
+                $scope.cityCircle.setMap(null);
+            }
+            $scope.cityCircle = new google.maps.Circle(sunCircle);
+            $scope.cityCircle.bindTo('center', marker, 'position');
+        }
         $scope.cambiarRadio = function(t) {
             var r = $scope.radioBusqueda;
             if (t == 0) {
@@ -170,18 +187,7 @@ angular.module('starter.controllers', [])
                 $scope.radioBusqueda = r != 100 ? r - 100 : 100
             }
             $scope.radioChanged = true;
-            var sunCircle = {
-                strokeColor: "#62B2FC",
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                fillColor: "#62B2FC",
-                fillOpacity: 0.35,
-                map: $scope.map,
-                radius: $scope.radioBusqueda // in meters
-            };
-            $scope.cityCircle.setMap(null);
-            $scope.cityCircle = new google.maps.Circle(sunCircle);
-            $scope.cityCircle.bindTo('center', $scope.markerLocation, 'position');
+            $scope.circulo($scope.busquedaRealizada ? $scope.markerBusqueda : $scope.markerLocation);
         }
         $scope.iniciarMapa = function($element) {
             var mapOptions = {
@@ -190,21 +196,11 @@ angular.module('starter.controllers', [])
                 disableDefaultUI: true
             };
             $scope.map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
-            var sunCircle = {
-                strokeColor: "#62B2FC",
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                fillColor: "#62B2FC",
-                fillOpacity: 0.35,
-                map: $scope.map,
-                radius: $scope.radioBusqueda // in meters
-            };
-            $scope.cityCircle = new google.maps.Circle(sunCircle);
             $scope.centrarMapa();
         }
         $scope.centrarMapa = function() {
             $ionicLoading.show({
-                template: 'Loading...'
+                template: 'Cargando...'
             });
             var options = {
                 timeout: 30000,
@@ -222,7 +218,8 @@ angular.module('starter.controllers', [])
                     map: $scope.map,
                     icon: 'img/UbicacionUsuario_.png'
                 });
-                $scope.cityCircle.bindTo('center', $scope.markerLocation, 'position');
+                $scope.circulo($scope.markerLocation);
+                if ($scope.markerBusqueda) $scope.markerBusqueda.setMap(null);
                 $scope.currPos = {lat: position.coords.latitude,lng: position.coords.longitude};
                 $scope.consultarParqueos();
                 $ionicLoading.hide();
