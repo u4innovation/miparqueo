@@ -197,11 +197,11 @@ angular.module('starter.controllers', [])
                 fillColor: "#62B2FC",
                 fillOpacity: 0.35,
                 map: $scope.map,
-<<<<<<< HEAD
+
                 radius: 1500 // in meters
-=======
+
                 radius: $scope.radioBusqueda // in meters
->>>>>>> origin/miparqueo-sidemenu
+
             };
             $scope.cityCircle = new google.maps.Circle(sunCircle);
             $scope.centrarMapa();
@@ -240,11 +240,11 @@ angular.module('starter.controllers', [])
                     template: 'Buscando...'
                 });
             Stamplay.Query('object', 'parqueos')
-<<<<<<< HEAD
+
                 .near('Point', [lat, lng], 1500)
-=======
+
                 .near('Point', [$scope.currPos.lat, $scope.currPos.lng], $scope.radioBusqueda)
->>>>>>> origin/miparqueo-sidemenu
+
                 .exec().then(function(res) {
                     $scope.parqueosCercanos = res.data;
                     $scope.removeParqueosMarkers();
