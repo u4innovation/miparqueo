@@ -19,12 +19,12 @@
   </label>
   <label class="item">Precio Por Hora: {{ parqueoSeleccionado.ValorXHora }}</label>
   <label class="item" style="text-align: center;">
-  	<i class="rating ion-ios-star"></i>
-  	<i class="rating ion-ios-star"></i>
-  	<i class="rating ion-ios-star"></i>
-  	<i class="rating ion-ios-star-half"></i>
-  	<i class="rating ion-ios-star-outline"></i>
-  	<p>30 valoraciones</p>
+  	<i ng-class="{'ion-ios-star': rating>=1, 'ion-ios-star-half': rating<1 , 'ion-ios-star-outline': rating==0}" class="rating"></i>
+  	<i ng-class="{'ion-ios-star': rating>=2, 'ion-ios-star-half': 1<rating && rating<2 , 'ion-ios-star-outline': rating<2 && !(1<rating && rating<2)}" class="rating"></i>
+  	<i ng-class="{'ion-ios-star': rating>=3, 'ion-ios-star-half': 2<rating && rating<3 , 'ion-ios-star-outline': rating<3 && !(2<rating && rating<3)}" class="rating"></i>
+  	<i ng-class="{'ion-ios-star': rating>=4, 'ion-ios-star-half': 3<rating && rating<4 , 'ion-ios-star-outline': rating<4 && !(3<rating && rating<4)}" class="rating"></i>
+  	<i ng-class="{'ion-ios-star': rating==5, 'ion-ios-star-half': 4<rating && rating<5 , 'ion-ios-star-outline': rating<5 && !(4<rating && rating<5)}" class="rating"></i>
+  	<p>{{valoraciones}} valoraciones</p>
   </label>
   <button class="button button-full button-positive" ng-click="reservar()">Reservar</button>
 </div>

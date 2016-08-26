@@ -280,11 +280,19 @@ angular.module('starter.controllers', [])
         $scope.verParqueo = function() {
             $scope.parqueoSeleccionado = $scope.parqueosCercanos[this.array_pos];
             $scope.parqueoSeleccionado.dias = [false,false,false,false,false,false,false];
+            $scope.rating = $scope.parqueoSeleccionado.actions.ratings.avg;
+            $scope.valoraciones = $scope.parqueoSeleccionado.actions.ratings.total;
             if ($scope.parqueoSeleccionado.DiasHabiles)
             for (var i = 0; i < $scope.parqueoSeleccionado.DiasHabiles.length; i++) {
                 $scope.parqueoSeleccionado.dias[$scope.parqueoSeleccionado.DiasHabiles[i]] = true;
             }
             $scope.modalDetalle.show();
+        }
+        $scope.parqRating = function(value){
+            Stamplay.Object("parqueos").rate($scope.parqueoSeleccionado._id, value)
+            .then(function(res) {
+            }, function(err) {
+            })
         }
         $scope.removeParqueosMarkers = function() {
             for (var i = 0; i < $scope.parqueosCercanosMarker.length; i++) {
