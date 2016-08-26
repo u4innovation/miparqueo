@@ -59,7 +59,21 @@ angular.module('starter.controllers', [])
     }
 })
     .controller('CargaCtrl', function($scope, $rootScope, $timeout, $ionicLoading, $cordovaGeolocation) {
+        $scope.dias = [{nombre: 'Lunes' ,checked: false},
+        {nombre: 'Martes',checked: false},
+        {nombre: 'Miercoles',checked: false},
+        {nombre: 'Jueves',checked: false},
+        {nombre: 'Viernes',checked: false},
+        {nombre: 'Sabado',checked: false},
+        {nombre: 'Domingo',checked: false}];
+        $scope.paises = [];
 
+                Stamplay.Object("paises").get({ populate : true })
+    .then(function(res) {
+      $scope.paises = res.data;
+    }, function(err) {
+      // error
+    })
         $scope.getLocation = function() {
             var options = {
                 timeout: 30000,
@@ -80,17 +94,30 @@ angular.module('starter.controllers', [])
             $ionicLoading.show({
                 template: 'Loading...'
             });
+            var diasSeleccionados = [];
+            for (var i = 0; i < $scope.dias.length; i++) {
+                if ($scope.dias[i].checked){
+                    $scope.dias[i].checked = false;
+                    diasSeleccionados.push(i);
+                }
+            }
             var stamplay = {
                 "Direccion": this.Direccion,
-                "Horario": this.Horario,
+                "TelefonoContacto": this.Telefono,
+                "email": this.Correo,
+                "HoraApertura": this.HorarioA,
+                "HoraCierre": this.HorarioC,
                 "Nombre": this.Nombre,
-                "ValorXHora": this.Precio,
+                "ValorXHoraP": this.PrecioP,
+                "ValorXHoraL": this.PrecioL,
+                "ValorXHoraM": this.PrecioM,
+                "DiasHabiles": diasSeleccionados,
                 "_geolocation": {
                     "type": "Point",
                     "coordinates": [$scope.lat, $scope.lng]
                 }
             };
-            this.Direccion = this.Horario = this.Nombre = this.Precio = $scope.lat = $scope.lng = '';
+            this.Direccion = this.HorarioA = this.HorarioC = this.Telefono = this.Correo = this.Nombre = this.PrecioP = this.PrecioL = this.PrecioM = $scope.lat = $scope.lng = '';
             Stamplay.Object('parqueos').save(stamplay).then(function() {
                 $ionicLoading.hide();
             });
@@ -252,6 +279,11 @@ angular.module('starter.controllers', [])
         }
         $scope.verParqueo = function() {
             $scope.parqueoSeleccionado = $scope.parqueosCercanos[this.array_pos];
+            $scope.parqueoSeleccionado.dias = [false,false,false,false,false,false,false];
+            if ($scope.parqueoSeleccionado.DiasHabiles)
+            for (var i = 0; i < $scope.parqueoSeleccionado.DiasHabiles.length; i++) {
+                $scope.parqueoSeleccionado.dias[$scope.parqueoSeleccionado.DiasHabiles[i]] = true;
+            }
             $scope.modalDetalle.show();
         }
         $scope.removeParqueosMarkers = function() {

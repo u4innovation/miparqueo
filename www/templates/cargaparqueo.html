@@ -1,5 +1,5 @@
 <ion-view view-title="MiParqueo">
-<ion-content scroll="false">
+<ion-content >
 <div class="content has-header">
       <div class="list">
         <label class="item item-input ">
@@ -11,19 +11,66 @@
           <input type="text" ng-model="Direccion">
         </label>
         <label class="item item-input ">
-          <span class="input-label">Horario</span>
-          <input type="text" ng-model="Horario">
+          <span class="input-label">Correo</span>
+          <input type="text" ng-model="Correo">
+        </label>
+        <label class="item item-input ">
+          <span class="input-label">Telefono</span>
+          <input type="text" ng-model="Telefono">
+        </label>
+        <label class="item item-input ">
+          <span class="input-label">Horario Apertura</span>
+          <input type="text" ng-model="HorarioA">
+        </label>
+        <label class="item item-input ">
+          <span class="input-label">Horario Cierre</span>
+          <input type="text" ng-model="HorarioC">
         </label>
         </label>
         <label class="item item-input ">
-          <span class="input-label" >Precio</span>
-          <input type="number" ng-model="Precio">
+          <span class="input-label" >Precio Pesado</span>
+          <input type="number" ng-model="PrecioP">
+        </label>
+        <label class="item item-input ">
+          <span class="input-label" >Precio Liviano</span>
+          <input type="number" ng-model="PrecioL">
+        </label>
+        <label class="item item-input ">
+          <span class="input-label" >Precio Moto</span>
+          <input type="number" ng-model="PrecioM">
+        </label>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Pais
+          </div>
+          <select ng-model="paisSeleccionado" ng-options="d as pais.Descripcion for pais in paises">
+          </select>
+        </label>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Provincia
+          </div>
+            <select ng-model="provinciaSeleccionada" ng-options="p as provincia.Descripcion for provincia in paisSeleccionado.provincias">
+          </select>
+        </label>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Ciudad
+          </div>
+          <select>
+            <option ng-repeat="ciudad in provinciaSeleccionada.ciudades" ng-selected="ciudadSeleccionada = ciudad">{{ciudad.Descripcion}}</option>
+          </select>
         </label>
         <label class="item">
         <span class="input-label">Latitud: {{lat}} </span>
         <span class="input-label">Longitud: {{lng}} </span>
         <button class="button button-block button-positive" ng-click="getLocation()">Coordenadas</button>
         </label>
+        <ion-checkbox ng-repeat="item in dias"
+                      ng-model="item.checked" 
+                      ng-checked="item.checked">
+          {{ item.nombre }}
+        </ion-checkbox>
       </div>
       <div class="padding">
         <button class="button button-block button-positive" ng-click="guardar()">Guardar</button>

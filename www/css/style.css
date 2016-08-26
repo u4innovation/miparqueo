@@ -44,11 +44,11 @@ map {
 	box-shadow: 0px 3px 10px grey;
 }
 .btn-1.showOpciones {
-	right: 86px;
+	right: 85px;
 }
 .btn-2.showOpciones {
-	right: 157px;
-	width: 80px;
+	right: 155px;
+	width: 82px;
     border-radius: 30px;
 }
 .btn-2.showOpciones span{
@@ -56,4 +56,17 @@ map {
 }
 .btn-3.showOpciones {
 	right: 252px;
+}
+.dia{
+	padding: 4px;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+.dia.abierto {
+	color: #16E020;
+	border-color: #16E020;
+}
+.rating {
+	font-size: 35px;
+    color: gold;
 }

@@ -8,7 +8,7 @@ Nombre:
 Dirección:
 Hora de Apertura y Hora de Cierre:  (la hora de cierre debe ser mayor igual que la hora de apertura, se pueden usar algún componente para mejorar el ingreso sin que sea un cuadro de texto)
 Días hábiles: es un arreglo de días, donde empieza en 0-Lunes, 1-Martes...6-Domingo, puede usarse casillas de verificación
-ValorxHora: usar teclado numérico
+ValorxHora: usar teclado numérico pesado - liviano - moto
 email:
 Telefono de contacto: teclado numérico
 Moneda: por ahora siempre es dólar, despuès hacemos la relación con el país en el que se encuentra la ciudad y extraemos la moneda del país.
@@ -20,3 +20,5 @@ Ciudad: debe cargar las ciudades del objeto país, para esto se debe tambien esc
 Valor mínimo: 0,5
 Valor máximo: 3
 Intervalo: 0,5
+
+nombre apellido telefono direccion

@@ -3,12 +3,29 @@
 <h1 class="title">Parqueo</h1>
 <button class="button button-clear button-primary" ng-click="modalDetalle.hide()">Cerrar</button>
 </ion-header-bar>
-<ion-content class="padding">
+<ion-content class="">
 <div class="list">
   <label class="item">{{ parqueoSeleccionado.Nombre }}</label>
   <label class="item">{{ parqueoSeleccionado.Direccion }}</label>
   <label class="item">Horario: {{ parqueoSeleccionado.Horario }}</label>
+  <label class="item" style="text-align: center;">
+  	<span ng-class="{abierto: parqueoSeleccionado.dias[0]}" class="dia">Lun</span>
+  	<span ng-class="{abierto: parqueoSeleccionado.dias[1]}" class="dia">Mar</span>
+  	<span ng-class="{abierto: parqueoSeleccionado.dias[2]}" class="dia">Mie</span>
+  	<span ng-class="{abierto: parqueoSeleccionado.dias[3]}" class="dia">Jue</span>
+  	<span ng-class="{abierto: parqueoSeleccionado.dias[4]}" class="dia">Vie</span>
+  	<span ng-class="{abierto: parqueoSeleccionado.dias[5]}" class="dia">Sab</span>
+  	<span ng-class="{abierto: parqueoSeleccionado.dias[6]}" class="dia">Dom</span>
+  </label>
   <label class="item">Precio Por Hora: {{ parqueoSeleccionado.ValorXHora }}</label>
+  <label class="item" style="text-align: center;">
+  	<i class="rating ion-ios-star"></i>
+  	<i class="rating ion-ios-star"></i>
+  	<i class="rating ion-ios-star"></i>
+  	<i class="rating ion-ios-star-half"></i>
+  	<i class="rating ion-ios-star-outline"></i>
+  	<p>30 valoraciones</p>
+  </label>
   <button class="button button-full button-positive" ng-click="reservar()">Reservar</button>
 </div>
 </ion-content>
