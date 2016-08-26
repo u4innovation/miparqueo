@@ -259,11 +259,15 @@ angular.module('starter.controllers', [])
             $ionicLoading.show({
                     template: 'Buscando...'
                 });
+            console.log($scope.currPos.lat+ " "+ $scope.currPos.lng+" "+$scope.radioBusqueda);
             Stamplay.Query('object', 'parqueos')
                 .near('Point', [$scope.currPos.lat, $scope.currPos.lng], $scope.radioBusqueda)
                 .exec().then(function(res) {
                     $scope.parqueosCercanos = res.data;
+                    console.log($scope.parqueosCercanos);
+                    console.log("remuevo parqueos");
                     $scope.removeParqueosMarkers();
+                    console.log("agrego parqueos "+res.data.length);
                     for (var i = 0; i < res.data.length; i++) {
                         var coord = res.data[i]._geolocation.coordinates;
                         $scope.parqueosCercanosMarker.push(new google.maps.Marker({
