@@ -114,7 +114,7 @@ angular.module('starter.controllers', [])
                 "DiasHabiles": diasSeleccionados,
                 "_geolocation": {
                     "type": "Point",
-                    "coordinates": [$scope.lat, $scope.lng]
+                    "coordinates": [$scope.lng,$scope.lat]
                 }
             };
             this.Direccion = this.HorarioA = this.HorarioC = this.Telefono = this.Correo = this.Nombre = this.PrecioP = this.PrecioL = this.PrecioM = $scope.lat = $scope.lng = '';
@@ -259,9 +259,9 @@ angular.module('starter.controllers', [])
             $ionicLoading.show({
                     template: 'Buscando...'
                 });
-            console.log($scope.currPos.lat+ " "+ $scope.currPos.lng+" "+$scope.radioBusqueda);
+            console.log("Stamplay lng:"+$scope.currPos.lng+ " lat:"+ $scope.currPos.lat+" "+$scope.radioBusqueda);
             Stamplay.Query('object', 'parqueos')
-                .near('Point', [$scope.currPos.lat, $scope.currPos.lng], $scope.radioBusqueda)
+                .near('Point', [$scope.currPos.lng, $scope.currPos.lat], $scope.radioBusqueda)
                 .exec().then(function(res) {
                     $scope.parqueosCercanos = res.data;
                     console.log($scope.parqueosCercanos);
@@ -270,8 +270,9 @@ angular.module('starter.controllers', [])
                     console.log("agrego parqueos "+res.data.length);
                     for (var i = 0; i < res.data.length; i++) {
                         var coord = res.data[i]._geolocation.coordinates;
+                        console.log("Poniendo en maps parqueos: Lat:"+coord[1]+" Long:"+coord[0]);
                         $scope.parqueosCercanosMarker.push(new google.maps.Marker({
-                            position: new google.maps.LatLng(coord[0], coord[1]),
+                            position: new google.maps.LatLng(coord[1], coord[0]),
                             map: $scope.map,
                             icon: 'img/EstacionamientosIcon_.png',
                             array_pos: i
