@@ -1,48 +1,21 @@
 angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($ionicModal, AccountService, $state, $scope, $rootScope, $ionicLoading, $ionicPopup, socialProvider, $timeout) {
-
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
-    // Form data for the login modal
     $scope.loginData = {};
-
-    // Create the login modal that we will use later
     $ionicModal.fromTemplateUrl('templates/login.html', {
         scope: $scope
     }).then(function(modal) {
         $scope.modal = modal;
     });
-
-    // Triggered in the login modal to close it
     $scope.closeLogin = function() {
         $scope.modal.hide();
     };
-
-    // Triggered in the login modal to open it
     $scope.showLogin = function() {
         $scope.modal.show();
     };
-
-    // Open the login modal
     $scope.login = function(i) {
         Stamplay.User.socialLogin(socialProvider[i])
     };
-
-    // Perform the login action when the user submits the login form
-    $scope.doLogin = function() {
-        console.log('Doing login', $scope.loginData);
-
-        // Simulate a login delay. Remove this and replace with your login
-        // code if using a login system
-        $timeout(function() {
-            $scope.closeLogin();
-        }, 1000);
-    }
     $scope.logout = function() {
         $ionicLoading.show();
         var jwt = window.location.origin + "-jwt";
@@ -59,21 +32,38 @@ angular.module('starter.controllers', [])
     }
 })
     .controller('CargaCtrl', function($scope, $rootScope, $timeout, $ionicLoading, $cordovaGeolocation) {
-        $scope.dias = [{nombre: 'Lunes' ,checked: false},
-        {nombre: 'Martes',checked: false},
-        {nombre: 'Miercoles',checked: false},
-        {nombre: 'Jueves',checked: false},
-        {nombre: 'Viernes',checked: false},
-        {nombre: 'Sabado',checked: false},
-        {nombre: 'Domingo',checked: false}];
+        $scope.dias = [{
+            nombre: 'Lunes',
+            checked: false
+        }, {
+            nombre: 'Martes',
+            checked: false
+        }, {
+            nombre: 'Miercoles',
+            checked: false
+        }, {
+            nombre: 'Jueves',
+            checked: false
+        }, {
+            nombre: 'Viernes',
+            checked: false
+        }, {
+            nombre: 'Sabado',
+            checked: false
+        }, {
+            nombre: 'Domingo',
+            checked: false
+        }];
         $scope.paises = [];
 
-                Stamplay.Object("paises").get({ populate : true })
-    .then(function(res) {
-      $scope.paises = res.data;
-    }, function(err) {
-      // error
-    })
+        Stamplay.Object("paises").get({
+            populate: true
+        })
+            .then(function(res) {
+                $scope.paises = res.data;
+            }, function(err) {
+                // error
+            })
         $scope.getLocation = function() {
             var options = {
                 timeout: 30000,
@@ -96,7 +86,7 @@ angular.module('starter.controllers', [])
             });
             var diasSeleccionados = [];
             for (var i = 0; i < $scope.dias.length; i++) {
-                if ($scope.dias[i].checked){
+                if ($scope.dias[i].checked) {
                     $scope.dias[i].checked = false;
                     diasSeleccionados.push(i);
                 }
@@ -114,7 +104,7 @@ angular.module('starter.controllers', [])
                 "DiasHabiles": diasSeleccionados,
                 "_geolocation": {
                     "type": "Point",
-                    "coordinates": [$scope.lng,$scope.lat]
+                    "coordinates": [$scope.lng, $scope.lat]
                 }
             };
             this.Direccion = this.HorarioA = this.HorarioC = this.Telefono = this.Correo = this.Nombre = this.PrecioP = this.PrecioL = this.PrecioM = $scope.lat = $scope.lng = '';
@@ -127,7 +117,10 @@ angular.module('starter.controllers', [])
         $scope.radioBusqueda = 500;
         $scope.markerBusqueda;
         $scope.location = $cordovaGeolocation;
-        $scope.currPos = {lat:0,lng:0};
+        $scope.currPos = {
+            lat: 0,
+            lng: 0
+        };
         $scope.parqueoSeleccionado = {
             nombre: 'dasdas'
         };
@@ -177,20 +170,23 @@ angular.module('starter.controllers', [])
             });
             $scope.circulo($scope.markerBusqueda);
             $scope.busquedaRealizada = true;
-            $scope.currPos = {lat: item.geometry.location.lat, lng: item.geometry.location.lng};
+            $scope.currPos = {
+                lat: item.geometry.location.lat,
+                lng: item.geometry.location.lng
+            };
             $scope.consultarParqueos();
         }
         $scope.cancelarBusqueda = function() {
             $scope.modalAddr.hide();
         }
-        $scope.toggleOpciones = function(){
+        $scope.toggleOpciones = function() {
             $scope.viewOpciones = !$scope.viewOpciones;
-            if(!$scope.viewOpciones && $scope.radioChanged){
+            if (!$scope.viewOpciones && $scope.radioChanged) {
                 $scope.consultarParqueos();
                 $scope.radioChanged = false;
             }
         }
-        $scope.circulo = function(marker){
+        $scope.circulo = function(marker) {
             var sunCircle = {
                 strokeColor: "#62B2FC",
                 strokeOpacity: 0.8,
@@ -247,7 +243,10 @@ angular.module('starter.controllers', [])
                 });
                 $scope.circulo($scope.markerLocation);
                 if ($scope.markerBusqueda) $scope.markerBusqueda.setMap(null);
-                $scope.currPos = {lat: position.coords.latitude,lng: position.coords.longitude};
+                $scope.currPos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
                 $scope.consultarParqueos();
                 $ionicLoading.hide();
             }, function(error) {
@@ -257,20 +256,16 @@ angular.module('starter.controllers', [])
         $scope.parqueosCercanosMarker = [];
         $scope.consultarParqueos = function() {
             $ionicLoading.show({
-                    template: 'Buscando...'
-                });
-            console.log("Stamplay lng:"+$scope.currPos.lng+ " lat:"+ $scope.currPos.lat+" "+$scope.radioBusqueda);
+                template: 'Buscando...'
+            });
             Stamplay.Query('object', 'parqueos')
                 .near('Point', [$scope.currPos.lng, $scope.currPos.lat], $scope.radioBusqueda)
                 .exec().then(function(res) {
                     $scope.parqueosCercanos = res.data;
                     console.log($scope.parqueosCercanos);
-                    console.log("remuevo parqueos");
                     $scope.removeParqueosMarkers();
-                    console.log("agrego parqueos "+res.data.length);
                     for (var i = 0; i < res.data.length; i++) {
                         var coord = res.data[i]._geolocation.coordinates;
-                        console.log("Poniendo en maps parqueos: Lat:"+coord[1]+" Long:"+coord[0]);
                         $scope.parqueosCercanosMarker.push(new google.maps.Marker({
                             position: new google.maps.LatLng(coord[1], coord[0]),
                             map: $scope.map,
@@ -284,20 +279,18 @@ angular.module('starter.controllers', [])
         }
         $scope.verParqueo = function() {
             $scope.parqueoSeleccionado = $scope.parqueosCercanos[this.array_pos];
-            $scope.parqueoSeleccionado.dias = [false,false,false,false,false,false,false];
+            $scope.parqueoSeleccionado.dias = [false, false, false, false, false, false, false];
             $scope.rating = $scope.parqueoSeleccionado.actions.ratings.avg;
             $scope.valoraciones = $scope.parqueoSeleccionado.actions.ratings.total;
             if ($scope.parqueoSeleccionado.DiasHabiles)
-            for (var i = 0; i < $scope.parqueoSeleccionado.DiasHabiles.length; i++) {
-                $scope.parqueoSeleccionado.dias[$scope.parqueoSeleccionado.DiasHabiles[i]] = true;
-            }
+                for (var i = 0; i < $scope.parqueoSeleccionado.DiasHabiles.length; i++) {
+                    $scope.parqueoSeleccionado.dias[$scope.parqueoSeleccionado.DiasHabiles[i]] = true;
+                }
             $scope.modalDetalle.show();
         }
-        $scope.parqRating = function(value){
+        $scope.parqRating = function(value) {
             Stamplay.Object("parqueos").rate($scope.parqueoSeleccionado._id, value)
-            .then(function(res) {
-            }, function(err) {
-            })
+                .then(function(res) {}, function(err) {})
         }
         $scope.removeParqueosMarkers = function() {
             for (var i = 0; i < $scope.parqueosCercanosMarker.length; i++) {
