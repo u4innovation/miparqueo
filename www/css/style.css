@@ -14,6 +14,7 @@ map {
 }
 #login .scroll-content {
 	background-image: url("../img/Login_fondo.png");
+	 background-size: 100%;
 }
 .expand-btn {
 	position: absolute;
@@ -67,6 +68,33 @@ map {
 	border-color: #16E020;
 }
 .rating {
-	font-size: 35px;
+	font-size: 25px;
     color: gold;
+}
+.puntaje {
+	padding: 5px 10px;
+    color: white;
+    background-color: gold;
+    border-radius: 5px;
+    font-size: 20px;
+}
+.slide-in-right {
+  -webkit-transform: translate3d(100%, 0, 0);
+  transform: translate3d(100%, 0, 0); }
+
+.slide-in-right.ng-enter,
+.slide-in-right > .ng-enter {
+  transition: all cubic-bezier(0.1, 0.7, 0.1, 1) 400ms; }
+
+.slide-in-right.ng-enter-active,
+.slide-in-right > .ng-enter-active {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0); }
+
+.slide-in-right.ng-leave,
+.slide-in-right > .ng-leave {
+  transition: all ease-in-out 250ms; 
+}
+.bar-header.button-clear {
+	color:gray !important;
 }

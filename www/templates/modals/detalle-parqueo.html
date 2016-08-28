@@ -6,34 +6,37 @@
 <ion-content class="">
 <div class="list">
   <label class="item">{{ parqueoSeleccionado.Nombre }}</label>
+  <label class="item" style="text-align: center;">
+  <span class="puntaje">{{rating}}</span>
+    <i ng-class="{'ion-ios-star': rating>=1, 'ion-ios-star-half': rating<1 , 'ion-ios-star-outline': rating==0}" class="rating"></i>
+    <i ng-class="{'ion-ios-star': rating>=2, 'ion-ios-star-half': 1<rating && rating<2 , 'ion-ios-star-outline': rating<2 && !(1<rating && rating<2)}" class="rating"></i>
+    <i ng-class="{'ion-ios-star': rating>=3, 'ion-ios-star-half': 2<rating && rating<3 , 'ion-ios-star-outline': rating<3 && !(2<rating && rating<3)}" class="rating"></i>
+    <i ng-class="{'ion-ios-star': rating>=4, 'ion-ios-star-half': 3<rating && rating<4 , 'ion-ios-star-outline': rating<4 && !(3<rating && rating<4)}" class="rating"></i>
+    <i ng-class="{'ion-ios-star': rating==5, 'ion-ios-star-half': 4<rating && rating<5 , 'ion-ios-star-outline': rating<5 && !(4<rating && rating<5)}" class="rating"></i>
+    <span class="valoraciones">{{valoraciones}} {{valoraciones == 1 ? 'valoración':'valoraciones'}}</span>
+  </label>
   <label class="item">{{ parqueoSeleccionado.Direccion }}</label>
   <label class="item">Horario: {{ formatTime(parqueoSeleccionado.HoraApertura) }} - {{ formatTime(parqueoSeleccionado.HoraCierre) }}</label>
   <label class="item">
   Días Hábiles:
   <p><label class="item" style="text-align: center;padding: 5px 0;">
-  	<span ng-class="{abierto: parqueoSeleccionado.dias[0]}" class="dia">Lun</span>
-  	<span ng-class="{abierto: parqueoSeleccionado.dias[1]}" class="dia">Mar</span>
-  	<span ng-class="{abierto: parqueoSeleccionado.dias[2]}" class="dia">Mie</span>
-  	<span ng-class="{abierto: parqueoSeleccionado.dias[3]}" class="dia">Jue</span>
-  	<span ng-class="{abierto: parqueoSeleccionado.dias[4]}" class="dia">Vie</span>
-  	<span ng-class="{abierto: parqueoSeleccionado.dias[5]}" class="dia">Sab</span>
-  	<span ng-class="{abierto: parqueoSeleccionado.dias[6]}" class="dia">Dom</span>
-  	</label></p>
+    <span ng-class="{abierto: parqueoSeleccionado.dias[0]}" class="dia">Lun</span>
+    <span ng-class="{abierto: parqueoSeleccionado.dias[1]}" class="dia">Mar</span>
+    <span ng-class="{abierto: parqueoSeleccionado.dias[2]}" class="dia">Mie</span>
+    <span ng-class="{abierto: parqueoSeleccionado.dias[3]}" class="dia">Jue</span>
+    <span ng-class="{abierto: parqueoSeleccionado.dias[4]}" class="dia">Vie</span>
+    <span ng-class="{abierto: parqueoSeleccionado.dias[5]}" class="dia">Sab</span>
+    <span ng-class="{abierto: parqueoSeleccionado.dias[6]}" class="dia">Dom</span>
+    </label></p>
   </label>
   <label class="item">Precio Por Hora:
-  	<p><label style="padding: 5px;" class="item">Livianos: $ {{ parqueoSeleccionado.ValorXHoraL }}</label></p>
-  	<p><label style="padding: 5px;" class="item">Pesados: $ {{ parqueoSeleccionado.ValorXHoraP }}</label></p>
-  	<p><label style="padding: 5px;" class="item">Motos: $ {{ parqueoSeleccionado.ValorXHoraM }}</label></p>
+    <p><label style="padding: 5px;" class="item">Livianos: $ {{ parqueoSeleccionado.ValorXHoraL }}</label></p>
+    <p><label style="padding: 5px;" class="item">Pesados: $ {{ parqueoSeleccionado.ValorXHoraP }}</label></p>
+    <p><label style="padding: 5px;" class="item">Motos: $ {{ parqueoSeleccionado.ValorXHoraM }}</label></p>
   </label>
-  <label class="item" style="text-align: center;">
-  	<i ng-class="{'ion-ios-star': rating>=1, 'ion-ios-star-half': rating<1 , 'ion-ios-star-outline': rating==0}" class="rating"></i>
-  	<i ng-class="{'ion-ios-star': rating>=2, 'ion-ios-star-half': 1<rating && rating<2 , 'ion-ios-star-outline': rating<2 && !(1<rating && rating<2)}" class="rating"></i>
-  	<i ng-class="{'ion-ios-star': rating>=3, 'ion-ios-star-half': 2<rating && rating<3 , 'ion-ios-star-outline': rating<3 && !(2<rating && rating<3)}" class="rating"></i>
-  	<i ng-class="{'ion-ios-star': rating>=4, 'ion-ios-star-half': 3<rating && rating<4 , 'ion-ios-star-outline': rating<4 && !(3<rating && rating<4)}" class="rating"></i>
-  	<i ng-class="{'ion-ios-star': rating==5, 'ion-ios-star-half': 4<rating && rating<5 , 'ion-ios-star-outline': rating<5 && !(4<rating && rating<5)}" class="rating"></i>
-  	<p>{{valoraciones}} valoraciones</p>
-  </label>
-  <button class="button button-full button-positive" ng-click="reservar()">Reservar</button>
 </div>
 </ion-content>
+<div class="bar bar-footer" style="padding:0;">
+  <button class="button button-block button-positive" ng-click="reservar()" style="margin: 0;border-radius: 0;">Reservar</button>
+</div>
 </ion-modal-view>
