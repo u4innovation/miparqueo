@@ -288,6 +288,10 @@ angular.module('starter.controllers', [])
                 }
             $scope.modalDetalle.show();
         }
+        $scope.formatTime = function(time){
+            time = (time+"").split('.');
+            return time[0]+':'+(time[1]?time[1]:'00');
+        }
         $scope.parqRating = function(value) {
             Stamplay.Object("parqueos").rate($scope.parqueoSeleccionado._id, value)
                 .then(function(res) {}, function(err) {})
