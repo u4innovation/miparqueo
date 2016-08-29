@@ -95,6 +95,3 @@ map {
 .slide-in-right > .ng-leave {
   transition: all ease-in-out 250ms; 
 }
-.bar-header.button-clear {
-	color:gray !important;
-}

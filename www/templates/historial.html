@@ -1,0 +1,17 @@
+<ion-view view-title="Historial">
+  <ion-content >
+      <div class="card" ng-repeat="r in historial">
+        <div class="item item-text-wrap">
+          <p>{{r.Parqueo[0].Nombre}}</p>
+          <p>Costo: {{r.Monto | currency}}</p>
+          <p>Estadia: {{estadia(r)}}</p>
+        </div>
+        <div class="item item-divider" style="padding:0;">
+          <div class="button-bar">
+              <button class="button button-light" ng-click="calificar()" style="margin: 0;border-radius: 0;">Calificar</button>
+              <button class="button button-balanced" ng-click="reservar(r)" style="margin: 0;border-radius: 0;">Reservar</button>
+          </div>
+        </div>
+    </div>
+  </ion-content>
+</ion-view>

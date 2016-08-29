@@ -3,7 +3,7 @@
 		<h1 class="title">Reservar</h1>
 	</ion-header-bar>
 	<ion-content scroll="false">
-		<div class="list">
+		<div class="list" style="margin-bottom: 5px;">
 			<div class="item item-divider">
 				Tipo de vehículo
 			</div>
@@ -11,15 +11,21 @@
 			<ion-radio ng-model="vehiculo" ng-value="1">Pesado</ion-radio>
 			<ion-radio ng-model="vehiculo" ng-value="2">Moto</ion-radio>
 		</div>
+		<label class="item item-input">
+			<div class="input-label">
+				Placa Vehículo:
+			</div>
+			<input type="text" ng-model="placa" class="item-note" style="text-align: right;" maxlength="7">
+		</label>
 		<div class="list">
 			<div class="item item-divider">
-				Horario
+			Horario Reserva
 			</div>
 			<label class="item item-input item-select">
 				<div class="input-label">
 					Desde:
 				</div>
-				<select ng-model="horaDesde" class="item-note" ng-options="h for h in horasD" ng-change="updateHasta()"></select>
+				<select ng-model="horaDesde" class="item-note" ng-options="h for h in horasD" ng-change="updateHasta(this)"></select>
 			</label>
 			<label class="item item-input item-select">
 				<div class="input-label">
@@ -27,11 +33,11 @@
 				</div>
 				<select ng-model="horaHasta" class="item-note" ng-options="h for h in horasH"></select>
 			</label>
-			<div class="item"  style="text-align:center;">
+			<div class="item"  style="text-align:center;padding:5px;">
 				<p>
 					<span>Total:</span>
 				</p>
-				<p style="padding: 15px;font-size: 35px;color: #01bf01;">
+				<p style="padding: 10px;font-size: 35px;color: #01bf01;">
 					<span>
 						{{ (formatHora(horaHasta)-formatHora(horaDesde)) * montos[vehiculo] | currency}}
 					</span>
@@ -40,10 +46,10 @@
 		</div>
 	</ion-content>
 	<div class="bar bar-footer" style="padding:0;">
-	<div class="button-bar">
-  		<button class="button button-assertive" ng-click="modalReserva.hide()" style="margin: 0;border-radius: 0;">Cancelar</button>
-  		<button class="button button-balanced" ng-click="confirmarReserva()" style="margin: 0;border-radius: 0;">Confirmar</button>
-  	</div>
-  </div>
+		<div class="button-bar">
+			<button class="button button-assertive" ng-click="modalReserva.remove()" style="margin: 0;border-radius: 0;">Cancelar</button>
+			<button class="button button-balanced" ng-click="confirmarReserva(this)" style="margin: 0;border-radius: 0;">Confirmar</button>
+		</div>
+	</div>
 </div>
 </ion-modal-view>
