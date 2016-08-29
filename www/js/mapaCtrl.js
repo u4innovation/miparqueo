@@ -1,6 +1,9 @@
 angular.module('MiParqueo')
     .controller('MapaCtrl', ['$ionicLoading', '$ionicModal', '$scope', '$rootScope', '$cordovaGeolocation', '$http',
         function($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http) {
+            s.$on('$ionicView.afterEnter', function() {
+              ionic.trigger('resize');
+            });
             s.radioBusqueda = 500;
             s.markerBusqueda;
             s.location = $cordovaGeolocation;

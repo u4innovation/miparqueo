@@ -32,6 +32,9 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
 .controller('PerfilCtrl', function($scope, $rootScope, $ionicLoading) {})
 .controller('HistorialCtrl', ['$scope', '$rootScope', '$ionicLoading','$timeout','$ionicModal','$ionicLoading',function(s, r, $ionicLoading,$timeout,$ionicModal,$ionicLoading) {
         // With Promise
+        s.$on('$ionicView.afterEnter', function() {
+            s.getHistorial();
+        });
         s.getHistorial = function(){
             $ionicLoading.show({
                 template: 'Buscando...'
@@ -41,7 +44,7 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
                 owner: r.user._id , populate : true , sort : "-dt_create" 
             })
             .then(function(res) {
-                r.historial = res.data;
+                s.historial = res.data;
                 $ionicLoading.hide();
             }, function(err) {
 
@@ -117,8 +120,6 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
                     // Handle Error
                 });
         }
-        s.getHistorial();
-        //$timeout(s.getHistorial,1500);
     }])
 .controller('CargaCtrl', function($scope, $rootScope, $timeout, $ionicLoading, $cordovaGeolocation) {
     $scope.dias = [{
