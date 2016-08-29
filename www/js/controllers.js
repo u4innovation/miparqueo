@@ -42,7 +42,6 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
             })
             .then(function(res) {
                 r.historial = res.data;
-                s.$apply();
                 $ionicLoading.hide();
             }, function(err) {
 
