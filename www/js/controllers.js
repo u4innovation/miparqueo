@@ -97,16 +97,16 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
                 template: 'Reservando...'
             });
             var reserva = {
-                "owner": r.user._id,
-                "Usuario": r.user._id,
-                "Parqueo": s.parqueoSeleccionado._id,
-                "Placa": s.placa,
-                "HoraDesde": r.getDateTime(s.horaDesde),
-                "HoraHasta": r.getDateTime(s.horaHasta),
-                "Estado": 'P',
-                "TipoVehiculo": s.vehiculo,
-                "Monto": (r.formatHora(s.horaHasta)-r.formatHora(s.horaDesde)) * s.montos[s.vehiculo]
-            };
+                    "owner": r.user._id,
+                    "Usuario": r.user._id,
+                    "Parqueo": s.parqueoSeleccionado._id,
+                    "Placa": this.$$childHead.placa,
+                    "HoraDesde": r.getDateTime(this.$$childHead.horaDesde),
+                    "HoraHasta": r.getDateTime(this.$$childHead.horaHasta),
+                    "Estado": 'P',
+                    "TipoVehiculo": this.$$childHead.vehiculo,
+                    "Monto": (r.formatHora(this.$$childHead.horaHasta)-r.formatHora(this.$$childHead.horaDesde)) * s.montos[this.$$childHead.vehiculo]
+                };
             Stamplay.Object("reservas")
             .save(reserva)
             .then(function(res) {
