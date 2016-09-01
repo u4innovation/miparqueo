@@ -189,6 +189,7 @@ angular.module('MiParqueo')
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
+                    s.busquedaRealizada = false;
                     s.consultarParqueos();
                     $ionicLoading.hide();
                 }, function(error) {
