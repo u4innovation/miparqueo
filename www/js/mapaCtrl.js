@@ -2,7 +2,7 @@ angular.module('MiParqueo')
     .controller('MapaCtrl', ['$ionicLoading', '$ionicModal', '$scope', '$rootScope', '$cordovaGeolocation', '$http',
         function($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http) {
             s.$on('$ionicView.afterEnter', function() {
-              ionic.trigger('resize');
+                ionic.trigger('resize');
             });
             s.radioBusqueda = 500;
             s.markerBusqueda;
@@ -29,8 +29,8 @@ angular.module('MiParqueo')
             s.horaDesde = '0:0';
             s.horaHasta = '0:0';
             s.reservar = function() {
-                s.vehiculo = 1;
-                s.placa = 'XS7AD65';
+                s.vehiculo = r.user.perfil.tipoVehiculo;
+                s.placa = r.user.perfil.placa;
                 s.hai = (s.parqueoSeleccionado.HoraApertura + '').split('.')[0];
                 s.hci = (s.parqueoSeleccionado.HoraCierre + '').split('.')[0];
                 s.horasD = [];
@@ -63,19 +63,19 @@ angular.module('MiParqueo')
                     "HoraHasta": r.getDateTime(this.$$childHead.horaHasta),
                     "Estado": 'P',
                     "TipoVehiculo": this.$$childHead.vehiculo,
-                    "Monto": (r.formatHora(this.$$childHead.horaHasta)-r.formatHora(this.$$childHead.horaDesde)) * s.montos[this.$$childHead.vehiculo]
+                    "Monto": (r.formatHora(this.$$childHead.horaHasta) - r.formatHora(this.$$childHead.horaDesde)) * s.montos[this.$$childHead.vehiculo]
                 };
                 Stamplay.Object("reservas")
-                  .save(reserva)
-                  .then(function(res) {
-                    s.modalDetalle.hide().then(function() {
-                        s.modalReserva.remove().then(function() {
-                            $ionicLoading.hide();
+                    .save(reserva)
+                    .then(function(res) {
+                        s.modalDetalle.hide().then(function() {
+                            s.modalReserva.remove().then(function() {
+                                $ionicLoading.hide();
+                            });
                         });
+                    }, function(err) {
+                        // Handle Error
                     });
-                  }, function(err) {
-                    // Handle Error
-                  });
             }
             s.limpiarInput = function() {
                 this.direccion = '';
@@ -155,13 +155,13 @@ angular.module('MiParqueo')
                 s.circulo(s.busquedaRealizada ? s.markerBusqueda : s.markerLocation);
             }
             s.iniciarMapa = function($element) {
-                var mapOptions = {
-                    zoom: 16,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    disableDefaultUI: true
-                };
-                s.map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
-                s.centrarMapa();
+                    var mapOptions = {
+                        zoom: 16,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP,
+                        disableDefaultUI: true
+                    };
+                    s.map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
+                    s.centrarMapa();
             }
             s.centrarMapa = function() {
                 $ionicLoading.show({
