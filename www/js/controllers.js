@@ -64,9 +64,42 @@ $rootScope.loginData = {};
             })
         }
     })
-    .controller('HistorialCtrl', ['$scope', '$rootScope', '$ionicLoading', '$timeout', '$ionicModal', '$ionicLoading',
-        function(s, rt, $ionicLoading, $timeout, $ionicModal, $ionicLoading) {
-            // With Promise
+    .controller('HistorialCtrl', ['$scope', '$rootScope', '$ionicLoading', '$timeout', '$ionicModal', '$ionicLoading','$ionicPopup',
+        function(s, rt, $ionicLoading, $timeout, $ionicModal, $ionicLoading, $ionicPopup) {
+        s.editMode = false;
+        s.toggleEdit = function(){
+            s.editMode = !s.editMode;
+        }
+        s.eliminarReservas = function(){
+               var confirmPopup = $ionicPopup.confirm({
+                 title: 'Vaciar Historial',
+                 template: 'Vaciar el historial de reservas?',
+                 cancelText: 'Cancelar',
+                 okText: 'Aceptar'
+               });
+
+               confirmPopup.then(function(res) {
+                 if(res) {
+                   s.editMode = false;
+                   for (var i = 0; i < s.historial.length; i++) {
+                        Stamplay.Object("reservas").patch(s.historial[i]._id, {borradoHistorial:true});
+                   }
+                   s.historial = [];
+                 } else { }
+               });
+            
+        }
+
+        s.eliminarReserva = function(r){
+            Stamplay.Object("reservas").patch(r._id, {borradoHistorial:true});
+            for (var i = 0; i < s.historial.length; i++) {
+                if(s.historial[i]._id == r._id){
+                    s.historial.splice(i,1);
+                    break;
+                }
+            }
+        }
+
             s.$on('$ionicView.afterEnter', function() {
                 if (rt.user)
                     s.getHistorial();
@@ -78,6 +111,7 @@ $rootScope.loginData = {};
                 Stamplay.Object("reservas")
                     .get({
                         owner: rt.user._id,
+                        borradoHistorial: false,
                         populate: true,
                         sort: "-dt_create"
                     })
@@ -133,7 +167,7 @@ $rootScope.loginData = {};
                 });
             }
 
-            s.confirmarReserva = function() {
+            s.confirmarReserva = function(r) {
                 $ionicLoading.show({
                     template: 'Reservando...'
                 });
@@ -146,6 +180,7 @@ $rootScope.loginData = {};
                     "HoraHasta": r.getDateTime(this.$$childHead.horaHasta),
                     "Estado": 'P',
                     "TipoVehiculo": this.$$childHead.vehiculo,
+                    "borradoHistorial": false,
                     "Monto": (r.formatHora(this.$$childHead.horaHasta) - r.formatHora(this.$$childHead.horaDesde)) * s.montos[this.$$childHead.vehiculo]
                 };
                 Stamplay.Object("reservas")

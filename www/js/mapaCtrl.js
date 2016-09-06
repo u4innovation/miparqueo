@@ -63,6 +63,7 @@ angular.module('MiParqueo')
                     "HoraHasta": r.getDateTime(this.$$childHead.horaHasta),
                     "Estado": 'P',
                     "TipoVehiculo": this.$$childHead.vehiculo,
+                    "borradoHistorial": false,
                     "Monto": (r.formatHora(this.$$childHead.horaHasta) - r.formatHora(this.$$childHead.horaDesde)) * s.montos[this.$$childHead.vehiculo]
                 };
                 Stamplay.Object("reservas")

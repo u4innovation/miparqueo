@@ -1,5 +1,22 @@
 <ion-view view-title="Historial">
+    <ion-nav-bar class="bar-stable">
+      <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+      </ion-nav-buttons>
+
+      <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-navicon ion-trash-a" ng-click="toggleEdit()">
+        </button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
   <ion-content >
+  <button class="button button-block button-assertive" ng-click="eliminarReservas()" style="margin: 0;border-radius: 0;" ng-if="editMode">Eliminar Todos</button>
+      <div class="card" ng-if="historial.length == 0">
+  <div class="item item-text-wrap">
+    No ha realizado ninguna reserva aun.
+  </div>
+</div>
       <div class="card" ng-repeat="r in historial">
         <div class="item item-text-wrap">
           <p>{{r.Parqueo[0].Nombre}}</p>
@@ -10,6 +27,11 @@
           <div class="button-bar">
               <button class="button button-light" ng-click="calificar()" style="margin: 0;border-radius: 0;">Calificar</button>
               <button class="button button-balanced" ng-click="reservar(r)" style="margin: 0;border-radius: 0;">Reservar</button>
+          </div>
+        </div>
+        <div class="item item-divider" style="padding:0;" ng-if="editMode">
+          <div class="button-bar">
+              <button class="button button-assertive" ng-click="eliminarReserva(r)" style="margin: 0;border-radius: 0;">Eliminar</button>
           </div>
         </div>
     </div>
