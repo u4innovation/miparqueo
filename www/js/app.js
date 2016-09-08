@@ -25,6 +25,8 @@ angular.module('MiParqueo', ['ionic', 'ngCordova', 'MiParqueo.services'])
             time = time.split(':');
             date.setHours(time[0]);
             date.setMinutes(time[1]);
+            date.setSeconds(0);
+            date.setMilliseconds(0);
             return date;
         };
         $rootScope.updateHasta = function(s) {
