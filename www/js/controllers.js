@@ -40,15 +40,29 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
                 owner: $rootScope.user._id
             })
             .then(function(res) {
-        $rootScope.user.perfil = res.data[0];
-    }, function(err) {
+                $rootScope.user.perfil = res.data[0];
+            }, function(err) {
                         // Error
                     });
-                } else {
-                    $rootScope.showLogin();
-                }
-            })
+        } else {
+            $rootScope.showLogin();
+        }
+    })
 
+})
+.controller('ScanCtrl', function($scope, $rootScope, $ionicLoading,$cordovaBarcodeScanner) {
+    $scope.scan = function() {
+        document.addEventListener("deviceready", function () {
+        $cordovaBarcodeScanner
+        .scan()
+        .then(function(barcodeData) {
+            $scope.barcode = barcodeData;
+        }, function(error) {
+        // An error occurred
+    });
+    }, false);
+    }
+    $scope.scan();
 })
 .controller('PerfilCtrl', function($scope, $rootScope, $ionicLoading) {
     $scope.guardar = function(){
@@ -67,30 +81,40 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
 .controller('HistorialCtrl', ['$scope', '$rootScope', '$ionicLoading', '$timeout', '$ionicModal', '$ionicLoading','$ionicPopup',
     function(s, rt, $ionicLoading, $timeout, $ionicModal, $ionicLoading, $ionicPopup) {
         s.editMode = false;
+        s.verReserva = function(r){
+            s.reserva = r;
+            $ionicModal.fromTemplateUrl('templates/modals/codigo-reserva.html', {
+                scope: s,
+                animation: 'slide-in-right'
+            }).then(function(modal) {
+                s.modalCodigo = modal;
+                s.modalCodigo.show();
+            });
+        }
         s.toggleEdit = function(){
             s.editMode = !s.editMode;
         }
         s.eliminarReservas = function(){
-         var confirmPopup = $ionicPopup.confirm({
-           title: 'Vaciar Historial',
-           template: 'Vaciar el historial de reservas?',
-           cancelText: 'Cancelar',
-           okText: 'Aceptar'
-       });
+           var confirmPopup = $ionicPopup.confirm({
+             title: 'Vaciar Historial',
+             template: 'Vaciar el historial de reservas?',
+             cancelText: 'Cancelar',
+             okText: 'Aceptar'
+         });
 
-         confirmPopup.then(function(res) {
-           if(res) {
-             s.editMode = false;
-             for (var i = 0; i < s.historial.length; i++) {
+           confirmPopup.then(function(res) {
+             if(res) {
+               s.editMode = false;
+               for (var i = 0; i < s.historial.length; i++) {
                 Stamplay.Object("reservas").patch(s.historial[i]._id, {borradoHistorial:true});
             }
             s.historial = [];
         } else { }
     });
 
-     }
+       }
 
-     s.eliminarReserva = function(r){
+       s.eliminarReserva = function(r){
         Stamplay.Object("reservas").patch(r._id, {borradoHistorial:true});
         for (var i = 0; i < s.historial.length; i++) {
             if(s.historial[i]._id == r._id){
@@ -200,10 +224,10 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
                     });
             }else{
                 var alertPopup = $ionicPopup.alert({
-                   title: 'Atención!',
-                   template: 'No hay lugares disponibles para el horario seleccionado',
-                   okText: 'Aceptar'
-               });
+                 title: 'Atención!',
+                 template: 'No hay lugares disponibles para el horario seleccionado',
+                 okText: 'Aceptar'
+             });
             }
         },function(err) {
             console.log(err);

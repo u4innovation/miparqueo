@@ -95,3 +95,7 @@ map {
 .slide-in-right > .ng-leave {
   transition: all ease-in-out 250ms; 
 }
+qrcode img {
+	margin:auto;
+	margin-top: 50px;
+}

@@ -1,0 +1,11 @@
+<ion-modal-view>
+	<ion-header-bar>
+	<h1 class="title">Código Reserva</h1>
+	<button class="button button-clear button-primary" ng-click="modalCodigo.hide()" style="color:gray;">Cerrar</button>
+	</ion-header-bar>
+	<ion-content class="">
+		<div class="list">
+			<qrcode text="{{reserva._id}}" color-bright="#ff0000"></qrcode>
+		</div>
+	</ion-content>
+</ion-modal-view>
