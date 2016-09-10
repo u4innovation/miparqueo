@@ -28,7 +28,8 @@
         </div>
         <div class="item item-divider" style="padding:0;">
           <div class="button-bar">
-              <button class="button button-light" ng-click="calificar()" style="margin: 0;border-radius: 0;">Calificar</button>
+              <button class="button button-light" ng-if="r.actions.ratings.avg == 0" ng-click="calificar(r)" style="margin: 0;border-radius: 0;">Calificar</button>
+              <button class="button button-light" ng-if="r.actions.ratings.avg != 0" style="margin: 0;border-radius: 0;"><span class="puntaje">{{r.actions.ratings.avg}}</span><i ng-repeat="i in getNumber(r.actions.ratings.avg) track by $index" class="rating ion-ios-star"></i></button>
               <button class="button button-balanced" ng-click="reservar(r)" style="margin: 0;border-radius: 0;">Reservar</button>
           </div>
         </div>

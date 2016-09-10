@@ -249,10 +249,6 @@ angular.module('MiParqueo')
                     }
                     s.modalDetalle.show();
                 }
-                s.parqRating = function(value) {
-                    Stamplay.Object("parqueos").rate(s.parqueoSeleccionado._id, value)
-                    .then(function(res) {}, function(err) {})
-                }
                 s.removeParqueosMarkers = function() {
                     for (var i = 0; i < s.parqueosCercanosMarker.length; i++) {
                         s.parqueosCercanosMarker[i].setMap(null)

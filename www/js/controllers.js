@@ -53,14 +53,14 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
 .controller('ScanCtrl', function($scope, $rootScope, $ionicLoading,$cordovaBarcodeScanner) {
     $scope.scan = function() {
         document.addEventListener("deviceready", function () {
-        $cordovaBarcodeScanner
-        .scan()
-        .then(function(barcodeData) {
-            $scope.barcode = barcodeData;
-        }, function(error) {
+            $cordovaBarcodeScanner
+            .scan()
+            .then(function(barcodeData) {
+                $scope.barcode = barcodeData;
+            }, function(error) {
         // An error occurred
     });
-    }, false);
+        }, false);
     }
     $scope.scan();
 })
@@ -113,8 +113,58 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
     });
 
        }
+       s.setRating = function(value){
+        s.rating = value;
+    }
+    s.calificar = function(r){
+        s.rating = 0;
+        var myPopup = $ionicPopup.show({
+            templateUrl: 'templates/modals/calificar.html',
+            title: 'Califique su estadia',
+            scope: s,
+            buttons: [
+            { text: 'Cancelar' },
+            {
+                text: '<b>Enviar</b>',
+                type: 'button-positive',
+                onTap: function(e) {
+                  if (s.rating == 0) {
+                    e.preventDefault();
+                } else {
+                    s.parqRating(r);
+                }
+            }
+        }
+        ]
+    });
+    }
+    s.getNumber = function(num) {
+        return new Array(num);   
+    }
+    s.parqRating = function(reserva) {
+        $ionicLoading.show({
+            template: 'Calificando...'
+        });
+        Stamplay.Object("reservas").rate(reserva._id, s.rating)
+        .then(function(res) {
+            $ionicLoading.hide();
+            s.loadingAlert('Gracias por su calificación!');
+        }, function(err) {
+            $ionicLoading.hide();
+            console.log(err.message);
+            s.loadingAlert('Ocurrio un error, intente mas tarde.');
+        });
+    }
+    s.loadingAlert = function(text){
+        $ionicLoading.show({
+            template: text
+        });
+        $timeout(function() {
+           $ionicLoading.hide();
+       }, 2000);
+    }
 
-       s.eliminarReserva = function(r){
+    s.eliminarReserva = function(r){
         Stamplay.Object("reservas").patch(r._id, {borradoHistorial:true});
         for (var i = 0; i < s.historial.length; i++) {
             if(s.historial[i]._id == r._id){

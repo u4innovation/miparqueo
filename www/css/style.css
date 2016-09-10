@@ -71,6 +71,9 @@ map {
 	font-size: 25px;
     color: gold;
 }
+.big-rating .rating {
+	font-size: 49px;
+}
 .puntaje {
 	padding: 5px 10px;
     color: white;
