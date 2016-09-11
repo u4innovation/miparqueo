@@ -31,7 +31,7 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
             $state.go($state.current, {}, {reload: true});
         })
     }
-    $rootScope.user = {"_id":"57b7ac4fe1af8c0434720491","appId":"miparqueo","displayName":"Gonzalo Aller","name":{"familyName":"Aller","givenName":"Gonzalo"},"pictures":{"facebook":"https://graph.facebook.com/10210477627084919/picture"},"givenRole":"57af24c32e101f405ecebd4a","email":"gonzaller@me.com","identities":{"facebook":{"facebookUid":"10210477627084919","_json":{"timezone":-3,"first_name":"Gonzalo","last_name":"Aller","locale":"es_LA","picture":{"data":{"url":"https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13322155_10209828060006148_4865973369382732877_n.jpg?oh=44baf6b5e046137288fd83c114b491d0&oe=5856DB75","is_silhouette":false}},"link":"https://www.facebook.com/app_scoped_user_id/10210477627084919/","gender":"male","email":"gonzaller@me.com","age_range":{"min":21},"name":"Gonzalo Aller","id":"10210477627084919"},"emails":[{"value":"gonzaller@me.com"}],"accessToken":"EAAIjuROBonoBAPZA6EgZCsmhgJZC7OdA2sTOnDXxTijYRmMPpgCgn3eBx2p9msnBO6UZAGrM6HOZBDLxBqkSz16WeuWDvzKMiQCWAEXpNEpDDaNfd3FOabVQ1nZCo3xrZCfOD5MtgLy6Io8ZBArZCukjuj86T1dXzCSgZD"}},"__v":0,"dt_update":"2016-08-28T23:28:18.400Z","dt_create":"2016-08-20T01:03:11.170Z","emailVerified":true,"verificationCode":"907089e2acc08ad816d3","profileImg":"https://graph.facebook.com/10210477627084919/picture","id":"57b7ac4fe1af8c0434720491"};
+    //$rootScope.user = {"_id":"57b7ac4fe1af8c0434720491","appId":"miparqueo","displayName":"Gonzalo Aller","name":{"familyName":"Aller","givenName":"Gonzalo"},"pictures":{"facebook":"https://graph.facebook.com/10210477627084919/picture"},"givenRole":"57af24c32e101f405ecebd4a","email":"gonzaller@me.com","identities":{"facebook":{"facebookUid":"10210477627084919","_json":{"timezone":-3,"first_name":"Gonzalo","last_name":"Aller","locale":"es_LA","picture":{"data":{"url":"https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13322155_10209828060006148_4865973369382732877_n.jpg?oh=44baf6b5e046137288fd83c114b491d0&oe=5856DB75","is_silhouette":false}},"link":"https://www.facebook.com/app_scoped_user_id/10210477627084919/","gender":"male","email":"gonzaller@me.com","age_range":{"min":21},"name":"Gonzalo Aller","id":"10210477627084919"},"emails":[{"value":"gonzaller@me.com"}],"accessToken":"EAAIjuROBonoBAPZA6EgZCsmhgJZC7OdA2sTOnDXxTijYRmMPpgCgn3eBx2p9msnBO6UZAGrM6HOZBDLxBqkSz16WeuWDvzKMiQCWAEXpNEpDDaNfd3FOabVQ1nZCo3xrZCfOD5MtgLy6Io8ZBArZCukjuj86T1dXzCSgZD"}},"__v":0,"dt_update":"2016-08-28T23:28:18.400Z","dt_create":"2016-08-20T01:03:11.170Z","emailVerified":true,"verificationCode":"907089e2acc08ad816d3","profileImg":"https://graph.facebook.com/10210477627084919/picture","id":"57b7ac4fe1af8c0434720491"};
     AccountService.currentUser()
     .then(function(user) {
         if (user || $rootScope.user) {
@@ -50,7 +50,7 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
     })
 
 })
-.controller('ScanCtrl', function($scope, $rootScope, $ionicLoading,$cordovaBarcodeScanner) {
+.controller('ScanCtrl', function($scope, $rootScope, $ionicPlatform, $ionicLoading,$cordovaBarcodeScanner,$cordovaLocalNotification) {
     $scope.scan = function() {
         document.addEventListener("deviceready", function () {
             $cordovaBarcodeScanner
@@ -60,6 +60,15 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
             }, function(error) {
         // An error occurred
     });
+        }, false);
+    }
+    $scope.notification = function() {
+        $ionicPlatform.ready( function() {
+            $cordovaLocalNotification.schedule({
+                id: 1,
+                title: 'Scheduled',
+                text: 'Test Message 1'
+            });    
         }, false);
     }
     $scope.scan();
@@ -95,25 +104,25 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
             s.editMode = !s.editMode;
         }
         s.eliminarReservas = function(){
-           var confirmPopup = $ionicPopup.confirm({
-             title: 'Vaciar Historial',
-             template: 'Vaciar el historial de reservas?',
-             cancelText: 'Cancelar',
-             okText: 'Aceptar'
-         });
+         var confirmPopup = $ionicPopup.confirm({
+           title: 'Vaciar Historial',
+           template: 'Vaciar el historial de reservas?',
+           cancelText: 'Cancelar',
+           okText: 'Aceptar'
+       });
 
-           confirmPopup.then(function(res) {
-             if(res) {
-               s.editMode = false;
-               for (var i = 0; i < s.historial.length; i++) {
+         confirmPopup.then(function(res) {
+           if(res) {
+             s.editMode = false;
+             for (var i = 0; i < s.historial.length; i++) {
                 Stamplay.Object("reservas").patch(s.historial[i]._id, {borradoHistorial:true});
             }
             s.historial = [];
         } else { }
     });
 
-       }
-       s.setRating = function(value){
+     }
+     s.setRating = function(value){
         s.rating = value;
     }
     s.calificar = function(r){
@@ -149,6 +158,7 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
         .then(function(res) {
             $ionicLoading.hide();
             s.loadingAlert('Gracias por su calificación!');
+            reserva.actions.ratings.avg = s.rating;
         }, function(err) {
             $ionicLoading.hide();
             console.log(err.message);
@@ -160,8 +170,8 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
             template: text
         });
         $timeout(function() {
-           $ionicLoading.hide();
-       }, 2000);
+         $ionicLoading.hide();
+     }, 2000);
     }
 
     s.eliminarReserva = function(r){
@@ -207,7 +217,9 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
     }
     s.horaDesde = '0:0';
     s.horaHasta = '0:0';
+    s.abierto = false;
     s.reservar = function(x) {
+
         s.vehiculo = rt.user.perfil.tipoVehiculo;
         s.placa = rt.user.perfil.placa;
         s.parqueoSeleccionado = x.Parqueo[0];
@@ -232,6 +244,7 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
         s.horasH.push(s.hci + ':00');
         s.horaDesde = s.horasD[0];
         s.horaHasta = s.horasH[0];
+        s.abierto = s.parqueoSeleccionado.dias[new Date().getDay()];
         $ionicModal.fromTemplateUrl('templates/modals/reserva.html', {
             scope: s,
             animation: 'slide-in-right'
@@ -274,10 +287,10 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
                     });
             }else{
                 var alertPopup = $ionicPopup.alert({
-                 title: 'Atención!',
-                 template: 'No hay lugares disponibles para el horario seleccionado',
-                 okText: 'Aceptar'
-             });
+                   title: 'Atención!',
+                   template: 'No hay lugares disponibles para el horario seleccionado',
+                   okText: 'Aceptar'
+               });
             }
         },function(err) {
             console.log(err);
@@ -287,6 +300,9 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
 ])
 .controller('CargaCtrl', function($scope, $rootScope, $timeout, $ionicLoading, $cordovaGeolocation) {
     $scope.dias = [{
+        nombre: 'Domingo',
+        checked: false
+    },{
         nombre: 'Lunes',
         checked: false
     }, {
@@ -303,9 +319,6 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
         checked: false
     }, {
         nombre: 'Sabado',
-        checked: false
-    }, {
-        nombre: 'Domingo',
         checked: false
     }];
     $scope.paises = [];

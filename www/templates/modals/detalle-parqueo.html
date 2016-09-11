@@ -20,13 +20,13 @@
   <label class="item">
   Días Hábiles:
   <p><label class="item" style="text-align: center;padding: 5px 0;">
-    <span ng-class="{abierto: parqueoSeleccionado.dias[0]}" class="dia">Lun</span>
-    <span ng-class="{abierto: parqueoSeleccionado.dias[1]}" class="dia">Mar</span>
-    <span ng-class="{abierto: parqueoSeleccionado.dias[2]}" class="dia">Mie</span>
-    <span ng-class="{abierto: parqueoSeleccionado.dias[3]}" class="dia">Jue</span>
-    <span ng-class="{abierto: parqueoSeleccionado.dias[4]}" class="dia">Vie</span>
-    <span ng-class="{abierto: parqueoSeleccionado.dias[5]}" class="dia">Sab</span>
-    <span ng-class="{abierto: parqueoSeleccionado.dias[6]}" class="dia">Dom</span>
+    <span ng-class="{abierto: parqueoSeleccionado.dias[0]}" class="dia">Dom</span>
+    <span ng-class="{abierto: parqueoSeleccionado.dias[1]}" class="dia">Lun</span>
+    <span ng-class="{abierto: parqueoSeleccionado.dias[2]}" class="dia">Mar</span>
+    <span ng-class="{abierto: parqueoSeleccionado.dias[3]}" class="dia">Mie</span>
+    <span ng-class="{abierto: parqueoSeleccionado.dias[4]}" class="dia">Jue</span>
+    <span ng-class="{abierto: parqueoSeleccionado.dias[5]}" class="dia">Vie</span>
+    <span ng-class="{abierto: parqueoSeleccionado.dias[6]}" class="dia">Sab</span>
     </label></p>
   </label>
   <label class="item">Precio Por Hora:
@@ -37,6 +37,7 @@
 </div>
 </ion-content>
 <div class="bar bar-footer" style="padding:0;">
-  <button class="button button-block button-positive" ng-click="reservar()" style="margin: 0;border-radius: 0;">Reservar</button>
+  <button class="button button-block button-assertive" ng-if="!abierto" style="margin: 0;border-radius: 0;">Cerrado</button>
+  <button class="button button-block button-positive" ng-if="abierto" ng-click="reservar()" style="margin: 0;border-radius: 0;">Reservar</button>
 </div>
 </ion-modal-view>

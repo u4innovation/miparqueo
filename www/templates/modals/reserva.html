@@ -3,7 +3,7 @@
 		<h1 class="title">Reservar</h1>
 	</ion-header-bar>
 	<ion-content scroll="false">
-		<div class="list" style="margin-bottom: 5px;">
+		<div class="list" style="margin-bottom: 5px;" ng-show="abierto">
 			<div class="item item-divider">
 				Tipo de vehículo
 			</div>
@@ -11,29 +11,29 @@
 			<ion-radio ng-model="vehiculo" ng-value=1 >Pesado</ion-radio>
 			<ion-radio ng-model="vehiculo" ng-value=2 >Moto</ion-radio>
 		</div>
-		<label class="item item-input">
+		<label class="item item-input" ng-show="abierto">
 			<div class="input-label">
 				Placa Vehículo:
 			</div>
 			<input type="text" ng-model="placa" class="item-note" style="text-align: right;" maxlength="7">
 		</label>
-		<div class="list">
+		<div class="list" ng-if="abierto">
 			<div class="item item-divider">
-			Horario Reserva
+				Horario Reserva
 			</div>
-			<label class="item item-input item-select">
+			<label class="item item-input item-select" ng-show="abierto">
 				<div class="input-label">
 					Desde:
 				</div>
 				<select ng-model="horaDesde" class="item-note" ng-options="h for h in horasD" ng-change="updateHasta(this)"></select>
 			</label>
-			<label class="item item-input item-select">
+			<label class="item item-input item-select" ng-show="abierto">
 				<div class="input-label">
 					Hasta:
 				</div>
 				<select ng-model="horaHasta" class="item-note" ng-options="h for h in horasH"></select>
 			</label>
-			<div class="item"  style="text-align:center;padding:5px;">
+			<div class="item"  style="text-align:center;padding:5px;" ng-show="abierto">
 				<p>
 					<span>Total:</span>
 				</p>
@@ -44,11 +44,28 @@
 				</p>
 			</div>
 		</div>
+		<div class="list"  ng-if="!abierto">
+			<label class="item" style="text-align: center;"><p>El parqueo se encuentra cerrado</p> <p>en este momento.</p></label>
+			<label class="item">Horario: {{ formatTime(parqueoSeleccionado.HoraApertura) }} - {{ formatTime(parqueoSeleccionado.HoraCierre) }}</label>
+			<label class="item">
+				Días Hábiles:
+				<p><label class="item" style="text-align: center;padding: 5px 0;">
+					<span ng-class="{abierto: parqueoSeleccionado.dias[0]}" class="dia">Dom</span>
+					<span ng-class="{abierto: parqueoSeleccionado.dias[1]}" class="dia">Lun</span>
+					<span ng-class="{abierto: parqueoSeleccionado.dias[2]}" class="dia">Mar</span>
+					<span ng-class="{abierto: parqueoSeleccionado.dias[3]}" class="dia">Mie</span>
+					<span ng-class="{abierto: parqueoSeleccionado.dias[4]}" class="dia">Jue</span>
+					<span ng-class="{abierto: parqueoSeleccionado.dias[5]}" class="dia">Vie</span>
+					<span ng-class="{abierto: parqueoSeleccionado.dias[6]}" class="dia">Sab</span>
+				</label></p>
+			</label>
+		</div>
 	</ion-content>
+
 	<div class="bar bar-footer" style="padding:0;">
 		<div class="button-bar">
 			<button class="button button-assertive" ng-click="modalReserva.remove()" style="margin: 0;border-radius: 0;">Cancelar</button>
-			<button class="button button-balanced" ng-click="confirmarReserva(this)" style="margin: 0;border-radius: 0;">Confirmar</button>
+			<button class="button button-balanced" ng-show="abierto" ng-click="confirmarReserva(this)" style="margin: 0;border-radius: 0;">Confirmar</button>
 		</div>
 	</div>
 </div>

@@ -18,18 +18,18 @@
   </div>
 </div>
       <div class="card" ng-repeat="r in historial">
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap item-icon-right" ng-click="verReserva(r)">
           <p>{{r.Parqueo[0].Nombre}}</p>
           <p>Costo: {{r.Monto | currency}}</p>
-          <p>Estadia: {{estadia(r)}}  |  Placa: {{r.Placa}}  </p>
-        </div>
-        <div class="item item-text-wrap" style="padding:0;">
-          <button class="button button-block button-positive" ng-click="verReserva(r)" style="margin: 0;border-radius: 0;">Código Reserva</button>
+          <p>Estadia: {{estadia(r)}}</p>
+          <p>Placa: {{r.Placa}}  </p>
+          <p>Puesto: {{r.puestoParqueo}}  </p>
+          <i class="icon ion-chevron-right"></i>
         </div>
         <div class="item item-divider" style="padding:0;">
           <div class="button-bar">
               <button class="button button-light" ng-if="r.actions.ratings.avg == 0" ng-click="calificar(r)" style="margin: 0;border-radius: 0;">Calificar</button>
-              <button class="button button-light" ng-if="r.actions.ratings.avg != 0" style="margin: 0;border-radius: 0;"><span class="puntaje">{{r.actions.ratings.avg}}</span><i ng-repeat="i in getNumber(r.actions.ratings.avg) track by $index" class="rating ion-ios-star"></i></button>
+              <button class="button button-light" ng-if="r.actions.ratings.avg != 0" style="margin: 0;border-radius: 0;padding: 5px 0;"><span class="puntaje" style="padding: 5px;">{{r.actions.ratings.avg}}</span><i ng-repeat="i in getNumber(r.actions.ratings.avg) track by $index" class="rating ion-ios-star"></i></button>
               <button class="button button-balanced" ng-click="reservar(r)" style="margin: 0;border-radius: 0;">Reservar</button>
           </div>
         </div>

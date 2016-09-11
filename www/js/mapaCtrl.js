@@ -4,6 +4,7 @@ angular.module('MiParqueo')
         s.$on('$ionicView.afterEnter', function() {
             ionic.trigger('resize');
         });
+        
         s.radioBusqueda = 500;
         s.markerBusqueda;
         s.location = $cordovaGeolocation;
@@ -50,7 +51,7 @@ angular.module('MiParqueo')
                 s.modalReserva.show();
             });
         }
-        s.confirmarReserva = function() {
+        s.confirmarReserva = function(d) {
             var that = this;
             Stamplay.Codeblock("consultadisponibilidadparqueo").run({pId: s.parqueoSeleccionado._id, hD: r.getDateTime(this.$$childHead.horaDesde), hH: r.getDateTime(this.$$childHead.horaHasta), tV: this.$$childHead.vehiculo})
             .then(function(res) {
@@ -79,14 +80,32 @@ angular.module('MiParqueo')
                                 $ionicLoading.hide();
                             });
                         });
+                        //var _10SecondsFromNow = new Date(r.getDateTime(that.$$childHead.horaDesde).getTime() + 10 * 1000);
+                        var _10SecondsFromNow = new Date((new Date()).getTime() + 10 * 1000);
+                        localNotification.schedule({
+                            id: 1,
+                            title: 'MiParqueo Reserva',
+                            text: 'Su reserva comienza en 30 min.',
+                            at: _10SecondsFromNow
+                        }).then(function (result) {
+                            var _10SecondsFromNow = new Date((new Date()).getTime() + 20 * 1000);
+                            localNotification.schedule({
+                            id: 2,
+                            title: 'MiParqueo Reserva',
+                            text: 'Su reserva termina en 30 min.',
+                            at: _10SecondsFromNow
+                        }).then(function (result) {
+                            // ...
+                        });
+                        });
                     }, function(err) {
                         // Handle Error
                     });
                 }else{
                     var alertPopup = $ionicPopup.alert({
-                     title: 'Atención!',
-                     template: 'No hay lugares disponibles para el horario seleccionado',
-                     okText: 'Aceptar'
+                       title: 'Atención!',
+                       template: 'No hay lugares disponibles para el horario seleccionado',
+                       okText: 'Aceptar'
                    });
                 }
             },function(err) {
@@ -207,7 +226,7 @@ angular.module('MiParqueo')
                     };
                     s.busquedaRealizada = false;
                     s.consultarParqueos();
-                    $ionicLoading.hide();
+                    $ionicLoading.hide();      
                 }, function(error) {
                     console.log(error.message);
                 })
@@ -235,8 +254,9 @@ angular.module('MiParqueo')
                     $ionicLoading.hide();
                 });
             }
-
+            s.abierto = false;
             s.verParqueo = function() {
+
                 s.parqueoSeleccionado = s.parqueosCercanos[this.array_pos];
                 s.parqueoSeleccionado.dias = [false, false, false, false, false, false, false];
                 s.rating = s.parqueoSeleccionado.actions.ratings.avg;
@@ -248,7 +268,9 @@ angular.module('MiParqueo')
                         s.parqueoSeleccionado.dias[s.parqueoSeleccionado.DiasHabiles[i]] = true;
                     }
                     s.modalDetalle.show();
+                    s.abierto = s.parqueoSeleccionado.dias[new Date().getDay()];
                 }
+
                 s.removeParqueosMarkers = function() {
                     for (var i = 0; i < s.parqueosCercanosMarker.length; i++) {
                         s.parqueosCercanosMarker[i].setMap(null)

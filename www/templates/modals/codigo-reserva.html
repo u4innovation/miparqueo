@@ -4,6 +4,12 @@
 	<button class="button button-clear button-primary" ng-click="modalCodigo.hide()" style="color:gray;">Cerrar</button>
 	</ion-header-bar>
 	<ion-content class="">
+		<div class="item">
+		  <p>{{reserva.Parqueo[0].Nombre}}</p>
+          <p>Costo: {{reserva.Monto | currency}}</p>
+          <p>Estadia: {{estadia(reserva)}}  |  Placa: {{reserva.Placa}}</p>
+          <p>Puesto: {{reserva.puestoParqueo}}  </p>
+        </div>
 		<div class="list">
 			<qrcode text="{{reserva._id}}" color-bright="#ff0000"></qrcode>
 		</div>

@@ -24,7 +24,8 @@
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
     "cordova-plugin-inappbrowser",
-    "cordova-plugin-barcodescanner"
+    "cordova-plugin-barcodescanner",
+    "de.appplant.cordova.plugin.local-notification"
   ],
   "cordovaPlatforms": [
     "ios",
