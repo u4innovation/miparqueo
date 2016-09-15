@@ -26,7 +26,21 @@ angular.module('MiParqueo')
         }).then(function(modal) {
             s.modalDetalle = modal;
         });
-
+        s.parqRating = function() {
+        $ionicLoading.show({
+            template: 'Calificando...'
+        });
+        Stamplay.Object("parqueos").rate("57b9ff44524a403829dc7279", 3)
+        .then(function(res) {
+            $ionicLoading.hide();
+            s.loadingAlert('Gracias por su calificación!');
+            reserva.actions.ratings.avg = s.rating;
+        }, function(err) {
+            $ionicLoading.hide();
+            console.log(err.message);
+            s.loadingAlert('Ocurrio un error, intente mas tarde.');
+        });
+    }
         s.horaDesde = '0:0';
         s.horaHasta = '0:0';
         s.reservar = function() {
@@ -256,11 +270,11 @@ angular.module('MiParqueo')
             }
             s.abierto = false;
             s.verParqueo = function() {
-
                 s.parqueoSeleccionado = s.parqueosCercanos[this.array_pos];
                 s.parqueoSeleccionado.dias = [false, false, false, false, false, false, false];
-                s.rating = s.parqueoSeleccionado.actions.ratings.avg;
-                s.valoraciones = s.parqueoSeleccionado.actions.ratings.total;
+                s.valoraciones = s.parqueoSeleccionado.votos ? s.parqueoSeleccionado.votos : 0;
+                s.rating = s.parqueoSeleccionado.totalVotos ? (s.parqueoSeleccionado.totalVotos/s.valoraciones).toFixed(2) : 0;
+                
                 s.montos = [parseFloat(s.parqueoSeleccionado.ValorXHoraL), parseFloat(s.parqueoSeleccionado.ValorXHoraP), parseFloat(s.parqueoSeleccionado.ValorXHoraM)];
 
                 if (s.parqueoSeleccionado.DiasHabiles)
