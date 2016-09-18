@@ -1,6 +1,7 @@
 angular.module('MiParqueo')
-.controller('MapaCtrl', ['$ionicLoading', '$ionicModal', '$scope', '$rootScope', '$cordovaGeolocation', '$http','$ionicPopup','$timeout',
-    function($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http,$ionicPopup,$timeout) {
+.controller('MapaCtrl', ['$ionicLoading', '$ionicModal', '$scope', '$rootScope', '$cordovaGeolocation', '$http','$ionicPopup','$timeout','$window',
+    function($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http,$ionicPopup,$timeout,$window) {
+        s.dev_width = $window.innerWidth;
         s.$on('$ionicView.afterEnter', function() {
             ionic.trigger('resize');
         });
@@ -141,7 +142,7 @@ angular.module('MiParqueo')
             })
         }
         s.limpiarInput = function() {
-            this.direccion = '';
+            this.$parent.direccion = this.direccion = '';
         };
         s.mapCreated = function(map) {
             s.map = map;
@@ -285,6 +286,7 @@ angular.module('MiParqueo')
             s.abierto = false;
             s.verParqueo = function() {
                 s.parqueoSeleccionado = s.parqueosCercanos[this.array_pos];
+                s.coord = s.parqueoSeleccionado._geolocation.coordinates;
                 s.parqueoSeleccionado.dias = [false, false, false, false, false, false, false];
                 s.valoraciones = s.parqueoSeleccionado.votos ? s.parqueoSeleccionado.votos : 0;
                 s.rating = Math.round(s.parqueoSeleccionado.totalVotos ? (s.parqueoSeleccionado.totalVotos/s.valoraciones).toFixed(2) : 0);

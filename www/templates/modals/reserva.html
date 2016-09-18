@@ -1,15 +1,13 @@
-<ion-modal-view>
+<ion-modal-view class="reserva">
 	<ion-header-bar>
 		<h1 class="title">Reservar</h1>
 	</ion-header-bar>
 	<ion-content scroll="false">
-		<div class="list" style="margin-bottom: 5px;" ng-show="abierto">
-			<div class="item item-divider">
-				Tipo de vehículo
-			</div>
-			<ion-radio ng-model="vehiculo" ng-value=0 >Liviano</ion-radio>
-			<ion-radio ng-model="vehiculo" ng-value=1 >Pesado</ion-radio>
-			<ion-radio ng-model="vehiculo" ng-value=2 >Moto</ion-radio>
+		<h3 style="text-align:center;margin:5px 0 0 0;">Tipo de Vehículo</h3>
+		<div class="row" style="text-align:center;">
+		<div class="col tipoVehiculo" ng-class="{active: vehiculo == 0}" ng-click="vehiculo = 0"><p>Liviano</p></div>
+		<div class="col tipoVehiculo" ng-class="{active: vehiculo == 1}" ng-click="vehiculo = 1"><p>Pesado</p></div>
+		<div class="col tipoVehiculo" ng-class="{active: vehiculo == 2}" ng-click="vehiculo = 2"><p>Moto</p></div>
 		</div>
 		<label class="item item-input" ng-show="abierto">
 			<div class="input-label">
@@ -17,22 +15,12 @@
 			</div>
 			<input type="text" ng-model="placa" class="item-note" style="text-align: right;" maxlength="7">
 		</label>
+		<h3 style="text-align:center;margin:5px 0 0 0;">Horario Reserva</h3>
+		<div class="row" style="text-align:center;">
+		<div class="col item-select tipoVehiculo active"><select ng-model="horaDesde" class="item-note" ng-options="h for h in horasD" ng-change="updateHasta(this)"></select></div>
+		<div class="col item-select tipoVehiculo active"><select ng-model="horaHasta" class="item-note" ng-options="h for h in horasH" ng-change="updateHasta(this)"></select></div>
+		</div>
 		<div class="list" ng-if="abierto">
-			<div class="item item-divider">
-				Horario Reserva
-			</div>
-			<label class="item item-input item-select" ng-show="abierto">
-				<div class="input-label">
-					Desde:
-				</div>
-				<select ng-model="horaDesde" class="item-note" ng-options="h for h in horasD" ng-change="updateHasta(this)"></select>
-			</label>
-			<label class="item item-input item-select" ng-show="abierto">
-				<div class="input-label">
-					Hasta:
-				</div>
-				<select ng-model="horaHasta" class="item-note" ng-options="h for h in horasH"></select>
-			</label>
 			<div class="item"  style="text-align:center;padding:5px;" ng-show="abierto">
 				<p>
 					<span>Total:</span>

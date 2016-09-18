@@ -1,24 +1,18 @@
 <ion-modal-view>
 <ion-header-bar>
-<h1 class="title">Parqueo</h1>
-<button class="button button-clear button-primary" ng-click="modalDetalle.hide()" style="color:gray;">Cerrar</button>
+<button class="button button-clear button-primary" ng-click="modalDetalle.hide()" style="color:gray;position: absolute;right: 11px;">Cerrar</button>
 </ion-header-bar>
 <ion-content class="">
-<div class="list">
-  <label class="item">{{ parqueoSeleccionado.Nombre }}</label>
-  <label class="item" style="text-align: center;">
-  <span class="puntaje">{{rating}}</span>
-    <i ng-class="{'ion-ios-star': rating>=1, 'ion-ios-star-half': rating<1 , 'ion-ios-star-outline': rating==0}" class="rating"></i>
-    <i ng-class="{'ion-ios-star': rating>=2, 'ion-ios-star-half': 1<rating && rating<2 , 'ion-ios-star-outline': rating<2 && !(1<rating && rating<2)}" class="rating"></i>
-    <i ng-class="{'ion-ios-star': rating>=3, 'ion-ios-star-half': 2<rating && rating<3 , 'ion-ios-star-outline': rating<3 && !(2<rating && rating<3)}" class="rating"></i>
-    <i ng-class="{'ion-ios-star': rating>=4, 'ion-ios-star-half': 3<rating && rating<4 , 'ion-ios-star-outline': rating<4 && !(3<rating && rating<4)}" class="rating"></i>
-    <i ng-class="{'ion-ios-star': rating==5, 'ion-ios-star-half': 4<rating && rating<5 , 'ion-ios-star-outline': rating<5 && !(4<rating && rating<5)}" class="rating"></i>
-    <span class="valoraciones">{{valoraciones}} {{valoraciones == 1 ? 'valoración':'valoraciones'}}</span>
+<div class="list detalleParqueo">
+<label style="padding:0;"><img ng-src="https://maps.googleapis.com/maps/api/staticmap?center={{coord[1]}},{{coord[0]}}&zoom=16&size={{dev_width}}x150&maptype=roadmap&markers={{coord[1]}},{{coord[0]}}
+&key=AIzaSyC1YLbGt2lAvgW_2NTZ1YT0PJ5TJDcGWyU"></label>
+  <label style="text-align: center;">
+    <p><h3>{{ parqueoSeleccionado.Nombre }}</h3></p>
+    <p>{{ parqueoSeleccionado.Direccion }}</p>
   </label>
-  <label class="item">{{ parqueoSeleccionado.Direccion }}</label>
-  <label class="item">Horario: {{ formatTime(parqueoSeleccionado.HoraApertura) }} - {{ formatTime(parqueoSeleccionado.HoraCierre) }}</label>
+  <label class="item">Horario de atención: {{ formatTime(parqueoSeleccionado.HoraApertura) }} a {{ formatTime(parqueoSeleccionado.HoraCierre) }} hs</label>
   <label class="item">
-  Días Hábiles:
+  Días de atención:
   <p><label class="item" style="text-align: center;padding: 5px 0;">
     <span ng-class="{abierto: parqueoSeleccionado.dias[0]}" class="dia">Dom</span>
     <span ng-class="{abierto: parqueoSeleccionado.dias[1]}" class="dia">Lun</span>
@@ -29,10 +23,22 @@
     <span ng-class="{abierto: parqueoSeleccionado.dias[6]}" class="dia">Sab</span>
     </label></p>
   </label>
-  <label class="item">Precio Por Hora:
-    <p><label style="padding: 5px;" class="item">Livianos: $ {{ parqueoSeleccionado.ValorXHoraL }}</label></p>
-    <p><label style="padding: 5px;" class="item">Pesados: $ {{ parqueoSeleccionado.ValorXHoraP }}</label></p>
-    <p><label style="padding: 5px;" class="item">Motos: $ {{ parqueoSeleccionado.ValorXHoraM }}</label></p>
+  <label class="item" style="text-align: center;">
+  <span class="puntaje">{{rating}}</span>
+    <i ng-class="{'ion-ios-star': rating>=1, 'ion-ios-star-half': rating<1 , 'ion-ios-star-outline': rating==0}" class="rating"></i>
+    <i ng-class="{'ion-ios-star': rating>=2, 'ion-ios-star-half': 1<rating && rating<2 , 'ion-ios-star-outline': rating<2 && !(1<rating && rating<2)}" class="rating"></i>
+    <i ng-class="{'ion-ios-star': rating>=3, 'ion-ios-star-half': 2<rating && rating<3 , 'ion-ios-star-outline': rating<3 && !(2<rating && rating<3)}" class="rating"></i>
+    <i ng-class="{'ion-ios-star': rating>=4, 'ion-ios-star-half': 3<rating && rating<4 , 'ion-ios-star-outline': rating<4 && !(3<rating && rating<4)}" class="rating"></i>
+    <i ng-class="{'ion-ios-star': rating==5, 'ion-ios-star-half': 4<rating && rating<5 , 'ion-ios-star-outline': rating<5 && !(4<rating && rating<5)}" class="rating"></i>
+    <span class="valoraciones">{{valoraciones}} {{valoraciones == 1 ? 'valoración':'valoraciones'}}</span>
+  </label>
+  <label class="item">
+<div class="row" style="text-align:center;">
+  <div class="col" style="text-align:right; padding-right:15px;">TARIFAS<br>POR HORA</div>
+  <div class="col" style="border-left: 1px solid lightgray;"><p><strong>$ {{ parqueoSeleccionado.ValorXHoraL }}</strong></p><p>Livianos</p></div>
+  <div class="col" style="border-left: 1px solid lightgray;"><p><strong>$ {{ parqueoSeleccionado.ValorXHoraP }}</strong></p><p>Pesados</p></div>
+  <div class="col" style="border-left: 1px solid lightgray;"><p><strong>$ {{ parqueoSeleccionado.ValorXHoraM }}</strong></p><p>Motos</p></div>
+</div>
   </label>
 </div>
 </ion-content>

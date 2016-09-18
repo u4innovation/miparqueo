@@ -60,10 +60,11 @@ map {
 }
 .dia{
 	padding: 4px;
-    border: 1px solid grey;
+    border: 1px solid red;
     border-radius: 5px;
+    color:red;
 }
-.dia.abierto {
+.dia.abierto,.tipoVehiculo.active {
 	color: #16E020;
 	border-color: #16E020;
 }
@@ -104,4 +105,38 @@ map {
 qrcode img {
 	margin:auto;
 	margin-top: 50px;
+}
+.detalleParqueo .item {
+	border: none;
+	text-align: center;
+	padding: 5px;
+}
+.detalleParqueo .item strong {
+	font-size: 20px;
+}
+.tipoVehiculo {
+	border: 1px solid lightgray;
+    border-radius: 10px;
+    height: 80px;
+    margin: 10px;
+    color: lightgray;
+}
+.tipoVehiculo p {
+	margin: 0;
+	line-height: 70px;
+	font-size: 25px;
+}
+.reserva .item-select::after{
+	display: none;
+}
+.reserva select {
+	min-width: 90px;
+    line-height: 70px;
+    height: 70px;
+    text-align-last: center;
+    font-size: 36px;
+    color: #16e020;
+    margin: 0 calc( 50% - 45px);
+    position: relative;
+    padding: 0;
 }
