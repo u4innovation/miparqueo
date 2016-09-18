@@ -87,8 +87,8 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
           })
     }
 })
-.controller('HistorialCtrl', ['$scope', '$rootScope', '$ionicLoading', '$timeout', '$ionicModal', '$ionicLoading','$ionicPopup',
-    function(s, rt, $ionicLoading, $timeout, $ionicModal, $ionicLoading, $ionicPopup) {
+.controller('HistorialCtrl', ['$scope', '$rootScope', '$ionicLoading', '$timeout', '$ionicModal', '$ionicLoading','$ionicPopup','$timeout',
+    function(s, rt, $ionicLoading, $timeout, $ionicModal, $ionicLoading, $ionicPopup,$timeout) {
         s.editMode = false;
         s.verReserva = function(r){
             s.reserva = r;
@@ -104,25 +104,25 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
             s.editMode = !s.editMode;
         }
         s.eliminarReservas = function(){
-         var confirmPopup = $ionicPopup.confirm({
-           title: 'Vaciar Historial',
-           template: 'Vaciar el historial de reservas?',
-           cancelText: 'Cancelar',
-           okText: 'Aceptar'
-       });
+           var confirmPopup = $ionicPopup.confirm({
+             title: 'Vaciar Historial',
+             template: 'Vaciar el historial de reservas?',
+             cancelText: 'Cancelar',
+             okText: 'Aceptar'
+         });
 
-         confirmPopup.then(function(res) {
-           if(res) {
-             s.editMode = false;
-             for (var i = 0; i < s.historial.length; i++) {
+           confirmPopup.then(function(res) {
+             if(res) {
+               s.editMode = false;
+               for (var i = 0; i < s.historial.length; i++) {
                 Stamplay.Object("reservas").patch(s.historial[i]._id, {borradoHistorial:true});
             }
             s.historial = [];
         } else { }
     });
 
-     }
-     s.setRating = function(value){
+       }
+       s.setRating = function(value){
         s.rating = value;
     }
     s.calificar = function(r){
@@ -170,8 +170,8 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
             template: text
         });
         $timeout(function() {
-         $ionicLoading.hide();
-     }, 2000);
+           $ionicLoading.hide();
+       }, 2000);
     }
 
     s.eliminarReserva = function(r){
@@ -202,6 +202,7 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
         .then(function(res) {
             s.historial = res.data;
             $ionicLoading.hide();
+            s.$broadcast('scroll.refreshComplete');
         }, function(err) {
 
         });
@@ -253,47 +254,71 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
             s.modalReserva.show();
         });
     }
-
-    s.confirmarReserva = function(r) {
+    s.pagar = function(reserva){
+        s.pago = {monto: reserva.Monto, celular:rt.user.perfil.celular};
+        var myPopup = $ionicPopup.show({
+            templateUrl: 'templates/modals/payphone.html',
+            title: '<img src="img/payphone.png" class="logo-payphone">',
+            scope: s,
+            buttons: [
+            { text: 'Cancelar' },
+            {
+                text: '<b>Pagar</b>',
+                type: 'button-balanced',
+                onTap: function(e) {
+                  if (!s.pago.celular || s.pago.celular == '') {
+                    e.preventDefault();
+                } else {
+                    $ionicLoading.show({
+                        template: 'Reservando...'
+                    });
+                    Stamplay.Object("reservas")
+                    .save(reserva)
+                    .then(function(res) {
+                        s.modalReserva.remove().then(function() {
+                        $ionicLoading.hide();
+                        s.loadingAlert('Reserva Realizada!');
+                        $timeout(function(){s.getHistorial();},2000);
+                        
+                    });
+                    }, function(err) {
+                        s.loadingAlert('Ocurrio un error con su reserva, intente mas tarde');
+                    });
+                }
+            }
+        }
+        ]
+    });
+    }
+    s.confirmarReserva = function(d) {
         var that = this;
-        Stamplay.Codeblock("consultadisponibilidadparqueo").run({pId: s.parqueoSeleccionado._id, hD: r.getDateTime(this.$$childHead.horaDesde), hH: r.getDateTime(this.$$childHead.horaHasta), tV: this.$$childHead.vehiculo})
+        $ionicLoading.show({
+            template: 'Consultando lugares disponibles...'
+        });
+        Stamplay.Codeblock("consultadisponibilidadparqueo").run({pId: s.parqueoSeleccionado._id, hD: rt.getDateTime(this.$$childHead.horaDesde), hH: rt.getDateTime(this.$$childHead.horaHasta), tV: this.$$childHead.vehiculo})
         .then(function(res) {
+            $ionicLoading.hide();
             if (res != 'Sin lugar'){
-                $ionicLoading.show({
-                    template: 'Reservando...'
-                });
                 var reserva = {
-                    "owner": r.user._id,
-                    "Usuario": r.user._id,
+                    "owner": rt.user._id,
+                    "Usuario": rt.user._id,
                     "Parqueo": s.parqueoSeleccionado._id,
                     "Placa": that.$$childHead.placa,
-                    "HoraDesde": r.getDateTime(that.$$childHead.horaDesde),
-                    "HoraHasta": r.getDateTime(that.$$childHead.horaHasta),
+                    "HoraDesde": rt.getDateTime(that.$$childHead.horaDesde),
+                    "HoraHasta": rt.getDateTime(that.$$childHead.horaHasta),
                     "Estado": 'P',
                     "TipoVehiculo": that.$$childHead.vehiculo,
                     "borradoHistorial": false,
                     "puestoParqueo": res,
-                    "Monto": (r.formatHora(that.$$childHead.horaHasta) - r.formatHora(that.$$childHead.horaDesde)) * s.montos[that.$$childHead.vehiculo]
+                    "Monto": (rt.formatHora(that.$$childHead.horaHasta) - rt.formatHora(that.$$childHead.horaDesde)) * s.montos[that.$$childHead.vehiculo]
                 };
-                Stamplay.Object("reservas")
-                .save(reserva)
-                .then(function(res) {
-                    s.modalReserva.remove().then(function() {
-                        $ionicLoading.hide();
-                        s.getHistorial();
-                    });
-                }, function(err) {
-                        // Handle Error
-                    });
+                s.pagar(reserva);
             }else{
-                var alertPopup = $ionicPopup.alert({
-                   title: 'Atención!',
-                   template: 'No hay lugares disponibles para el horario seleccionado',
-                   okText: 'Aceptar'
-               });
+                s.loadingAlert('No hay lugares disponibles para el horario seleccionado');
             }
         },function(err) {
-            console.log(err);
+            $ionicLoading.hide();
+            s.loadingAlert('Ocurrio un error, intente mas tarde.');
         })
     }
 }

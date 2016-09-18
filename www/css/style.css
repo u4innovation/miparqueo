@@ -98,6 +98,9 @@ map {
 .slide-in-right > .ng-leave {
   transition: all ease-in-out 250ms; 
 }
+.logo-payphone {
+	width: 100%;
+}
 qrcode img {
 	margin:auto;
 	margin-top: 50px;

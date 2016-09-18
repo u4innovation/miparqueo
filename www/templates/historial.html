@@ -11,6 +11,10 @@
       </ion-nav-buttons>
     </ion-nav-bar>
   <ion-content >
+  <ion-refresher
+    pulling-text="Actualizar historial..."
+    on-refresh="getHistorial()">
+  </ion-refresher>
   <button class="button button-block button-assertive" ng-click="eliminarReservas()" style="margin: 0;border-radius: 0;" ng-if="editMode">Eliminar Todos</button>
       <div class="card" ng-if="historial.length == 0">
   <div class="item item-text-wrap">

@@ -1,10 +1,54 @@
 angular.module('MiParqueo')
-.controller('MapaCtrl', ['$ionicLoading', '$ionicModal', '$scope', '$rootScope', '$cordovaGeolocation', '$http','$ionicPopup',
-    function($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http,$ionicPopup) {
+.controller('MapaCtrl', ['$ionicLoading', '$ionicModal', '$scope', '$rootScope', '$cordovaGeolocation', '$http','$ionicPopup','$timeout',
+    function($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http,$ionicPopup,$timeout) {
         s.$on('$ionicView.afterEnter', function() {
             ionic.trigger('resize');
         });
-        
+        s.loadingAlert = function(text){
+            $ionicLoading.show({
+                template: text
+            });
+            $timeout(function() {
+               $ionicLoading.hide();
+           }, 2000);
+        }
+        s.pagar = function(reserva){
+            s.pago = {monto: reserva.Monto, celular:r.user.perfil.celular};
+            var myPopup = $ionicPopup.show({
+                templateUrl: 'templates/modals/payphone.html',
+                title: '<img src="img/payphone.png" class="logo-payphone">',
+                scope: s,
+                buttons: [
+                { text: 'Cancelar' },
+                {
+                    text: '<b>Pagar</b>',
+                    type: 'button-balanced',
+                    onTap: function(e) {
+                      if (!s.pago.celular || s.pago.celular == '') {
+                        e.preventDefault();
+                    } else {
+                        $ionicLoading.show({
+                            template: 'Reservando...'
+                        });
+                        Stamplay.Object("reservas")
+                        .save(reserva)
+                        .then(function(res) {
+                            s.modalDetalle.hide().then(function() {
+                                s.modalReserva.remove().then(function() {
+                                    $ionicLoading.hide();
+                                    s.loadingAlert('Reserva Realizada! <br> consulte su historial para los detalles.',true);
+                                });
+                            });
+
+                        }, function(err) {
+                            s.loadingAlert('Ocurrio un error con su reserva, intente mas tarde');
+                        });
+                    }
+                }
+            }
+            ]
+        });
+        }
         s.radioBusqueda = 500;
         s.markerBusqueda;
         s.location = $cordovaGeolocation;
@@ -27,20 +71,20 @@ angular.module('MiParqueo')
             s.modalDetalle = modal;
         });
         s.parqRating = function() {
-        $ionicLoading.show({
-            template: 'Calificando...'
-        });
-        Stamplay.Object("parqueos").rate("57b9ff44524a403829dc7279", 3)
-        .then(function(res) {
-            $ionicLoading.hide();
-            s.loadingAlert('Gracias por su calificación!');
-            reserva.actions.ratings.avg = s.rating;
-        }, function(err) {
-            $ionicLoading.hide();
-            console.log(err.message);
-            s.loadingAlert('Ocurrio un error, intente mas tarde.');
-        });
-    }
+            $ionicLoading.show({
+                template: 'Calificando...'
+            });
+            Stamplay.Object("parqueos").rate("57b9ff44524a403829dc7279", 3)
+            .then(function(res) {
+                $ionicLoading.hide();
+                s.loadingAlert('Gracias por su calificación!');
+                reserva.actions.ratings.avg = s.rating;
+            }, function(err) {
+                $ionicLoading.hide();
+                console.log(err.message);
+                s.loadingAlert('Ocurrio un error, intente mas tarde.');
+            });
+        }
         s.horaDesde = '0:0';
         s.horaHasta = '0:0';
         s.reservar = function() {
@@ -67,12 +111,13 @@ angular.module('MiParqueo')
         }
         s.confirmarReserva = function(d) {
             var that = this;
+            $ionicLoading.show({
+                template: 'Consultando lugares disponibles...'
+            });
             Stamplay.Codeblock("consultadisponibilidadparqueo").run({pId: s.parqueoSeleccionado._id, hD: r.getDateTime(this.$$childHead.horaDesde), hH: r.getDateTime(this.$$childHead.horaHasta), tV: this.$$childHead.vehiculo})
             .then(function(res) {
+                $ionicLoading.hide();
                 if (res != 'Sin lugar'){
-                    $ionicLoading.show({
-                        template: 'Reservando...'
-                    });
                     var reserva = {
                         "owner": r.user._id,
                         "Usuario": r.user._id,
@@ -86,44 +131,13 @@ angular.module('MiParqueo')
                         "puestoParqueo": res,
                         "Monto": (r.formatHora(that.$$childHead.horaHasta) - r.formatHora(that.$$childHead.horaDesde)) * s.montos[that.$$childHead.vehiculo]
                     };
-                    Stamplay.Object("reservas")
-                    .save(reserva)
-                    .then(function(res) {
-                        s.modalDetalle.hide().then(function() {
-                            s.modalReserva.remove().then(function() {
-                                $ionicLoading.hide();
-                            });
-                        });
-                        //var _10SecondsFromNow = new Date(r.getDateTime(that.$$childHead.horaDesde).getTime() + 10 * 1000);
-                        var _10SecondsFromNow = new Date((new Date()).getTime() + 10 * 1000);
-                        localNotification.schedule({
-                            id: 1,
-                            title: 'MiParqueo Reserva',
-                            text: 'Su reserva comienza en 30 min.',
-                            at: _10SecondsFromNow
-                        }).then(function (result) {
-                            var _10SecondsFromNow = new Date((new Date()).getTime() + 20 * 1000);
-                            localNotification.schedule({
-                            id: 2,
-                            title: 'MiParqueo Reserva',
-                            text: 'Su reserva termina en 30 min.',
-                            at: _10SecondsFromNow
-                        }).then(function (result) {
-                            // ...
-                        });
-                        });
-                    }, function(err) {
-                        // Handle Error
-                    });
+                    s.pagar(reserva);
                 }else{
-                    var alertPopup = $ionicPopup.alert({
-                       title: 'Atención!',
-                       template: 'No hay lugares disponibles para el horario seleccionado',
-                       okText: 'Aceptar'
-                   });
+                    s.loadingAlert('No hay lugares disponibles para el horario seleccionado');
                 }
             },function(err) {
-                console.log(err);
+                $ionicLoading.hide();
+                s.loadingAlert('Ocurrio un error, intente mas tarde.');
             })
         }
         s.limpiarInput = function() {
@@ -273,7 +287,7 @@ angular.module('MiParqueo')
                 s.parqueoSeleccionado = s.parqueosCercanos[this.array_pos];
                 s.parqueoSeleccionado.dias = [false, false, false, false, false, false, false];
                 s.valoraciones = s.parqueoSeleccionado.votos ? s.parqueoSeleccionado.votos : 0;
-                s.rating = s.parqueoSeleccionado.totalVotos ? (s.parqueoSeleccionado.totalVotos/s.valoraciones).toFixed(2) : 0;
+                s.rating = Math.round(s.parqueoSeleccionado.totalVotos ? (s.parqueoSeleccionado.totalVotos/s.valoraciones).toFixed(2) : 0);
                 
                 s.montos = [parseFloat(s.parqueoSeleccionado.ValorXHoraL), parseFloat(s.parqueoSeleccionado.ValorXHoraP), parseFloat(s.parqueoSeleccionado.ValorXHoraM)];
 
