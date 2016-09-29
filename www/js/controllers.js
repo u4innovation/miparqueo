@@ -87,8 +87,8 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
           })
     }
 })
-.controller('HistorialCtrl', ['$scope', '$rootScope', '$ionicLoading', '$timeout', '$ionicModal', '$ionicLoading','$ionicPopup','$timeout',
-    function(s, rt, $ionicLoading, $timeout, $ionicModal, $ionicLoading, $ionicPopup,$timeout) {
+.controller('HistorialCtrl', ['$scope', '$rootScope', '$ionicLoading', '$timeout', '$ionicModal', '$ionicLoading','$ionicPopup','$timeout','PayphoneService',
+    function(s, rt, $ionicLoading, $timeout, $ionicModal, $ionicLoading, $ionicPopup,$timeout,PayphoneService) {
         s.editMode = false;
         s.verReserva = function(r){
             s.reserva = r;
@@ -269,6 +269,7 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
                   if (!s.pago.celular || s.pago.celular == '') {
                     e.preventDefault();
                 } else {
+                    PayphoneService.pay(593,s.pago.celular,s.pago.monto,rt.lat,rt.long).then(function(data) {
                     $ionicLoading.show({
                         template: 'Reservando...'
                     });
@@ -283,6 +284,9 @@ angular.module('MiParqueo').controller('AppCtrl', function($ionicModal, AccountS
                     });
                     }, function(err) {
                         s.loadingAlert('Ocurrio un error con su reserva, intente mas tarde');
+                    })}
+                    , function(err) {
+                        s.loadingAlert('Ocurrio un error con su pago, '+err.data[0].Message);
                     });
                 }
             }

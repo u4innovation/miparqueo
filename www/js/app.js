@@ -38,7 +38,6 @@ angular.module('MiParqueo', ['ionic', 'ngCordova', 'MiParqueo.services'])
     })
 
 .constant("socialProvider", ["facebook", "google"])
-
 .constant('$ionicLoadingConfig', {
     template: "<ion-spinner></ion-spinner>",
     hideOnStateChange: false
