@@ -31,8 +31,11 @@ angular.module('MiParqueo')
                             if (!s.pago.celular || s.pago.celular == '') {
                                 e.preventDefault();
                             } else {
+                                $ionicLoading.show({
+                                    template: 'Procesando pago...'
+                                });
                                 PayphoneService.pay(593,s.pago.celular,s.pago.monto,s.lat,s.long).then(function(data) {
-                                //
+                                $ionicLoading.hide();
                                 $ionicLoading.show({
                                     template: 'Reservando...'
                                 });
@@ -50,6 +53,7 @@ angular.module('MiParqueo')
                                         s.loadingAlert('Ocurrio un error con su reserva, intente mas tarde');
                                     });
                                     }, function(err) {
+                                        $ionicLoading.hide();
                                         s.loadingAlert('Ocurrio un error con su pago, '+err.data[0].Message);
                                     });
                             }
