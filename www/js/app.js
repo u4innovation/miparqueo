@@ -38,67 +38,67 @@ angular.module('MiParqueo', ['ionic', 'ngCordova', 'MiParqueo.services'])
     })
 
 .constant("socialProvider", ["facebook", "google"])
-.constant('$ionicLoadingConfig', {
-    template: "<ion-spinner></ion-spinner>",
-    hideOnStateChange: false
-})
+    .constant('$ionicLoadingConfig', {
+        template: "<ion-spinner></ion-spinner>",
+        hideOnStateChange: false
+    })
 
 .config(function($stateProvider, $urlRouterProvider) {
-    $stateProvider
-        .state('app', {
-            url: '/app',
-            abstract: true,
-            templateUrl: 'templates/menu.html',
-            controller: 'AppCtrl'
-        })
-        .state('app.carga', {
-            url: '/cargaparqueo',
-            views: {
-                'menuContent': {
-                    templateUrl: 'templates/cargaparqueo.html',
-                    controller: 'CargaCtrl'
+        $stateProvider
+            .state('app', {
+                url: '/app',
+                abstract: true,
+                templateUrl: 'templates/menu.html',
+                controller: 'AppCtrl'
+            })
+            .state('app.carga', {
+                url: '/cargaparqueo',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/cargaparqueo.html',
+                        controller: 'CargaCtrl'
+                    }
                 }
-            }
-        })
-        .state('app.scanparqueo', {
-            url: '/scanparqueo',
-            views: {
-                'menuContent': {
-                    templateUrl: 'templates/scanparqueo.html',
-                    controller: 'ScanCtrl'
+            })
+            .state('app.scanparqueo', {
+                url: '/scanparqueo',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/scanparqueo.html',
+                        controller: 'ScanCtrl'
+                    }
                 }
-            }
-        })
-        .state('app.mapa', {
-            url: '/mapa',
-            views: {
-                'menuContent': {
-                    templateUrl: 'templates/mapa.html',
-                    controller: 'MapaCtrl'
+            })
+            .state('app.mapa', {
+                url: '/mapa',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/mapa.html',
+                        controller: 'MapaCtrl'
+                    }
                 }
-            }
-        })
-        .state('app.historial', {
-            url: '/historial',
-            views: {
-                'menuContent': {
-                    templateUrl: 'templates/historial.html',
-                    controller: 'HistorialCtrl'
+            })
+            .state('app.historial', {
+                url: '/historial',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/historial.html',
+                        controller: 'HistorialCtrl'
+                    }
                 }
-            }
-        })
-        .state('app.perfil', {
-            url: '/perfil',
-            views: {
-                'menuContent': {
-                    templateUrl: 'templates/perfil.html',
-                    controller: 'PerfilCtrl'
+            })
+            .state('app.perfil', {
+                url: '/perfil',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/perfil.html',
+                        controller: 'PerfilCtrl'
+                    }
                 }
-            }
-        });
-    // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/mapa');
-})
+            });
+        // if none of the above states are matched, use this as the fallback
+        $urlRouterProvider.otherwise('/app/mapa');
+    })
     .directive('map', function() {
         return {
             restrict: 'E',
@@ -132,28 +132,27 @@ angular.module('MiParqueo', ['ionic', 'ngCordova', 'MiParqueo.services'])
                 });
             }
         };
-    }).directive('qrcode', function($interpolate) {  
-  return {
-    restrict: 'E',
-    link: function($scope, $element, $attrs) {
+    }).directive('qrcode', function($interpolate) {
+        return {
+            restrict: 'E',
+            link: function($scope, $element, $attrs) {
 
-      var options = {
-        text: '',
-        width: 256,
-        height: 256,
-        colorDark: '#000000',
-        colorLight: '#ffffff',
-        correctLevel: 'H'
-      };
+                var options = {
+                    text: '',
+                    width: 256,
+                    height: 256,
+                    colorDark: '#000000',
+                    colorLight: '#ffffff',
+                    correctLevel: 'H'
+                };
 
-      Object.keys(options).forEach(function(key) {
-        options[key] = $interpolate($attrs[key] || '')($scope) || options[key];
-      });
+                Object.keys(options).forEach(function(key) {
+                    options[key] = $interpolate($attrs[key] || '')($scope) || options[key];
+                });
 
-      options.correctLevel = QRCode.CorrectLevel[options.correctLevel];
+                options.correctLevel = QRCode.CorrectLevel[options.correctLevel];
 
-      new QRCode($element[0], options);
-
-    }
-  };
-});;
+                new QRCode($element[0], options);
+            }
+        };
+    });;

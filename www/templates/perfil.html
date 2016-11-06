@@ -1,43 +1,41 @@
 <ion-view view-title="Perfil" cache-view="false">
-<ion-content >
-      <div class="list">
-        <label class="item item-input ">
-          <span class="input-label">Nombre</span>
-          <input type="text" ng-model="user.perfil.nombre">
-        </label>
-        <label class="item item-input ">
-          <span class="input-label">Apellido</span>
-          <input type="text" ng-model="user.perfil.apellido">
-        </label>
-        <label class="item item-input ">
-          <span class="input-label">Direccion</span>
-          <input type="text" ng-model="user.perfil.direccion">
-        </label>
-        <label class="item item-input ">
-          <span class="input-label">Correo</span>
-          <input type="text" ng-model="user.perfil.email">
-        </label>
-        <label class="item item-input ">
-          <span class="input-label">Celular</span>
-          593-<input type="text" ng-model="user.perfil.celular">
-        </label>
-      
-      <div class="list" style="margin-bottom: 5px;">
-      <div class="item item-divider">
-        Tipo de vehículo
-      </div>
-      <ion-radio ng-model="user.perfil.tipoVehiculo" ng-value=0>Liviano</ion-radio>
-      <ion-radio ng-model="user.perfil.tipoVehiculo" ng-value=1>Pesado</ion-radio>
-      <ion-radio ng-model="user.perfil.tipoVehiculo" ng-value=2>Moto</ion-radio>
+  <ion-content >
+    <div class="list">
+      <label class="item item-input ">
+        <span class="input-label">Nombre</span>
+        <input type="text" ng-model="user.perfil.nombre">
+      </label>
+      <label class="item item-input ">
+        <span class="input-label">Apellido</span>
+        <input type="text" ng-model="user.perfil.apellido">
+      </label>
+      <label class="item item-input ">
+        <span class="input-label">Direccion</span>
+        <input type="text" ng-model="user.perfil.direccion">
+      </label>
+      <label class="item item-input ">
+        <span class="input-label">Correo</span>
+        <input type="text" ng-model="user.perfil.email">
+      </label>
+      <label class="item item-input ">
+        <span class="input-label">Celular</span>
+        593-<input type="text" ng-model="user.perfil.celular">
+      </label>
+      <label class="item item-input">
+        <div class="input-label">
+          Placa Vehículo:
+        </div>
+        <input type="text" ng-model="user.perfil.placa" class="item-note" style="text-align: right;" maxlength="7">
+      </label>
     </div>
-    <label class="item item-input">
-      <div class="input-label">
-        Placa Vehículo:
-      </div>
-      <input type="text" ng-model="user.perfil.placa" class="item-note" style="text-align: right;" maxlength="7">
-    </label>
+    <h3 style="text-align:center;margin:5px 0 0 0;">Tipo de Vehículo</h3>
+    <div class="row" style="text-align:center;">
+      <div class="col tipoVehiculo" ng-class="{active: user.perfil.tipoVehiculo == 0}" ng-click="user.perfil.tipoVehiculo = 0"><p>Liviano</p></div>
+      <div class="col tipoVehiculo" ng-class="{active: user.perfil.tipoVehiculo == 1}" ng-click="user.perfil.tipoVehiculo = 1"><p>Pesado</p></div>
+      <div class="col tipoVehiculo" ng-class="{active: user.perfil.tipoVehiculo == 2}" ng-click="user.perfil.tipoVehiculo = 2"><p>Moto</p></div>
+    </div>
     <div class="padding">
-        <button class="button button-block button-positive" ng-click="guardar()">Guardar</button>
-      </div>
-    </ion-content>
+      <button class="button button-block button-positive" ng-click="guardar()">Guardar</button>
+    </div>
+  </ion-content>
 </ion-view>
