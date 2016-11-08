@@ -1,4 +1,4 @@
-angular.module('MiParqueo', ['ionic', 'ngCordova', 'MiParqueo.services'])
+angular.module('MiParking', ['ionic', 'ngCordova', 'MiParking.services'])
     .run(function($ionicPlatform, $rootScope, AccountService, $ionicModal, $ionicLoading) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

@@ -1,4 +1,4 @@
-angular.module('MiParqueo.services', [])
+angular.module('MiParking.services', [])
     .factory('AccountService', ["$q", AccountService])
     .factory('PayphoneService', ["$q", "$http", PayphoneService]);
 

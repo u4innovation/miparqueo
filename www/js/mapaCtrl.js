@@ -1,4 +1,4 @@
-angular.module('MiParqueo').controller('MapaCtrl', ['$ionicLoading', '$ionicModal', '$scope', '$rootScope', '$cordovaGeolocation', '$http', '$ionicPopup', '$timeout', '$window', 'PayphoneService', MapaCtrl])
+angular.module('MiParking').controller('MapaCtrl', ['$ionicLoading', '$ionicModal', '$scope', '$rootScope', '$cordovaGeolocation', '$http', '$ionicPopup', '$timeout', '$window', 'PayphoneService', MapaCtrl])
 
 function MapaCtrl($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http, $ionicPopup, $timeout, $window, PayphoneService) {
     s.dev_width = $window.innerWidth;
