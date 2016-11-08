@@ -9847,7 +9847,11 @@ a {
   font-size: 1.1em; }
 
 .fb-button {
-  background-color: #3a5795 !important;
+      background-image: url(../img/btn_facebook.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 35%;
+  background-color: transparent !important;
   color: #fff;
   box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19); }
 

@@ -17,6 +17,7 @@ function AppCtrl($ionicModal, AccountService, $state, $scope, $rootScope, $ionic
         $rootScope.modal.hide();
     };
     $rootScope.showLogin = function() {
+        $rootScope.fondoLogin = Math.round(Math.random() * (3) + 1);
         $rootScope.modal.show();
     };
     $rootScope.login = function(i) {
