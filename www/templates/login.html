@@ -1,22 +1,15 @@
-<ion-modal-view id="login" ng-class="{fondo1: fondoLogin == 1,
-fondo2: fondoLogin == 2,
-fondo3: fondoLogin == 3,
-fondo4: fondoLogin == 4}">
+<ion-modal-view id="login" ng-class="{fondo1: fondoLogin == 1,fondo2: fondoLogin == 2,fondo3: fondoLogin == 3,fondo4: fondoLogin == 4}">
   <ion-content>
-  <div style="height: 100%;width: 100%;background-color: rgba(0,0,0,.4);">
-  <div id="logo">
-    <img src="../img/LogoMiParkingBlanco.png">
-  </div>
-  <div style="color: white; text-align: center;">
-    <p style="font-size: 25px;">BIENVENIDO</p>
-    <p style="font-size: 18px;">Inicia sesiòn con</p>
-  </div>
-    <button style="margin-left: 15%;" ng-click="login(1)" class="button google-button">
-        
-    </button>
-    <button ng-click="login(0)" class="button fb-button">
-        
-    </button>
-  </div>
+    <div style="height: 100%;width: 100%;background-color: rgba(0,0,0,.4);">
+    <div id="logo">
+      <img src="img/LogoMiParkingBlanco.png">
+    </div>
+    <div style="color: white; text-align: center;">
+      <p style="font-size: 25px;">BIENVENIDO</p>
+      <p style="font-size: 18px;">Inicia sesión con</p>
+    </div>
+      <button style="margin-left: 15%;" ng-click="login(1)" class="button google-button"></button>
+      <button ng-click="login(0)" class="button fb-button"></button>
+    </div>
   </ion-content>
 </ion-modal-view>
