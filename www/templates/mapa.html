@@ -1,29 +1,31 @@
 <ion-view view-title="Mapa">
-<ion-content scroll="false">
-<div class="item item-input" style="    position: relative;
-	top: 10px;
-	width: 90%;
-	margin: auto;
-	box-shadow: 0 3px 10px grey;">
-	<i class="icon ion-search placeholder-icon"></i>
-	<input type="search" placeholder="Direccion" ng-model="direccion" on-enter="buscarDireccion()" ng-blur="buscarDireccion()">
-	<button ng-click="limpiarInput()" class="button icon ion-close" ng-if="direccion && direccion != ''" style="    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 99;
-    min-height: 50px;
-    border: none;
-    min-width: 50px;
-    background-color: white;
-    border-radius: 0;
-    color: gray;
-}"></button>
+    <ion-content scroll="false">
+        <div class="item item-input" style="    position: relative;
+        top: 10px;
+        width: 90%;
+        margin: auto;
+        box-shadow: 0 3px 10px grey;">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="search" placeholder="Direccion" ng-model="direccion" on-enter="buscarDireccion()" ng-blur="buscarDireccion()">
+        <button ng-click="limpiarInput()" class="button icon ion-close" ng-if="direccion && direccion != ''" style="    position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 99;
+        min-height: 50px;
+        border: none;
+        min-width: 50px;
+        background-color: white;
+        border-radius: 0;
+        color: gray;
+    }"></button>
 </div>
-<map ng-if="user" id="mapa" init-funct="iniciarMapa()" style="position: absolute;top: 0;"></map>
+<div style="z-index:4;width:100%;height:400px" id="map_canvas">
+<!-- <map ng-if="user" id="mapa" init-funct="iniciarMapa()" style="position: absolute;top: 0;"></map> -->
 <button ng-click="centrarMapa()" class="button icon ion-ios-navigate" style="position: absolute;bottom: 86px;right: 15px;border-radius: 50%;box-shadow: 0px 3px 10px grey;width: 56px;height: 56px;"></button>
 <button ng-click="toggleOpciones()" ng-class="{'ion-gear-a': !viewOpciones, 'ion-ios-checkmark-outline': viewOpciones}" class="button icon expand-btn btn-0"></button>
 <button ng-click="cambiarRadio(0)" ng-class="{showOpciones: viewOpciones}" class="button icon ion-plus-round expand-btn btn-1"></button>
 <button ng-class="{showOpciones: viewOpciones}" class="button icon expand-btn btn-2" ><span>{{radioBusqueda}} m</span></button>
 <button ng-click="cambiarRadio(1)" ng-class="{showOpciones: viewOpciones}" class="button icon ion-minus-round expand-btn btn-3"></button>
+</div>
 </ion-content>
 </ion-view>

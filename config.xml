@@ -76,4 +76,10 @@
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <plugin name="cordova-plugin-barcodescanner" spec="~0.7.0" />
     <plugin name="cordova-plugin-ios-camera-permissions" spec="~1.0.3" />
+    <plugin name="cordova-plugin-googlemaps" spec="https://github.com/mapsplugin/cordova-plugin-googlemaps#multiple_maps">
+        <variable name="API_KEY_FOR_ANDROID" value="YOUR_ANDROID_API_KEY_IS_HERE" />
+        <variable name="API_KEY_FOR_IOS" value="AIzaSyCnrdCtAXTgnsEsmc9t9NETuCdvy-kCuQE" />
+        <variable name="NSLOCATIONWHENINUSEUSAGEDESCRIPTION" value="Show your location on the map" />
+        <variable name="NSLOCATIONALWAYSUSAGEDESCRIPTION" value="Trace your location on the map" />
+    </plugin>
 </widget>

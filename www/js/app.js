@@ -12,6 +12,7 @@ angular.module('MiParking', ['ionic', 'ngCordova', 'MiParking.services'])
                 StatusBar.styleDefault();
             }
         });
+
         $rootScope.formatTime = function(time) {
             time = (time + "").split('.');
             return time[0] + ':' + (time[1] ? time[1] : '00');

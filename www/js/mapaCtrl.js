@@ -1,6 +1,21 @@
-angular.module('MiParking').controller('MapaCtrl', ['$ionicLoading', '$ionicModal', '$scope', '$rootScope', '$cordovaGeolocation', '$http', '$ionicPopup', '$timeout', '$window', 'PayphoneService', MapaCtrl])
+angular.module('MiParking').controller('MapaCtrl', ['$ionicPlatform','$ionicLoading', '$ionicModal', '$scope', '$rootScope', '$cordovaGeolocation', '$http', '$ionicPopup', '$timeout', '$window', 'PayphoneService', MapaCtrl])
 
-function MapaCtrl($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http, $ionicPopup, $timeout, $window, PayphoneService) {
+function MapaCtrl($ionicPlatform, $ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http, $ionicPopup, $timeout, $window, PayphoneService) {
+    $ionicPlatform.ready(function() {
+        
+        if (window.plugin) {
+            var mapDiv = document.getElementById("map_canvas");
+            var map = plugin.google.maps.Map.getMap(mapDiv,{
+            backgroundColor: 'white',
+            mapType: plugin.google.maps.MapTypeId.ROADMAP,
+            'camera': {
+            'zoom': 15
+            }
+        });
+            // You have to wait the MAP_READY event.
+            map.on(plugin.google.maps.event.MAP_READY, s.onMapInit);
+        }
+    });
     s.dev_width = $window.innerWidth;
     s.$on('$ionicView.afterEnter', function() {
         ionic.trigger('resize');
@@ -12,7 +27,8 @@ function MapaCtrl($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http, 
         $timeout(function() {
             $ionicLoading.hide();
         }, 2000);
-    }
+    };
+    
     s.pagar = function(reserva) {
         s.pago = {
             monto: reserva.Monto,
@@ -160,8 +176,9 @@ function MapaCtrl($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http, 
     s.limpiarInput = function() {
         this.$parent.direccion = this.direccion = '';
     };
-    s.mapCreated = function(map) {
+    s.onMapInit = function(map) {
         s.map = map;
+        s.centrarMapa();
     };
     s.buscarDireccion = function() {
         if (this.direccion && this.direccion !== '') {
@@ -210,20 +227,24 @@ function MapaCtrl($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http, 
     }
     s.circulo = function(marker) {
         var sunCircle = {
-            strokeColor: "#62B2FC",
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: "#62B2FC",
-            fillOpacity: 0.35,
-            map: s.map,
+            center: marker.latlng,
+            strokeColor: "rgba(98,178,252,0)",
+            //strokeOpacity: 0.8,
+            //strokeWeight: 2,
+            fillColor: "rgba(98,178,252,0.35)",
+            //map: s.map,
             radius: s.radioBusqueda // in meters
         };
         if (s.cityCircle) {
-            s.cityCircle.setMap(null);
+            //s.cityCircle.setMap(null);
+            s.cityCircle.remove();
         }
-        s.cityCircle = new google.maps.Circle(sunCircle);
-        s.cityCircle.bindTo('center', marker, 'position');
-    }
+        //s.cityCircle = new google.maps.Circle(sunCircle);
+        //s.cityCircle.bindTo('center', marker, 'position');
+        s.map.addCircle(sunCircle, function(circle) {
+            s.cityCircle = circle;
+        });
+    };
     s.cambiarRadio = function(t) {
         var r = s.radioBusqueda;
         if (t == 0) {
@@ -254,17 +275,20 @@ function MapaCtrl($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http, 
         s.location.getCurrentPosition(options).then(function(position) {
             r.lat = position.coords.latitude;
             r.long = position.coords.longitude;
-            var latLong = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            s.map.setCenter(latLong);
-            s.map.setZoom(15);
-            if (s.markerLocation) {
+            var latLong = new plugin.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            //s.map.setCenter(latLong);
+            //s.map.setZoom(15);
+            s.map.moveCamera({
+              'target': latLong,
+              'zoom': 15
+            });
+            /*if (s.markerLocation) {
                 s.markerLocation.setMap(null);
-            }
-            s.markerLocation = new CustomMarker(
-                latLong,
-                s.map,{});
+            }*/
+            s.markerLocation = new CustomMarker(latLong,{});
+            s.map.addMarker(s.markerLocation);
             s.circulo(s.markerLocation);
-            if (s.markerBusqueda) s.markerBusqueda.setMap(null);
+            if (s.markerBusqueda) s.markerBusqueda.remove();
             s.currPos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
@@ -275,8 +299,8 @@ function MapaCtrl($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http, 
 
         }, function(error) {
             console.log(error.message);
-        })
-    }
+        });
+    };
     s.parqueosCercanosMarker = [];
     s.consultarParqueos = function() {
         $ionicLoading.show({
@@ -289,20 +313,26 @@ function MapaCtrl($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http, 
                 s.removeParqueosMarkers();
                 for (var i = 0; i < res.data.length; i++) {
                     var coord = res.data[i]._geolocation.coordinates;
-                    s.parqueosCercanosMarker.push(new google.maps.Marker({
-                        position: new google.maps.LatLng(coord[1], coord[0]),
-                        map: s.map,
-                        icon: 'img/icon_location_opcion4_celeste.png',
+                    s.map.addMarker({
+                        position: new plugin.google.maps.LatLng(coord[1], coord[0]),
+                        //map: s.map,
+                        //icon: 'img/icon_location_opcion4_celeste.png',
                         array_pos: i
-                    }));
-                    s.parqueosCercanosMarker[i].addListener('click', s.verParqueo);
+                    }, function(marker){
+                        marker.addEventListener(plugin.google.maps.event.MARKER_CLICK, function() {
+                            s.verParqueo(marker.array_pos);
+                          });
+                        s.parqueosCercanosMarker.push(marker);
+                    });
                 }
                 $ionicLoading.hide();
             });
-    }
+    };
+    
     s.abierto = false;
-    s.verParqueo = function() {
-        s.parqueoSeleccionado = s.parqueosCercanos[this.array_pos];
+    s.verParqueo = function(m) {
+        console.log(m);
+        s.parqueoSeleccionado = s.parqueosCercanos[m];
         s.coord = s.parqueoSeleccionado._geolocation.coordinates;
         s.parqueoSeleccionado.dias = [false, false, false, false, false, false, false];
         s.valoraciones = s.parqueoSeleccionado.votos ? s.parqueoSeleccionado.votos : 0;
@@ -316,22 +346,21 @@ function MapaCtrl($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http, 
             }
         s.modalDetalle.show();
         s.abierto = s.parqueoSeleccionado.dias[new Date().getDay()];
-    }
+    };
 
     s.removeParqueosMarkers = function() {
         for (var i = 0; i < s.parqueosCercanosMarker.length; i++) {
-            s.parqueosCercanosMarker[i].setMap(null)
+            s.parqueosCercanosMarker[i].remove();
         }
         s.parqueosCercanosMarker = [];
-    }
+    };
 }
-function CustomMarker(latlng, map, args) {
-    this.latlng = latlng;   
+function CustomMarker(latlng, args) {
+    this.position = this.latlng = latlng;   
     this.args = args;   
-    this.setMap(map);   
 }
 
-CustomMarker.prototype = new google.maps.OverlayView();
+CustomMarker.prototype = new plugin.google.maps.OverlayView();
 
 CustomMarker.prototype.draw = function() {
     
@@ -361,7 +390,6 @@ CustomMarker.prototype.draw = function() {
         div.style.top = (point.y - 20) + 'px';
     }
 };
-
 CustomMarker.prototype.remove = function() {
     if (this.div) {
         this.div.parentNode.removeChild(this.div);
