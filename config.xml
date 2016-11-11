@@ -15,7 +15,11 @@
     <preference name="android-minSdkVersion" value="16" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashScreen" value="screen" />
+<<<<<<< Updated upstream
     <preference name="SplashScreenDelay" value="200" />
+=======
+    <preference name="SplashScreenDelay" value="1000" />
+>>>>>>> Stashed changes
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
@@ -52,6 +56,12 @@
         <splash height="1024" src="resources/ios/splash/Default-Portrait~ipad.png" width="768" />
         <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
+<<<<<<< Updated upstream
+=======
+        <config-file parent="NSCameraUsageDescription" target="MiParking-Info.plist">
+            <string>Acceder a escaneo de QR</string>
+        </config-file>
+>>>>>>> Stashed changes
     </platform>
     <platform name="android">
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
@@ -75,5 +85,9 @@
     </platform>
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <plugin name="cordova-plugin-barcodescanner" spec="~0.7.0" />
+<<<<<<< Updated upstream
+=======
+    <plugin name="de.appplant.cordova.plugin.local-notification" spec="https://github.com/katzer/cordova-plugin-local-notifications.git" />
+>>>>>>> Stashed changes
     <plugin name="cordova-plugin-ios-camera-permissions" spec="~1.0.3" />
 </widget>
