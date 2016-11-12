@@ -1,4 +1,4 @@
-<ion-view view-title="Mapa">
+<ion-view view-title="Buscar Parking">
 <ion-content scroll="false">
 <div class="item item-input" style="    position: relative;
 	top: 10px;
@@ -20,7 +20,7 @@
 }"></button>
 </div>
 <map ng-if="user" id="mapa" init-funct="iniciarMapa()" style="position: absolute;top: 0;"></map>
-<button ng-click="centrarMapa()" class="button icon ion-ios-navigate" style="position: absolute;bottom: 86px;right: 15px;border-radius: 50%;box-shadow: 0px 3px 10px grey;width: 56px;height: 56px;"></button>
+<button ng-click="centrarMapa()" class="button icon ion-ios-navigate" style="position:absolute;bottom: 86px;right: 15px;border-radius: 50%;box-shadow: 0px 3px 10px grey;width: 56px;height: 56px;"></button>
 <button ng-click="toggleOpciones()" ng-class="{'ion-gear-a': !viewOpciones, 'ion-ios-checkmark-outline': viewOpciones}" class="button icon expand-btn btn-0"></button>
 <button ng-click="cambiarRadio(0)" ng-class="{showOpciones: viewOpciones}" class="button icon ion-plus-round expand-btn btn-1"></button>
 <button ng-class="{showOpciones: viewOpciones}" class="button icon expand-btn btn-2" ><span>{{radioBusqueda}} m</span></button>
