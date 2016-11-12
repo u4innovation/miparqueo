@@ -211,10 +211,10 @@ function MapaCtrl($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http, 
     s.circulo = function(marker) {
         var sunCircle = {
             strokeColor: "#62B2FC",
-            strokeOpacity: 0.8,
+            strokeOpacity: 0,
             strokeWeight: 2,
             fillColor: "#62B2FC",
-            fillOpacity: 0.35,
+            fillOpacity: 0.2,
             map: s.map,
             radius: s.radioBusqueda // in meters
         };
