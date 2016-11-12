@@ -84,4 +84,3 @@
   <plugin name="cordova-plugin-barcodescanner" spec="~0.7.0"/>
   <plugin name="cordova-plugin-ios-camera-permissions" spec="~1.0.3"/>
 </widget>
->>>>>>> origin/miparqueo-sidemenu
