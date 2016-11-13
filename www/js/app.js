@@ -1,6 +1,11 @@
 angular.module('MiParking', ['ionic', 'ngCordova', 'MiParking.services'])
     .run(function($ionicPlatform, $rootScope, AccountService, $ionicModal, $ionicLoading) {
+        console.log('hola');
         $ionicPlatform.ready(function() {
+            var push = new Ionic.Push({
+              "debug": true
+            });
+            console.log('hola1');
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
             if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -11,15 +16,21 @@ angular.module('MiParking', ['ionic', 'ngCordova', 'MiParking.services'])
                 // org.apache.cordova.statusbar required
                 StatusBar.styleDefault();
             }
+            console.log('push: ' + push);
+            push.register(function(token) {
+              console.log("My Device token:",token.token);
+              $rootScope.push_token = token.token;
+              push.saveToken(token);  // persist the token in the Ionic Platform
+            });
         });
         $rootScope.formatTime = function(time) {
             time = (time + "").split('.');
             return time[0] + ':' + (time[1] ? time[1] : '00');
-        }
+        };
         $rootScope.formatHora = function(hora) {
             hora = hora.split(':');
             return parseFloat(hora[0] + '.' + hora[1].replace('3', '5'));
-        }
+        };
         $rootScope.getDateTime = function(time) {
             var date = new Date();
             time = time.split(':');

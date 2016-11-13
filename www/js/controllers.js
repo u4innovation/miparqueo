@@ -49,6 +49,8 @@ function AppCtrl($ionicModal, AccountService, $state, $scope, $rootScope, $ionic
             })
             .then(function(res) {
                 $rootScope.user.perfil = res.data[0];
+                console.log('perfil id: '+$rootScope.user.perfil.id);
+                Stamplay.Object("usuarios").patch($rootScope.user.perfil.id, { push_token: $rootScope.push_token });
             }, function(err) {
                         // Error
                     });

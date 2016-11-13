@@ -25,8 +25,7 @@
     "ionic-plugin-keyboard",
     "cordova-plugin-inappbrowser",
     "cordova-plugin-barcodescanner",
-    "cordova-plugin-ios-camera-permissions",
-    "de.appplant.cordova.plugin.local-notification"
+    "cordova-plugin-ios-camera-permissions"
   ],
   "cordovaPlatforms": [
     "ios",
