@@ -2,6 +2,7 @@ angular.module('MiParking').controller('MapaCtrl', ['$ionicLoading', '$ionicModa
 
 function MapaCtrl($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http, $ionicPopup, $timeout, $window, PayphoneService) {
     s.dev_width = $window.innerWidth;
+    
     s.$on('$ionicView.afterEnter', function() {
         ionic.trigger('resize');
     });
@@ -48,7 +49,8 @@ function MapaCtrl($ionicLoading, $ionicModal, s, r, $cordovaGeolocation, $http, 
                                             s.loadingAlert('Reserva Realizada! <br> consulte su historial para los detalles.', true);
                                         });
                                     });
-
+                                    r.sendPush('Su reserva comienza en 30 min',r.getDateTime(reserva.horaDesde));
+                                    r.sendPush('Su reserva termina en 30 min',r.getDateTime(reserva.horaHasta));
                                 }, function(err) {
                                     s.loadingAlert('Ocurrio un error con su reserva, intente mas tarde');
                                 });

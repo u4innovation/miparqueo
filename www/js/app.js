@@ -1,11 +1,9 @@
 angular.module('MiParking', ['ionic', 'ngCordova', 'MiParking.services'])
-    .run(function($ionicPlatform, $rootScope, AccountService, $ionicModal, $ionicLoading) {
-        console.log('hola');
+    .run(function($ionicPlatform, $rootScope, AccountService, $ionicModal, $ionicLoading, $http) {
         $ionicPlatform.ready(function() {
             var push = new Ionic.Push({
               "debug": true
             });
-            console.log('hola1');
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
             if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -16,12 +14,11 @@ angular.module('MiParking', ['ionic', 'ngCordova', 'MiParking.services'])
                 // org.apache.cordova.statusbar required
                 StatusBar.styleDefault();
             }
-            console.log('push: ' + push);
             push.register(function(token) {
-              console.log("My Device token:",token.token);
               $rootScope.push_token = token.token;
               push.saveToken(token);  // persist the token in the Ionic Platform
             });
+            push.register();
         });
         $rootScope.formatTime = function(time) {
             time = (time + "").split('.');
@@ -31,13 +28,16 @@ angular.module('MiParking', ['ionic', 'ngCordova', 'MiParking.services'])
             hora = hora.split(':');
             return parseFloat(hora[0] + '.' + hora[1].replace('3', '5'));
         };
-        $rootScope.getDateTime = function(time) {
+        $rootScope.getDateTime = function(time,act) {
             var date = new Date();
             time = time.split(':');
             date.setHours(time[0]);
             date.setMinutes(time[1]);
             date.setSeconds(0);
             date.setMilliseconds(0);
+            if(act) {
+                date.setMinutes(date.getMinutes()-30);
+            }
             return date;
         };
         $rootScope.updateHasta = function(s) {
@@ -45,6 +45,13 @@ angular.module('MiParking', ['ionic', 'ngCordova', 'MiParking.services'])
             s.horasH.push(s.hci + ':00');
             if (s.horasD.indexOf(this.horaDesde) >= s.horasD.indexOf(this.horaHasta))
                 this.horaHasta = s.horasH[0];
+        };
+        $rootScope.sendPush = function(mensaje,hora) {
+            $http.post('https://miparqueo.stamplayapp.com/api/codeblock/v1/run/pushreserva', {
+                "token": r.push_token,
+                "mensaje": mensaje,
+                "hora": hora
+            });
         };
     })
 
