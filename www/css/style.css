@@ -121,6 +121,18 @@ map {
     border-radius: 5px;
     color:red;
 }
+
+.placa {
+  color: white;
+  border-color: black;
+}
+.placa.active{
+  text-align:center; 
+  
+  color: white;
+  background-color: black;
+  border-color: black;
+}
 .dia.abierto,.tipoVehiculo.active {
 	color: #16E020;
 	border-color: #16E020;
@@ -171,14 +183,14 @@ qrcode img {
 .detalleParqueo .item strong {
 	font-size: 20px;
 }
-.tipoVehiculo {
+.tipoVehiculo, .placa {
 	border: 1px solid lightgray;
     border-radius: 10px;
     height: 80px;
     margin: 10px;
     color: lightgray;
 }
-.tipoVehiculo p {
+.tipoVehiculo p, .placa p {
 	margin: 0;
 	line-height: 70px;
 	font-size: 25px;
