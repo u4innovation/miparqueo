@@ -38,7 +38,7 @@ function PayphoneService($q, $http) {
             }
 
             $http.post(
-                    'http://localhost:8888/SetAndSendTransaction.php',
+                    'http://www.u4innovation.com/miparqueo-payphone/SetAndSendTransaction.php',
                     a, {
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
